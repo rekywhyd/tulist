@@ -9,33 +9,33 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])    
     </head>
     
-    <body class="bg-[radial-gradient(#FFFFFF_18%,_#EAF0FA_44%)]">
+    <body class="bg-[radial-gradient(#FFFFFF_18%,_#EAF0FA_44%)] mt-14">
         
-        <header class="fixed w-full mx-auto top-4">
-            <nav class="container flex items-center justify-between px-10 py-1 mx-auto border rounded-full backdrop-blur-lg border-white/50">
-                    <div class="items-center">
+        <header class="sticky top-0 w-3/4 mx-auto">
+            <nav class="container flex items-center justify-between py-0 mx-auto border rounded-full px-9 font-poppins backdrop-blur-lg bg-white/50 border-white/70">
+                    <div class="w-[170px]">
                         <img src="{{ Vite::asset('resources/images/logo-navbar.png') }}" alt="Logo">
                     </div>
                     
-                    <div class="\text-sm text-gray-600 gap-9">
-                        <a href="#" class="hover:text-black">About</a>
-                        <a href="#" class="hover:text-black">Contact Us</a>
+                    <div class="flex gap-12 text-xl font-medium text-black">
+                        <a href="#" class="transition-transform duration-200 hover:hover:scale-110">About</a>
+                        <a href="#" class="transition-transform duration-200 hover:hover:scale-110">Contact Us</a>
                     </div>
 
                     <div>
                         @if (Route::has('login'))
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-8 text-lg font-medium">
                                 @auth
                                     <a
                                         href="{{ url('/dashboard') }}"
-                                        class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                                        class="px-9 py-2 text-white border bg-[#1616b0] hover:bg-[#5e5ec5] rounded-full transition-colors duration-200 ease-out"
                                     >
                                         Dashboard
                                     </a>
                                 @else
                                     <a
                                         href="{{ route('login') }}"
-                                        class="px-6 py-2 text-sm font-medium text-black bg-white border border-black rounded-full hover:bg-gray-100"
+                                        class="py-2 text-black transition-colors duration-200 ease-out bg-white border border-black rounded-full px-9 hover:bg-gray-200"
                                     >
                                         Login
                                     </a>
@@ -43,7 +43,7 @@
                                     @if (Route::has('register'))
                                         <a
                                             href="{{ route('register') }}"
-                                            class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700"
+                                            class="px-8 py-2 text-white border bg-[#1616b0] hover:bg-[#5e5ec5] rounded-full transition-colors duration-200 ease-out"
                                         >
                                             Sign Up
                                         </a>
@@ -56,83 +56,106 @@
         </header>
 
         
-        <main class="container max-w-6xl p-6 mx-auto mt-12">
+        <main class="px-12 mx-auto mt-20 max-w-7xl">
             
-            <section class="flex flex-col items-center gap-12 lg:flex-row">
-                <div class="text-center lg:w-1/2 lg:text-left">
-                    <h1 class="text-5xl font-bold leading-tight text-gray-900 md:text-6xl dark:text-white">
+        <!-- hero section -->
+            <section class="flex flex-row items-center justify-between w-full mx-auto">
+                <div class="mb-24 ml-8 text-left">
+                    <h1 class="font-serif font-bold text-gray-900 text-7xl">
                         Kerja,<br>
                         Tuntaskan
                     </h1>
-                    <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                        Kelola semua tugas kerja dengan lebih tertata. Mudah, efisien, dan
-                        selesaikan pekerjaan penting dengan terfokus.
+                    <p class="mt-5 text-xl font-bold text-gray-600 font-poppins">
+                        Kelola semua tugas kerja dengan lebih teratur. Catat, atur, dan
+                        selesaikan jobdesk kantor tanpa keteteran.
                     </p>
                 </div>
-                <div class="lg:w-1/2">
-                    <img src="{{ Vite::asset('resources/images/hero-section.png') }}" alt="Hero Section" class="object-cover w-full rounded-lg h-96">
+                <div class="w-[800px]">
+                    <img src="{{ Vite::asset('resources/images/hero-section.png') }}" alt="Hero Section">
                 </div>
             </section>
+        <!-- hero section -->
 
-            <section class="mt-24 mb-12">
-                <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white">
+            <section class="pt-16 mt-6">
+                <h2 class="pl-16 font-serif text-5xl font-bold text-left text-gray-900">
                     Features
                 </h2>
 
-                <div class="flex flex-col items-center gap-6 mt-12">
+                <div class="flex flex-col items-center gap-6 mt-6 font-serif">
                     
-                    <div class="flex flex-col items-center w-full max-w-5xl gap-8 p-8 text-white bg-slate-800 rounded-xl md:flex-row">
-                        <div class="md:w-1/2">
-                            <h3 class="mb-2 text-2xl font-bold">Organize Jobdesk</h3>
-                            <p class="text-slate-300">Simpan dan kelola setiap tanggung jawab harian atau proyek besar agar mudah diakses dan tidak ada yang terlewat.</p>
+                    <!-- feature 1 -->
+                    <div class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                        <div class="px-16 pb-12 ml-4">
+                            <h3 class="mb-6 text-5xl font-bold">Organize Jobdesk</h3>
+                            <p class="text-2xl text-white">Simpan dan kelola setiap tanggung jawab kantor secara sistematis agar mudah diakses dan tidak ada yang terlewat.</p>
                         </div>
-                        <div class="w-full md:w-1/2">
-                            <img src="{{ Vite::asset('resources/images/organize.png') }}" alt="Organize Jobdesk" class="object-cover w-full h-40 rounded-lg">
+                        <div class="w-[700px] py-4">
+                            <img src="{{ Vite::asset('resources/images/organize.png') }}" alt="Organize Jobdesk">
                         </div>
                     </div>
+                    <!-- feature 1 -->
 
-                    <div class="flex flex-col items-center w-full max-w-5xl gap-8 p-8 text-white bg-slate-800 rounded-xl md:flex-row">
-                        <div class="w-full md:w-1/2 md:order-last">
-                            <h3 class="mb-2 text-2xl font-bold">Smart Scheduling</h3>
-                            <p class="text-slate-300">Atur jadwal harian dan mingguan secara efisien, sehingga setiap jam kerja lebih produktif.</p>
-                        </div>
-                        <div class="w-full md:w-1/2 md:order-first">
-                            <img src="{{ Vite::asset('resources/images/smart.png') }}" alt="Smart Scheduling" class="object-cover w-full h-40 rounded-lg">
-                        </div>
-                    </div>
 
-                    <div class="flex flex-col items-center w-full max-w-5xl gap-8 p-8 text-white bg-slate-800 rounded-xl md:flex-row">
-                        <div class="md:w-1/2">
-                            <h3 class="mb-2 text-2xl font-bold">Deadline Tracking</h3>
-                            <p class="text-slate-300">Dapatkan pengingat otomatis untuk setiap deadline, memastikan semua tugas selesai tepat waktu.</p>
+                    <!-- feature 2 -->
+                    <div class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                        <div class="order-last px-16 ml-4 mr-8 text-right pb-14">
+                            <h3 class="mb-6 text-5xl font-bold">Smart Scheduling</h3>
+                            <p class="text-2xl text-white">Atur jadwal harian dan meeting dengan efisien, sehingga setiap jam kerja lebih produktif.</p>
                         </div>
-                        <div class="w-full md:w-1/2">
-                            <img src="{{ Vite::asset('resources/images/deadline.png') }}" alt="Deadline Tracking" class="object-cover w-full h-40 rounded-lg">
+                        <div class="w-[600px] pl-16 pt-8">
+                            <img src="{{ Vite::asset('resources/images/smart.png') }}" alt="Smart Scheduling">
                         </div>
                     </div>
+                    <!-- feature 2 -->
 
-                    <div class="flex flex-col items-center w-full max-w-5xl gap-8 p-8 text-white bg-slate-800 rounded-xl md:flex-row">
-                        <div class="w-full md:w-1/2 md:order-last">
-                            <h3 class="mb-2 text-2xl font-bold">Time Management</h3>
-                            <p class="text-slate-300">Kelola waktu secara efektif untuk menyelesaikan pekerjaan lebih cepat dan tepat sasaran.</p>
-                        </div>
-                        <div class="w-full md:w-1/2 md:order-first">
-                            <img src="{{ Vite::asset('resources/images/time.png') }}" alt="Time Management" class="object-cover w-full h-40 rounded-lg">
-                        </div>
-                    </div>
 
-                    <div class="flex flex-col items-center w-full max-w-5xl gap-8 p-8 text-white bg-slate-800 rounded-xl md:flex-row">
-                        <div class="md:w-1/2">
-                            <h3 class="mb-2 text-2xl font-bold">Progress Overview</h3>
-                            <p class="text-slate-300">Lihat perkembangan seluruh pekerjaan secara real-time sehingga Anda selalu terkendali.</p>
+                    <!-- feature 3 -->
+                    <div class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                        <div class="px-16 ml-4 pb-14">
+                            <h3 class="mb-6 text-5xl font-bold">Deadline Tracking</h3>
+                            <p class="text-2xl text-white">Dapatkan pengingat otomatis untuk setiap deadline, memastikan semua tugas selesai tepat waktu.</p>
                         </div>
-                        <div class="w-full md:w-1/2">
-                            <img src="{{ Vite::asset('resources/images/progress.png') }}" alt="Progress Overview" class="object-cover w-full h-40 rounded-lg">
+                        <div class="w-[600px] py-0 pr-12">
+                            <img src="{{ Vite::asset('resources/images/deadline.png') }}" alt="Deadline Tracking">
                         </div>
                     </div>
+                    <!-- feature 3 -->
+
+
+                    <!-- feature 4 -->
+                    <div class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                        <div class="order-last px-16 ml-4 mr-8 text-right pb-14">
+                            <h3 class="mb-6 text-5xl font-bold">Time Management</h3>
+                            <p class="text-2xl text-white">Kelola waktu secara efektif untuk menyelesaikan pekerjaan lebih cepat dan tepat sasaran.</p>
+                        </div>
+                        <div class="w-[600px] pl-16 pt-10 pb-8">
+                            <img src="{{ Vite::asset('resources/images/time.png') }}" alt="Time Management">
+                        </div>
+                    </div>
+                    <!-- feature 4 -->
+
+
+                    <!-- feature 5 -->
+                    <div class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16 pt-8">
+                        <div class="pl-16 ml-0 pb-14">
+                            <h3 class="mb-6 text-5xl font-bold ">Progress Overview</h3>
+                            <p class="text-2xl text-white">Lihat perkembangan seluruh pekerjaan secara real-time sehingga Anda selalu terkendali.</p>
+                        </div>
+                        <div class="w-[500px] py-0">
+                            <img src="{{ Vite::asset('resources/images/progress.png') }}" alt="Progress Overview">
+                        </div>
+                    </div>
+                    <!-- feature 5 -->
 
                 </div>
             </section>
         </main>
-        </body>
+
+        <footer>
+            <div class="container max-w-6xl p-6 mx-auto mt-12 text-center text-gray-400 font-poppins">
+                <p>@2025 credit</p>
+            </div>
+        </footer>
+
+    </body>
 </html>
