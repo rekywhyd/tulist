@@ -16,17 +16,18 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased text-gray-900">
-        <div class="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 text-gray-500 fill-current" />
+    <body class="antialiased text-black bg-[#EAF0FA] font-poppins bg-[url('../images/bg-auth.png')] bg-cover bg-center bg-no-repeat">
+        <div class="my-12 border bg-white/70 mx-14 rounded-xl backdrop-blur-lg">
+            <div class="flex flex-col items-center justify-center min-h-screen">
+                <a href="{{ url('/') }}">
+                    <img src="{{ Vite::asset('resources/images/logo-navbar.png') }}" alt="Logo">
                 </a>
-            </div>
 
-            <div class="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
-                {{ $slot }}
+                <div class="w-full px-6 py-4 my-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+                    {{ $slot }}
+                </div>
             </div>
         </div>
+        
     </body>
 </html>

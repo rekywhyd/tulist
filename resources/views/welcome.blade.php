@@ -13,9 +13,9 @@
         
         <header class="sticky top-0 w-3/4 mx-auto">
             <nav class="container flex items-center justify-between py-0 mx-auto border rounded-full px-9 font-poppins backdrop-blur-lg bg-white/50 border-white/70">
-                    <div class="w-[170px]">
+                    <a href="{{ url('/') }}" class="w-[170px]">
                         <img src="{{ Vite::asset('resources/images/logo-navbar.png') }}" alt="Logo">
-                    </div>
+                    </a>
                     
                     <div class="flex gap-12 text-xl font-medium text-black">
                         <a href="#" class="transition-transform duration-200 hover:hover:scale-110">About</a>
