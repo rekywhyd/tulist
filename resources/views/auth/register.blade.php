@@ -18,7 +18,7 @@
     </head>
 
     <body class="antialiased text-black bg-[#EAF0FA] font-poppins bg-[url('../images/bg-auth.png')] bg-cover bg-center bg-no-repeat">
-        <div class="pb-10 mx-16 my-12 rounded-3xl bg-white/70 backdrop-blur-lg">
+        <div class="pb-10 mx-16 my-12 rounded-[40px] bg-white/60 backdrop-blur-lg">
             <a href="{{ url('/') }}">
                 <img class="w-[175px] ml-12 pt-4" src="{{ Vite::asset('resources/images/logo-navbar.png') }}" alt="Logo">
             </a>
@@ -55,19 +55,21 @@
                                             required autocomplete="new-password" 
                                             placeholder="Password" />
                                 
-                                <button type="button" data-toggle-password data-target-input="#password" class="absolute right-0 flex items-center pl-2 pr-3 text-gray-400 border-l-2 border-gray-200 inset-y-2 hover:text-gray-600">
-                                    <svg class="w-5 h-5 icon-eye" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                        
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    
-                                    <svg class="hidden w-5 h-5 icon-eye-slash" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.99 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L12 12" />
-                                    </svg>
-                                </button>
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                        </div>
+                                            <button type="button" data-toggle-password data-target-input="#password" class="absolute right-0 flex items-center pl-2 pr-3 text-gray-400 border-l-2 border-gray-200 inset-y-2 hover:text-gray-600">
+                                                <svg class="w-5 h-5 transition-transform duration-200 icon-eye hover:hover:scale-110" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                                                    <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a.75.75 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd" />
+                                                </svg>
+
+                                                <svg class="hidden w-5 h-5 transition-transform duration-200 icon-eye-slash hover:hover:scale-110" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">                 
+                                                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                                                    <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a.75.75 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd" />
+                                                    
+                                                    <path fill-rule="evenodd" d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            </div>
 
                         <!-- Confirm Password -->
                         <div class="relative mb-5 font-poppins">
@@ -77,14 +79,16 @@
                                             placeholder="Confirm Password" />
 
                                             <button type="button" data-toggle-password data-target-input="#password_confirmation" class="absolute right-0 flex items-center pl-2 pr-3 text-gray-400 border-l-2 border-gray-200 inset-y-2 hover:text-gray-600">
-                                                <svg class="w-5 h-5 icon-eye" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                    
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <svg class="w-5 h-5 transition-transform duration-200 icon-eye hover:hover:scale-110" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                                                    <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a.75.75 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd" />
                                                 </svg>
-                                                
-                                                <svg class="hidden w-5 h-5 icon-eye-slash" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.99 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L12 12" />
+
+                                                <svg class="hidden w-5 h-5 transition-transform duration-200 icon-eye-slash hover:hover:scale-110" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">                 
+                                                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                                                    <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a.75.75 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd" />
+                                                    
+                                                    <path fill-rule="evenodd" d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18z" clip-rule="evenodd" />
                                                 </svg>
                                             </button>
                             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
@@ -115,8 +119,7 @@
 
                         <!-- Link ke Halaman Login -->
                         <div class="mt-4 text-center font-poppins">
-                            <span class="text-sm text-gray-600">Already have an account?</span>
-                            {{-- Menggunakan link "Already registered?" yang ada dari kode Anda, tetapi mengubah teksnya --}}
+                            <span class="text-sm text-black">Already have an account?</span>
                             <a class="text-sm font-semibold text-[#6AA6FF] hover:underline" href="{{ route('login') }}">
                                 {{ __('Login') }}
                             </a>

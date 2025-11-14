@@ -16,18 +16,20 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="antialiased text-black bg-[#EAF0FA] font-poppins bg-[url('../images/bg-auth.png')] bg-cover bg-center bg-no-repeat">
-        <div class="my-12 border bg-white/70 mx-14 rounded-xl backdrop-blur-lg">
-            <div class="flex flex-col items-center justify-center min-h-screen">
-                <a href="{{ url('/') }}">
-                    <img src="{{ Vite::asset('resources/images/logo-navbar.png') }}" alt="Logo">
-                </a>
 
-                <div class="w-full px-6 py-4 my-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+    <body class="antialiased text-black bg-[#EAF0FA] font-poppins bg-[url('../images/bg-auth.png')] bg-cover bg-center bg-no-repeat">
+        <div class="mx-16 my-12 mpb-10 rounded-[40px] bg-white/60 backdrop-blur-lg">
+            <a href="{{ url('/') }}">
+                <img class="w-[175px] ml-[280px] pt-[50px] pb-2" src="{{ Vite::asset('resources/images/logo-navbar.png') }}" alt="Logo">
+            </a>
+
+            <div class="flex items-center justify-center gap-12 pr-0">
+                <div class="w-[500px] px-[50px] py-8 mt-2 mb-24 bg-white shadow-2xl rounded-[50px]">
                     {{ $slot }}
                 </div>
+
+                <img class="pl-16 w-[480px] mb-[50px]" src="{{ Vite::asset('resources/images/login-girl.png') }}" alt="Login girl">
             </div>
         </div>
-        
     </body>
 </html>
