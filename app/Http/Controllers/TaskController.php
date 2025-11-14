@@ -81,7 +81,8 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $task = Task::with('subtasks')->findOrFail($id);
+        return response()->json($task);
     }
 
     /**
@@ -99,8 +100,20 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        if ($request->has('completed')) {
-            $task->update(['completed' => $request->completed]);
+        $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'description' => 'nullable|string',
+            'due_date' => 'sometimes|required|date',
+            'priority' => 'sometimes|required|in:Urgent,High,Normal,Low',
+            'completed' => 'sometimes|boolean',
+        ]);
+
+        $task->update($request->only(['title', 'description', 'due_date', 'priority', 'completed']));
+
+        // If task is marked as completed, move to history
+        if ($request->has('completed') && $request->completed) {
+            // Mark all subtasks as completed too
+            $task->subtasks()->update(['completed' => true]);
         }
 
         return response()->json(['success' => true]);
@@ -111,13 +124,47 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        return response()->json(['success' => true]);
     }
 
     public function updateSubtask(Request $request, $id)
     {
         $subtask = Subtask::findOrFail($id);
         $subtask->update(['completed' => $request->completed]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function duplicate($id)
+    {
+        $task = Task::findOrFail($id);
+        $newTask = $task->replicate();
+        $newTask->title = $task->title . ' (Copy)';
+        $newTask->save();
+
+        foreach ($task->subtasks as $subtask) {
+            $newSubtask = $subtask->replicate();
+            $newSubtask->task_id = $newTask->id;
+            $newSubtask->save();
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function storeSubtask(Request $request)
+    {
+        $request->validate([
+            'task_id' => 'required|exists:tasks,id',
+            'title' => 'required|string|max:255',
+        ]);
+
+        Subtask::create([
+            'task_id' => $request->task_id,
+            'title' => $request->title,
+        ]);
 
         return response()->json(['success' => true]);
     }

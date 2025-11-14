@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('tasks', TaskController::class);
     Route::patch('subtasks/{id}', [TaskController::class, 'updateSubtask'])->name('subtasks.update');
+    Route::post('tasks/{id}/duplicate', [TaskController::class, 'duplicate'])->name('tasks.duplicate');
+    Route::post('subtasks', [TaskController::class, 'storeSubtask'])->name('subtasks.store');
 });
 
 require __DIR__.'/auth.php';
