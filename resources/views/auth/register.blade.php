@@ -39,17 +39,17 @@
 
                         <div class="flex gap-4 mb-5 font-poppins">
                             <!-- Name -->
-                            <x-text-input id="name" class="block w-full px-4 py-[14px] mt-1 text-xs border border-gray-500 shadow-sm rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#6AA6FF]" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Name" />
+                            <x-text-input id="name" class="block w-full px-4 py-[14px] mt-1 text-xs shadow-sm rounded-2xl" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Name" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             
                             <!-- Email -->
-                            <x-text-input id="email" class="block w-full px-4 py-[14px] mt-1 text-xs border border-gray-500 shadow-sm rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#6AA6FF]" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Email" />
+                            <x-text-input id="email" class="block w-full px-4 py-[14px] mt-1 text-xs shadow-sm rounded-2xl" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Email" />
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
                         <!-- Password -->
                         <div class="relative mb-5 font-poppins">
-                            <x-text-input id="password" class="block w-full px-4 py-[14px] mt-1 text-xs border border-gray-500 shadow-sm rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#6AA6FF]"
+                            <x-text-input id="password" class="block w-full px-4 py-[14px] mt-1 text-xs shadow-sm rounded-2xl"
                                             type="password"
                                             name="password"
                                             required autocomplete="new-password" 
@@ -73,7 +73,7 @@
 
                         <!-- Confirm Password -->
                         <div class="relative mb-5 font-poppins">
-                            <x-text-input id="password_confirmation" class="block w-full px-4 py-[14px] mt-1 text-xs border border-gray-500 shadow-sm rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#6AA6FF]"
+                            <x-text-input id="password_confirmation" class="block w-full px-4 py-[14px] mt-1 text-xs shadow-sm rounded-2xl"
                                             type="password"
                                             name="password_confirmation" required autocomplete="new-password"
                                             placeholder="Confirm Password" />

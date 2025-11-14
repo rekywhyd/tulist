@@ -13,13 +13,12 @@
 
         <!-- Email Address -->
         <div class="mb-5 font-poppins">
-            <x-text-input id="email" class="block w-full px-4 py-3 mt-1 text-xs border border-gray-500 shadow-sm rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#6AA6FF]" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Email" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-text-input id="email" class="block w-full px-4 py-3 mt-1 text-xs shadow-sm rounded-2xl" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Email" />
         </div>
 
         <!-- Password -->
         <div class="relative mb-3 font-poppins">
-            <x-text-input id="password" class="block w-full px-4 py-3 pr-10 mt-1 text-xs border border-gray-500 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6AA6FF]"
+            <x-text-input id="password" class="block w-full px-4 py-3 pr-10 mt-1 text-xs shadow-sm rounded-2xl"
                             type="password"
                             name="password"
                             required autocomplete="current-password" 
@@ -38,7 +37,6 @@
                         <path fill-rule="evenodd" d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18z" clip-rule="evenodd" />
                     </svg>
                 </button>
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Remember Me & Forgot Password -->
@@ -57,7 +55,7 @@
 
         <!-- Tombol Login -->
         <div class="flex justify-center mt-4 mb-5 transition-transform duration-200 font-poppins hover:hover:scale-105">
-            <x-primary-button class="flex justify-center px-[100px] py-[16px] text-xs font-medium text-white bg-[#163769] border border-transparent shadow-sm rounded-2xl hover:bg-[#132C51] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700">
+            <x-primary-button class="flex  justify-center px-[100px] py-[16px] text-xs font-medium text-white bg-[#163769] border border-transparent shadow-sm rounded-2xl hover:bg-[#132C51] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700">
                 {{ __('Login') }}
             </x-primary-button>
         </div>
