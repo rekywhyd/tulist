@@ -10,6 +10,14 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [App\Http\Controllers\TaskController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/home', function () {
+    return view('home'); // Mengarahkan ke home.blade.php
+})->middleware(['auth', 'verified'])->name('home');
+
+Route::get('/schedule', function () {
+    return view('schedule'); // Mengarahkan ke schedule.blade.php
+})->middleware(['auth', 'verified'])->name('schedule');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
