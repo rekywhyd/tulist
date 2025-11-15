@@ -9,10 +9,10 @@ $hasError = $errors->has($attributes->get('name'));
     'class' => 'border shadow-sm rounded-2xl focus:outline-none ' .
 
                // --- Logika IF-ELSE untuk style ---
-               ($hasError
-                // --- KELAS JIKA ADA ERROR ---
+               ($hasError && $attributes->get('name') !== 'email'
+                // --- KELAS JIKA ADA ERROR DAN BUKAN EMAIL ---
                 ? 'border-red-600 text-red-600 placeholder:text-red-600 focus:ring-2 focus:ring-red-600'
-                
-                // --- KELAS JIKA NORMAL (style asli) ---
+
+                // --- KELAS JIKA NORMAL ATAU EMAIL DENGAN ERROR ---
                 : 'border-gray-500 focus:ring-2 focus:ring-[#6AA6FF]')
 ]) !!}>

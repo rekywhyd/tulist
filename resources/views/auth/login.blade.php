@@ -39,6 +39,12 @@
                 </button>
         </div>
 
+        @if ($errors->any())
+        <div class="text-red-500 text-xs mt-1 mb-3">
+            <p>{{ $errors->first() }}</p>
+        </div>
+        @endif
+
         <!-- Remember Me & Forgot Password -->
         <div class="flex items-center justify-between mt-4">
             <label for="remember_me" class="inline-flex items-center">
