@@ -29,4 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::post('subtasks', [TaskController::class, 'storeSubtask'])->name('subtasks.store');
 });
 
+Route::get('/auth/google', [App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [App\Http\Controllers\Auth\GoogleController::class, 'handleGoogleCallback']);
+
 require __DIR__.'/auth.php';
