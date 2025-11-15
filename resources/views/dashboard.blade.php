@@ -4,7 +4,7 @@
       Kita TIDAK menggunakan <x-slot name="header"> karena layout kustom Anda tidak menentukannya.
     --}}
 
-    <div class="w-full min-h-full p-6 bg-white shadow-lg rounded-3xl md:p-8">
+    <div class="w-full min-h-full p-6 shadow-lg bg-white/50 rounded-[40px]">
 
         <div class="flex flex-col items-start justify-between gap-4 mb-6 md:flex-row md:items-center">
             
