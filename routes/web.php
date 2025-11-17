@@ -11,7 +11,28 @@ Route::get('/', function () {
 Route::get('/dashboard', [App\Http\Controllers\TaskController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', function () {
-    return view('home'); // Mengarahkan ke home.blade.php
+    $user = Auth::user();
+
+    $tasks = $user->tasks()->with('subtasks')->get();
+
+    $todayTasks = $tasks->filter(function($task) {
+        return $task->due_date->isToday() && !$task->completed;
+    });
+    $tomorrowTasks = $tasks->filter(function($task) {
+        return $task->due_date->isTomorrow() && !$task->completed;
+    });
+    $upcomingTasks = $tasks->filter(function($task) {
+        return $task->due_date->gt(now()->addDay()) && !$task->completed;
+    });
+    $historyTasks = $tasks->filter(function($task) {
+        return $task->completed;
+    });
+
+    $todayCount = $todayTasks->count();
+    $tomorrowCount = $tomorrowTasks->count();
+    $upcomingCount = $upcomingTasks->count();
+
+    return view('home', compact('todayTasks', 'tomorrowTasks', 'upcomingTasks', 'historyTasks', 'todayCount', 'tomorrowCount', 'upcomingCount')); // Mengarahkan ke home.blade.php
 })->middleware(['auth', 'verified'])->name('home');
 
 Route::get('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])->middleware(['auth', 'verified'])->name('schedule');
