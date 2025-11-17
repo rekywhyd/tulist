@@ -1,41 +1,44 @@
 <x-app-layout>
-    <div class="min-h-screen bg-gray-50 p-6">
-        <div class="max-w-7xl mx-auto">
+    <div class="min-h-full items-center mr-8 px-12 py-6 border-white shadow-md bg-white/50 rounded-[40px]">
+        <h1 class="items-center ml-2 text-2xl font-bold text-center text-black font-poppins">Schedule</h1>
+
+        <div class="mx-auto max-w-7xl">
             <!-- Header Section -->
-            <div class="bg-white rounded-3xl shadow-lg p-6 mb-6">
+            <div class="p-6 mt-8 mb-8 bg-white shadow-xl rounded-xl font-poppins">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
-                        <h1 class="text-3xl font-bold text-gray-800">{{ strtoupper(\Carbon\Carbon::create($year, $month)->format('F Y')) }}</h1>
+                        <h1 class="text-2xl font-bold text-[#1C427A]">{{ strtoupper(\Carbon\Carbon::create($year, $month)->format('F Y')) }}</h1>
                         <div class="flex space-x-2">
-                            <button id="prev-month" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button id="prev-month" class="p-2 transition-transform duration-200 bg-gray-100 rounded-xl hover:hover:scale-110 hover:bg-gray-200">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                                 </svg>
                             </button>
-                            <button id="next-month" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button id="next-month" class="p-2 transition-transform duration-200 bg-gray-100 rounded-xl hover:hover:scale-110 hover:bg-gray-200">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>
                             </button>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <button id="toggle-view" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                    <div class="flex items-center space-x-3 text-sm">
+                        <button id="toggle-view" class="px-4 py-2 text-white transition-transform duration-200 bg-blue-500 hover:hover:scale-110 rounded-3xl hover:bg-blue-600">
                             <span id="view-text">Calendar View</span>
                         </button>
-                        <button id="quick-add-task" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        <button id="quick-add-task" class="px-4 py-2 text-white transition-transform duration-200 bg-green-500 hover:hover:scale-110 rounded-3xl hover:bg-green-600">
                             + Add Task
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="flex flex-wrap justify-center gap-6 mb-5">
+
                 <!-- Calendar Grid View -->
-                <div id="calendar-view" class="lg:col-span-2 bg-white rounded-3xl shadow-lg p-6">
+                <div id="calendar-view" class="w-[60%] p-6 bg-white shadow-xl rounded-xl">
                     <div class="grid grid-cols-7 gap-2 mb-4">
                         @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
-                            <div class="text-center font-semibold text-gray-600 py-2">{{ $day }}</div>
+                            <div class="py-2 font-semibold text-center text-[#1C427A]">{{ $day }}</div>
                         @endforeach
                     </div>
                     <div class="grid grid-cols-7 gap-2">
@@ -67,18 +70,18 @@
                                 @if($totalTasks > 0)
                                     <div class="mt-1 space-y-1">
                                         @if($urgentCount > 0)
-                                            <div class="w-2 h-2 bg-red-500 rounded-full inline-block"></div>
+                                            <div class="inline-block w-2 h-2 bg-red-500 rounded-full"></div>
                                         @endif
                                         @if($highCount > 0)
-                                            <div class="w-2 h-2 bg-yellow-500 rounded-full inline-block"></div>
+                                            <div class="inline-block w-2 h-2 bg-yellow-500 rounded-full"></div>
                                         @endif
                                         @if($normalCount > 0)
-                                            <div class="w-2 h-2 bg-blue-500 rounded-full inline-block"></div>
+                                            <div class="inline-block w-2 h-2 bg-blue-500 rounded-full"></div>
                                         @endif
                                         @if($lowCount > 0)
-                                            <div class="w-2 h-2 bg-green-500 rounded-full inline-block"></div>
+                                            <div class="inline-block w-2 h-2 bg-green-500 rounded-full"></div>
                                         @endif
-                                        <div class="text-xs text-gray-500 mt-1">{{ $totalTasks }}</div>
+                                        <div class="mt-1 text-xs text-gray-500">{{ $totalTasks }}</div>
                                     </div>
                                 @endif
                             </div>
@@ -87,30 +90,30 @@
                 </div>
 
                 <!-- Task List Panel -->
-                <div class="bg-white rounded-3xl shadow-lg p-6">
+                <div class="w-[37%] p-6 bg-white shadow-xl rounded-xl">
                     <div class="mb-4">
-                        <h2 class="text-xl font-bold text-gray-800 mb-4">Tasks</h2>
-                        <div class="flex space-x-2 mb-4">
-                            <button class="task-filter px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800" data-filter="all">All Tasks</button>
-                            <button class="task-filter px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800" data-filter="today">Today</button>
-                            <button class="task-filter px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800" data-filter="upcoming">Upcoming</button>
-                            <button class="task-filter px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800" data-filter="completed">Completed</button>
+                        <h2 class="mb-4 text-2xl font-bold text-[#1C427A]">Tasks</h2>
+                        <div class="flex mb-4 space-x-2">
+                            <button class="px-3 py-1 text-sm font-medium text-blue-800 transition-transform duration-200 bg-blue-100 rounded-full hover:hover:scale-110 task-filter" data-filter="all">All Tasks</button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter" data-filter="today">Today</button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter" data-filter="upcoming">Upcoming</button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter" data-filter="completed">Completed</button>
                         </div>
                     </div>
 
-                    <div id="task-list" class="space-y-3 max-h-96 overflow-y-auto">
+                    <div id="task-list" class="space-y-3 overflow-y-auto max-h-96 text-[#132C51]">
                         <!-- Tasks will be loaded here via JavaScript -->
                     </div>
                 </div>
             </div>
 
             <!-- List View (Hidden by default) -->
-            <div id="list-view" class="hidden bg-white rounded-3xl shadow-lg p-6 mt-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">All Tasks</h2>
+            <div id="list-view" class="hidden p-6 mt-6 bg-white shadow-xl rounded-3xl">
+                <h2 class="mb-4 text-xl font-bold text-gray-800">All Tasks</h2>
                 <div class="space-y-3">
                     @foreach($allTasks as $task)
                         <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
-                            <input type="checkbox" class="task-checkbox mr-3" data-id="{{ $task->id }}" {{ $task->completed ? 'checked' : '' }}>
+                            <input type="checkbox" class="w-5 h-5 mr-3 rounded-full task-checkbox accent-blue-500" data-id="{{ $task->id }}" {{ $task->completed ? 'checked' : '' }}>
                             <div class="flex-1">
                                 <div class="flex items-center">
                                     <div class="w-3 h-3 rounded-full mr-2 {{ $task->priority == 'Urgent' ? 'bg-red-500' : ($task->priority == 'High' ? 'bg-yellow-500' : ($task->priority == 'Normal' ? 'bg-blue-500' : 'bg-green-500')) }}"></div>
@@ -319,7 +322,7 @@
                     })
                     .catch(error => {
                         console.error('Error loading tasks for date', date, ':', error);
-                        taskList.innerHTML = '<div class="text-red-500 p-3">Error loading tasks. Please try again.</div>';
+                        taskList.innerHTML = '<div class="p-3 text-red-500">Error loading tasks. Please try again.</div>';
                     });
             } else {
                 // Load tasks based on filter
@@ -416,10 +419,10 @@
 
                 let subtasksHtml = '';
                 if (showSubtasks && task.subtasks && task.subtasks.length > 0) {
-                    subtasksHtml = '<div class="ml-5 mt-2 subtasks-container"><ul class="text-sm text-gray-600 space-y-1">';
+                    subtasksHtml = '<div class="mt-2 ml-5 subtasks-container"><ul class="space-y-1 text-sm text-gray-600">';
                     task.subtasks.forEach(subtask => {
                         subtasksHtml += `<li class="subtask-item flex items-center ${subtask.completed ? 'opacity-50' : ''}">
-                            <input type="checkbox" class="subtask-checkbox mr-2" data-id="${subtask.id}" ${subtask.completed ? 'checked' : ''}>
+                            <input type="checkbox" class="w-5 h-5 mr-2 rounded-full subtask-checkbox accent-blue-500" data-id="${subtask.id}" ${subtask.completed ? 'checked' : ''}>
                             <span class="${subtask.completed ? 'line-through text-gray-400' : ''}">${subtask.title}</span>
                         </li>`;
                     });
@@ -429,27 +432,27 @@
                 taskDiv.innerHTML = `
                     <div class="flex items-center justify-between">
                         <div class="flex items-center flex-1">
-                            <input type="checkbox" class="task-checkbox mr-3" data-id="${task.id}" ${task.completed ? 'checked' : ''}>
+                            <input type="checkbox" class="w-5 h-5 mr-3 rounded-full accent-blue-500 task-checkbox" data-id="${task.id}" ${task.completed ? 'checked' : ''}>
                             <div class="flex-1">
                                 <div class="flex items-center">
-                                    <div class="w-3 h-3 rounded-full mr-2" style="background-color: ${priorityColors[task.priority]}"></div>
-                                    <span class="${task.completed ? 'line-through text-gray-500' : ''}">${task.title}</span>
+                                    <div class="w-3 h-3 mr-2 rounded-full" style="background-color: ${priorityColors[task.priority]}"></div>
+                                    <span class="${task.completed ? 'line-through text-[#132C51]' : ''} text-lg translate-y-[-2px]">${task.title}</span>
                                 </div>
                                 ${task.due_date ? `<div class="text-sm text-gray-500">${new Date(task.due_date).toLocaleDateString()}</div>` : ''}
                             </div>
                         </div>
                         <div class="relative">
-                            <button class="task-menu-btn p-1 hover:bg-gray-200 rounded" data-task="${task.id}">
+                            <button class="p-1 rounded task-menu-btn hover:bg-gray-200" data-task="${task.id}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                                 </svg>
                             </button>
-                            <div class="task-menu absolute right-0 mt-1 w-48 bg-white border rounded-md shadow-lg z-10 hidden" data-task="${task.id}">
+                            <div class="absolute right-0 z-10 hidden w-48 mt-1 bg-white border rounded-md shadow-lg task-menu" data-task="${task.id}">
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rename-btn" data-task="${task.id}">Rename</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="${task.id}">Duplicate</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="${task.id}">Add Subtask</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 details-btn" data-task="${task.id}">Details</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 delete-btn" data-task="${task.id}">Delete</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 delete-btn" data-task="${task.id}">Delete</a>
                             </div>
                         </div>
                     </div>
