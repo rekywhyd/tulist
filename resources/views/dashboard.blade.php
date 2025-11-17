@@ -34,10 +34,10 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-6 px-12 py-4 font-poppins">
+        <div class="flex flex-wrap justify-center gap-8 py-4 font-poppins">
             
             {{-- TODAY --}}
-            <div class="p-6 bg-white shadow-xl rounded-2xl">
+            <div class="w-[44%] p-6 bg-white shadow-xl rounded-2xl">
                 <h2 class="mb-4 text-3xl font-bold text-[#1C427A]">Today</h2>
                 <div class="space-y-3">
                     @foreach($todayTasks as $task)
@@ -77,7 +77,7 @@
             </div>
 
             {{-- TOMORROW --}}
-            <div class="p-6 bg-white shadow-xl rounded-2xl">
+            <div class="w-[44%] p-6 bg-white shadow-xl rounded-2xl">
                 <h2 class="mb-4 text-3xl font-bold text-[#1C427A]">Tomorrow</h2>
                 <div class="space-y-3">
                     @foreach($tomorrowTasks as $task)
@@ -117,7 +117,7 @@
             </div>
 
             {{-- UPCOMING --}}
-            <div class="p-6 bg-white shadow-xl rounded-2xl">
+            <div class="w-[44%] p-6 bg-white shadow-xl rounded-2xl">
                 <h2 class="mb-4 text-3xl font-bold text-[#1C427A]">Upcoming</h2>
                 <div class="space-y-3">
                     @foreach($upcomingTasks as $task)
@@ -161,7 +161,7 @@
 
     {{-- ====================================================================== --}}
 
-    <div id="add-task-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-80">
+    <div id="add-task-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 font-poppins bg-opacity-80">
         <div class="relative p-5 mx-auto bg-white border shadow-xl top-2 rounded-xl w-80">
             <div class="mt-3">
                 <h3 class="mb-4 text-xl font-medium text-black">Add New Task</h3>
@@ -182,10 +182,10 @@
                     <div class="mb-2">
                         <label class="block text-gray-800">Priority</label>
                         <select name="priority" class="w-full px-3 py-2 border rounded-lg" required>
-                            <option value="Urgent">Urgent</option>
-                            <option value="High">High</option>
-                            <option value="Normal">Normal</option>
-                            <option value="Low">Low</option>
+                            <option value="Urgent" class="font-semibold text-red-600 transition-transform duration-200 hover:hover:scale-110">Urgent</option>
+                            <option value="High" class="font-semibold text-yellow-500">High</option>
+                            <option value="Normal" class="font-semibold text-blue-600">Normal</option>
+                            <option value="Low" class="font-semibold text-green-600">Low</option>
                         </select>
                     </div>
                     <div class="mb-2">
@@ -193,24 +193,24 @@
                         <div id="subtasks-container">
                             <!-- No default subtask input -->
                         </div>
-                        <button type="button" id="add-subtask-btn" class="text-[#1C427A]">+ Add Subtask</button>
+                        <button type="button" id="add-subtask-btn" class="hover:text-[#0E213D] text-[#1C427A]">+ Add Subtask</button>
                     </div>
                     <div class="flex justify-end">
-                        <button type="button" id="close-modal" class="px-4 py-2 mr-3 bg-gray-200 rounded">Cancel</button>
-                        <button type="submit" class="px-4 py-2 text-white bg-[#0E213D] rounded">Add Task</button>
+                        <button type="button" id="close-modal" class="px-4 py-2 mr-3 transition-transform duration-200 bg-gray-200 rounded-lg hover:hover:scale-90">Cancel</button>
+                        <button type="submit" class="transition-transform duration-200 hover:hover:scale-110 px-4 py-2 text-white bg-[#0E213D] rounded-lg">Add Task</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="confirm-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
-        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+    <div id="confirm-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50 font-poppins">
+        <div class="relative p-5 mx-auto bg-[#132C51] rounded-lg shadow-lg top-20 w-[500px]">
             <div class="mt-3 text-center">
-                <h3 class="text-lg font-medium text-gray-900">Yakin untuk menyelesaikan tugas ini?</h3>
+                <h3 class="text-lg font-medium text-white">Are you sure you want to complete this task?</h3>
                 <div class="flex justify-center mt-4">
-                    <button id="confirm-no" class="px-4 py-2 mr-3 bg-gray-300 rounded">No</button>
-                    <button id="confirm-yes" class="px-4 py-2 text-white bg-blue-500 rounded">Yes</button>
+                    <button id="confirm-no" class="px-4 py-2 mr-3 bg-white rounded-lg">No</button>
+                    <button id="confirm-yes" class="px-4 py-2 text-white bg-red-500 rounded-lg">Yes</button>
                 </div>
             </div>
         </div>
