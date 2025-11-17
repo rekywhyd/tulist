@@ -177,7 +177,7 @@
                     </div>
                     <div class="mb-2">
                         <label class="block text-gray-800">Due Date</label>
-                        <input type="date" name="due_date" class="w-full px-3 py-2 border rounded-lg" required>
+                        <input type="date" name="due_date" class="w-full px-3 py-2 border rounded-lg" required value="{{ date('Y-m-d') }}">
                     </div>
                     <div class="mb-2">
                         <label class="block text-gray-800">Priority</label>
@@ -189,9 +189,9 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label class="block text-gray-700">Subtasks</label>
+                        <label class="block text-gray-700">Subtasks (Optional)</label>
                         <div id="subtasks-container">
-                            <input type="text" name="subtasks[]" class="w-full px-3 py-2 mb-2 border rounded-lg" placeholder="Subtask 1">
+                            <!-- No default subtask input -->
                         </div>
                         <button type="button" id="add-subtask-btn" class="text-[#1C427A]">+ Add Subtask</button>
                     </div>
@@ -341,6 +341,9 @@
             subtasksContainer.appendChild(subtaskInput);
         });
 
+        // Ensure at least one subtask input if user starts adding
+        // But since it's optional, no need to force it
+
         // Subtask toggle functionality (in list)
         document.querySelectorAll('.subtask-toggle').forEach(button => {
             button.addEventListener('click', function() {
@@ -437,6 +440,8 @@
                 document.getElementById('rename-task-id').value = taskId;
                 document.getElementById('rename-title').value = document.querySelector(`.task-checkbox[data-id="${taskId}"]`).nextElementSibling.textContent;
                 document.getElementById('rename-modal').classList.remove('hidden');
+                // Hide the task menu
+                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
             }
         });
 
@@ -475,6 +480,8 @@
                 }).then(() => {
                     location.reload();
                 });
+                // Hide the task menu
+                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
             }
         });
 
@@ -485,6 +492,8 @@
                 const taskId = addSubtaskBtn.dataset.task;
                 document.getElementById('add-subtask-task-id').value = taskId;
                 document.getElementById('add-subtask-modal').classList.remove('hidden');
+                // Hide the task menu
+                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
             }
         });
 
@@ -517,6 +526,8 @@
                 const taskId = deleteBtn.dataset.task;
                 document.getElementById('delete-confirm-modal').classList.remove('hidden');
                 document.getElementById('delete-confirm-modal').dataset.taskId = taskId;
+                // Hide the task menu
+                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
             }
         });
 
@@ -566,6 +577,8 @@
                         }
 
                         document.getElementById('task-details-modal').classList.remove('hidden');
+                        // Hide the task menu
+                        document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
                     });
             }
         });

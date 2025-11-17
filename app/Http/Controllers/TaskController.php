@@ -51,7 +51,7 @@ class TaskController extends Controller
             'due_date' => 'required|date',
             'priority' => 'required|in:Urgent,High,Normal,Low',
             'subtasks' => 'nullable|array',
-            'subtasks.*' => 'string|max:255',
+            'subtasks.*' => 'nullable|string|max:255',
         ]);
 
         $task = Task::create([
@@ -64,9 +64,9 @@ class TaskController extends Controller
 
         if ($request->subtasks) {
             foreach ($request->subtasks as $subtaskTitle) {
-                if (!empty($subtaskTitle)) {
+                if (!empty(trim($subtaskTitle))) {
                     Subtask::create([
-                        'title' => $subtaskTitle,
+                        'title' => trim($subtaskTitle),
                         'task_id' => $task->id,
                     ]);
                 }
