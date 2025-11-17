@@ -168,4 +168,46 @@ class TaskController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    /**
+     * Display the schedule view with calendar and tasks.
+     */
+    public function schedule(Request $request)
+    {
+        $user = Auth::user();
+        $month = $request->get('month', now()->month);
+        $year = $request->get('year', now()->year);
+
+        $startOfMonth = \Carbon\Carbon::create($year, $month, 1)->startOfMonth();
+        $endOfMonth = \Carbon\Carbon::create($year, $month, 1)->endOfMonth();
+
+        $tasks = $user->tasks()->with('subtasks')->whereBetween('due_date', [$startOfMonth, $endOfMonth])->get();
+
+        $tasksByDate = $tasks->groupBy(function($task) {
+            return $task->due_date->format('Y-m-d');
+        });
+
+        // Separate queries for better performance - exclude completed tasks from allTasks
+        $allTasks = $user->tasks()->with('subtasks')
+            ->where('completed', false)
+            ->orderBy('due_date', 'asc')
+            ->orderByRaw("CASE priority WHEN 'Urgent' THEN 1 WHEN 'High' THEN 2 WHEN 'Normal' THEN 3 WHEN 'Low' THEN 4 END")
+            ->get();
+
+        $todayTasks = $user->tasks()->with('subtasks')
+            ->where('due_date', now()->toDateString())
+            ->where('completed', false)
+            ->get();
+
+        $upcomingTasks = $user->tasks()->with('subtasks')
+            ->where('due_date', '>', now()->toDateString())
+            ->where('completed', false)
+            ->get();
+
+        $completedTasks = $user->tasks()->with('subtasks')
+            ->where('completed', true)
+            ->get();
+
+        return view('schedule', compact('tasksByDate', 'month', 'year', 'todayTasks', 'upcomingTasks', 'completedTasks', 'allTasks'));
+    }
 }
