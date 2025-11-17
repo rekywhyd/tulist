@@ -14,9 +14,7 @@ Route::get('/home', function () {
     return view('home'); // Mengarahkan ke home.blade.php
 })->middleware(['auth', 'verified'])->name('home');
 
-Route::get('/schedule', function () {
-    return view('schedule'); // Mengarahkan ke schedule.blade.php
-})->middleware(['auth', 'verified'])->name('schedule');
+Route::get('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])->middleware(['auth', 'verified'])->name('schedule');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
