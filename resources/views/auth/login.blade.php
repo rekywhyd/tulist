@@ -40,7 +40,7 @@
         </div>
 
         @if ($errors->any())
-        <div class="text-red-500 text-xs mt-1 mb-3">
+        <div class="mt-1 mb-3 ml-4 text-xs text-red-600">
             <p>{{ $errors->first() }}</p>
         </div>
         @endif

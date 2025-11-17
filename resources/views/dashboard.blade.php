@@ -1,58 +1,45 @@
 <x-app-layout>
-    {{-- 
-      Konten di bawah ini akan masuk ke slot <main> di app.blade.php.
-      Kita TIDAK menggunakan <x-slot name="header"> karena layout kustom Anda tidak menentukannya.
-    --}}
+    <div class="min-h-full items-center mr-8 py-6 border-white shadow-md bg-white/50 rounded-[40px]">
+        <h1 class="items-center mr-6 text-2xl font-bold text-center text-black font-poppins">Dashboard</h1>
 
-    <div class="w-full min-h-full p-6 shadow-lg bg-white/50 rounded-[40px]">
-
-        <div class="flex flex-col items-start justify-between gap-4 mb-6 md:flex-row md:items-center">
+        <div class="flex flex-row items-center justify-between mx-16 my-6 border-b-2">
             
-            <div class="flex flex-col">
-                <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
-                
-                <div class="flex items-center mt-2 -mb-px space-x-4 border-b">
-                    <button class="flex items-center px-1 py-2 space-x-2 text-blue-700 border-b-2 border-blue-700">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25H12" />
-                        </svg>
-                        <span class="font-semibold">Board view</span>
+            <div class="flex">
+            
+                <div class="flex items-center gap-20 text-sm font-medium font-poppins">
+                    <button class="flex items-center py-2 pl-2 pr-8 space-x-10 text-black border-b-2 border-black">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M23 4C23 2.34315 21.6569 1 20 1H4C2.34315 1 1 2.34315 1 4V8C1 9.65685 2.34315 11 4 11H20C21.6569 11 23 9.65685 23 8V4ZM21 4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V8C3 8.55228 3.44772 9 4 9H20C20.5523 9 21 8.55228 21 8V4Z" fill="currentColor"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M23 16C23 14.3431 21.6569 13 20 13H4C2.34315 13 1 14.3431 1 16V20C1 21.6569 2.34315 23 4 23H20C21.6569 23 23 21.6569 23 20V16ZM21 16C21 15.4477 20.5523 15 20 15H4C3.44772 15 3 15.4477 3 16V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V16Z" fill="currentColor"></path> </g></svg>
+                        <span>Board view</span>
                     </button>
-                    <button class="flex items-center px-1 py-2 space-x-2 text-gray-500 hover:text-gray-700">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
+
+                    <button class="flex items-center py-2 pl-2 pr-8 space-x-10 text-gray-400 hover:text-black">
+                        <svg class="w-4 h-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="currentColor" d="M10,0 C15.5228475,0 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 C4.4771525,20 0,15.5228475 0,10 C0,4.4771525 4.4771525,0 10,0 Z M10,5.47455848 C9.62344222,5.47455848 9.31818182,5.77981887 9.31818182,6.15637666 L9.31818182,6.15637666 L9.318,9.279 L6.19496649,9.27959198 C5.85264123,9.27959198 5.56923944,9.5318733 5.52054097,9.86065607 L5.51314831,9.96141017 C5.51314831,10.3379679 5.81840871,10.6432283 6.19496649,10.6432283 L6.19496649,10.6432283 L9.318,10.643 L9.31818182,13.7664437 C9.31818182,14.1087689 9.57046314,14.3921707 9.89924591,14.4408692 L10,14.4482619 C10.3765578,14.4482619 10.6818182,14.1430015 10.6818182,13.7664437 L10.6818182,13.7664437 L10.681,10.643 L13.8050335,10.6432283 C14.1473588,10.6432283 14.4307606,10.390947 14.479459,10.0621643 L14.4868517,9.96141017 C14.4868517,9.58485238 14.1815913,9.27959198 13.8050335,9.27959198 L13.8050335,9.27959198 L10.681,9.279 L10.6818182,6.15637666 C10.6818182,5.8140514 10.4295369,5.5306496 10.1007541,5.48195113 Z"></path> </g></svg>
                         <span>Add view</span>
                     </button>
+
                 </div>
             </div>
-            
-            <div class="flex items-center space-x-2">
-                {{-- 
-                  PENGGABUNGAN: 
-                  Tombol "New List" dari desain LAMA Anda sekarang diberi 'id="add-task-btn"' 
-                  dari kode BARU Anda agar bisa membuka modal Add Task. Teksnya juga diubah.
-                --}}
-                <button id="add-task-btn" class="px-4 py-2 font-semibold text-white bg-blue-700 rounded-lg shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    + Add Task
+        
+            <div class="flex items-center gap-6 text-xs font-medium font-poppins">
+                
+                <button id="add-task-btn" class="px-6 py-2  text-white bg-[#0E213D] shadow-md rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#0E213D] focus:ring-offset-2 transition-transform duration-200 hover:hover:scale-110">
+                    New List
                 </button>
-                <button class="p-2 text-gray-500 border rounded-lg hover:bg-gray-100">
+
+                <button class="p-2 py-1 text-black transition-transform duration-200 bg-white border rounded-3xl hover:hover:scale-110">
                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                     </svg>
                 </button>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-2 gap-6 px-12 py-4 font-poppins">
             
-            <div class="p-5 shadow-sm bg-gray-50 rounded-2xl">
-                <h2 class="mb-4 text-xl font-bold text-gray-900">Today</h2>
+            {{-- TODAY --}}
+            <div class="p-6 bg-white shadow-xl rounded-2xl">
+                <h2 class="mb-4 text-3xl font-bold text-[#1C427A]">Today</h2>
                 <div class="space-y-3">
-                    {{-- 
-                      PENGGABUNGAN: 
-                      Konten statis "value" diganti dengan loop fungsional dari kode BARU Anda.
-                    --}}
                     @foreach($todayTasks as $task)
                         <div class="mb-2" data-original-due-date="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
                             <div class="flex items-center">
@@ -89,10 +76,10 @@
                 </div>
             </div>
 
-            <div class="p-5 shadow-sm bg-gray-50 rounded-2xl">
-                <h2 class="mb-4 text-xl font-bold text-gray-900">Tomorrow</h2>
+            {{-- TOMORROW --}}
+            <div class="p-6 bg-white shadow-xl rounded-2xl">
+                <h2 class="mb-4 text-3xl font-bold text-[#1C427A]">Tomorrow</h2>
                 <div class="space-y-3">
-                    {{-- PENGGABUNGAN: Loop untuk Tomorrow Tasks --}}
                     @foreach($tomorrowTasks as $task)
                         <div class="mb-2" data-original-due-date="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
                             <div class="flex items-center">
@@ -129,10 +116,10 @@
                 </div>
             </div>
 
-            <div class="p-5 shadow-sm bg-gray-50 rounded-2xl">
-                <h2 class="mb-4 text-xl font-bold text-gray-900">Upcoming</h2>
+            {{-- UPCOMING --}}
+            <div class="p-6 bg-white shadow-xl rounded-2xl">
+                <h2 class="mb-4 text-3xl font-bold text-[#1C427A]">Upcoming</h2>
                 <div class="space-y-3">
-                    {{-- PENGGABUNGAN: Loop untuk Upcoming Tasks --}}
                     @foreach($upcomingTasks as $task)
                         <div class="mb-2" data-original-due-date="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
                             <div class="flex items-center">
@@ -168,62 +155,49 @@
                     @endforeach
                 </div>
             </div>
-
-            {{-- 
-              CATATAN: 
-              Bagian "History" dari kode BARU Anda tidak memiliki tempat di desain LAMA.
-              Logika centang Anda (me-reload halaman) akan memindahkan task yang selesai
-              ke History, yang akan ditangani oleh Controller Anda (tidak ditampilkan di sini).
-            --}}
-
         </div>
     </div>
 
 
-    {{-- 
-      ======================================================================
-      PENGGABUNGAN: MODAL DAN SCRIPT DARI KODE BARU ANDA
-      Semua kode modal dan <script> dari file baru Anda disalin ke sini.
-      ======================================================================
-    --}}
+    {{-- ====================================================================== --}}
 
-    <div id="add-task-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
-        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+    <div id="add-task-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-80">
+        <div class="relative p-5 mx-auto bg-white border shadow-xl top-2 rounded-xl w-80">
             <div class="mt-3">
-                <h3 class="mb-4 text-lg font-medium text-gray-900">Add New Task</h3>
+                <h3 class="mb-4 text-xl font-medium text-black">Add New Task</h3>
                 <form action="{{ route('tasks.store') }}" method="POST">
                     @csrf
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Title</label>
-                        <input type="text" name="title" class="w-full px-3 py-2 border rounded" required>
+                    <div class="mb-2">
+                        <label class="block text-gray-800">Title</label>
+                        <input type="text" name="title" class="w-full px-3 py-2 border rounded-lg" required>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Description</label>
-                        <textarea name="description" class="w-full px-3 py-2 border rounded"></textarea>
+                    <div class="mb-2">
+                        <label class="block text-gray-800">Description</label>
+                        <textarea name="description" class="w-full px-3 py-2 border rounded-lg"></textarea>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Due Date</label>
-                        <input type="date" name="due_date" class="w-full px-3 py-2 border rounded" required>
+                    <div class="mb-2">
+                        <label class="block text-gray-800">Due Date</label>
+                        <input type="date" name="due_date" class="w-full px-3 py-2 border rounded-lg" required>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Priority</label>
-                        <select name="priority" class="w-full px-3 py-2 border rounded" required>
+                    <div class="mb-2">
+                        <label class="block text-gray-800">Priority</label>
+                        <select name="priority" class="w-full px-3 py-2 border rounded-lg" required>
                             <option value="Urgent">Urgent</option>
                             <option value="High">High</option>
                             <option value="Normal">Normal</option>
                             <option value="Low">Low</option>
                         </select>
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-2">
                         <label class="block text-gray-700">Subtasks</label>
                         <div id="subtasks-container">
-                            <input type="text" name="subtasks[]" class="w-full px-3 py-2 mb-2 border rounded" placeholder="Subtask 1">
+                            <input type="text" name="subtasks[]" class="w-full px-3 py-2 mb-2 border rounded-lg" placeholder="Subtask 1">
                         </div>
-                        <button type="button" id="add-subtask-btn" class="text-blue-500">+ Add Subtask</button>
+                        <button type="button" id="add-subtask-btn" class="text-[#1C427A]">+ Add Subtask</button>
                     </div>
                     <div class="flex justify-end">
-                        <button type="button" id="close-modal" class="px-4 py-2 mr-3 bg-gray-300 rounded">Cancel</button>
-                        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded">Add Task</button>
+                        <button type="button" id="close-modal" class="px-4 py-2 mr-3 bg-gray-200 rounded">Cancel</button>
+                        <button type="submit" class="px-4 py-2 text-white bg-[#0E213D] rounded">Add Task</button>
                     </div>
                 </form>
             </div>
