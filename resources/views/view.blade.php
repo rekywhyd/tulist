@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="min-h-full items-center mr-8 ml-20 py-6 border-white shadow-md bg-white/50 rounded-[40px] z-40">
-        <h1 class="items-center mr-2 text-2xl font-bold text-center text-black font-poppins">View</h1>
+    <div class="min-h-full items-center mr-8 ml-20 py-6 border-white shadow-md bg-white/50 rounded-[40px] pt-6 mt-20">
+        <h1 class="items-center mr-4 text-4xl font-bold text-center text-black font-poppins">View</h1>
 
         <div class="flex flex-row items-center justify-between mx-16 my-6 border-b-2">
             
@@ -525,18 +525,33 @@
         });
 
         // Task menu functionality
-        document.addEventListener('click', function(e) {
-            const taskMenuBtn = e.target.closest('.task-menu-btn');
-            if (taskMenuBtn) {
-                const taskId = taskMenuBtn.dataset.task;
-                const menu = document.querySelector(`.task-menu[data-task="${taskId}"]`);
-                // Hide all other menus
-                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-                menu.classList.toggle('hidden');
-            } else if (!e.target.closest('.task-menu') && !e.target.closest('.task-menu-btn')) {
-                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
+    document.addEventListener('click', function(e) {
+        const taskMenuBtn = e.target.closest('.task-menu-btn');
+        
+        // 1. Jika tombol titik tiga diklik
+        if (taskMenuBtn) {
+            const taskId = taskMenuBtn.dataset.task;
+            const menu = document.querySelector(`.task-menu[data-task="${taskId}"]`);
+            
+            // Cek apakah menu ini sedang tertutup atau terbuka SEBELUM kita mereset semuanya
+            const isHidden = menu.classList.contains('hidden');
+
+            // Langkah A: Tutup SEMUA menu yang ada di layar terlebih dahulu (Reset)
+            document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
+
+            // Langkah B: Logika Toggle
+            // Jika tadi statusnya tersembunyi (hidden), maka TAMPILKAN.
+            // Jika tadi statusnya tampil, biarkan tetap tertutup (karena Langkah A sudah menutupnya).
+            if (isHidden) {
+                menu.classList.remove('hidden');
             }
-        });
+        } 
+        // 2. Jika klik di sembarang tempat (bukan di tombol menu, bukan di dalam menu)
+        else if (!e.target.closest('.task-menu')) {
+            // Tutup semua menu
+            document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
+        }
+    });
 
         // Rename button functionality
         document.addEventListener('click', function(e) {

@@ -63,7 +63,7 @@
                         </header>
                     @endisset
 
-                    <main class="flex-1 p-6">
+                    <main class="flex-1 p-6 mb-16">
                         {{ $slot }}
                     </main>
 
