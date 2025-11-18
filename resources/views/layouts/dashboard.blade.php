@@ -25,10 +25,10 @@
 
                     <div>
                         @if (Route::has('login'))
-                            <div class="flex items-center gap-8 text-lg font-medium">
+                            <div class="flex items-center gap-6 text-lg font-medium">
                                 @auth
                                     <a
-                                        href="{{ url('/view') }}"
+                                        href="{{ url('/home') }}"
                                         class="px-9 py-2 text-white border bg-[#1616b0] hover:bg-[#5e5ec5] rounded-full transition-colors duration-200 ease-out"
                                     >
                                         view

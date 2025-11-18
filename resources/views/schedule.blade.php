@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-full items-center mr-8 px-12 py-6 ml-20 border-white shadow-md bg-white/50 rounded-[40px]">
+    <div class="min-h-full items-center mr-8 px-12 py-6 mt-20 ml-20 border-white shadow-md bg-white/50 rounded-[40px]">
         <h1 class="items-center ml-2 text-2xl font-bold text-center text-black font-poppins">Schedule</h1>
 
         <div class="mx-auto max-w-7xl">
@@ -131,7 +131,7 @@
     </div>
 
     {{-- Include existing modals from view --}}
-    <div id="add-task-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-80">
+    <div id="add-task-modal" class="fixed inset-0 z-20 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-80">
         <div class="relative p-5 mx-auto bg-white border shadow-xl top-2 rounded-xl w-80">
             <div class="mt-3">
                 <h3 class="mb-4 text-xl font-medium text-black">Add New Task</h3>

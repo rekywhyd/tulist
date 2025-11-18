@@ -1,4 +1,4 @@
-<aside class="fixed z-10 flex flex-col items-center h-screen pt-6 pb-24 pl-6 w-fit">
+<aside class="fixed z-10 flex flex-col items-center h-screen pl-6 py-28 w-fit">
 
   <nav class="flex flex-col items-center justify-between h-full">
 
@@ -67,8 +67,8 @@
     
     {{-- KOLOM 2 --}}
     <div class="flex flex-col gap-2 border border-white w-fit bg-white/30 backdrop-blur-3xl rounded-3xl">
-      {{-- BEL --}}
-      <a href="{{ route('notifications') }}" title="Notifications" class="p-3 transition-colors rounded-full duration-200 hover:hover:scale-110 {{ request()->routeIs('view') 
+      {{-- NOTIF --}}
+      <a href="{{ route('notifications') }}" title="Notifications" class="p-3 transition-colors rounded-full duration-200 hover:hover:scale-110 {{ request()->routeIs('notifications') 
           ? 'bg-[#0E213D] text-[#D5E2F5]' 
           : 'text-[#717C8F] hover:bg-[#0E213D] hover:text-[#D5E2F5]' }}">
         <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M19 13.586V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v3.586l-1.707 1.707A.996.996 0 0 0 3 16v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a.996.996 0 0 0-.293-.707L19 13.586zM19 17H5v-.586l1.707-1.707A.996.996 0 0 0 7 14v-4c0-2.757 2.243-5 5-5s5 2.243 5 5v4c0 .266.105.52.293.707L19 16.414V17zm-7 5a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22z"></path></g></svg>
@@ -88,7 +88,7 @@
 
     {{-- KOLOM 3 --}}
         <div class="flex flex-col gap-2 border border-white bg-white/30 backdrop-blur-3xl w-fit rounded-3xl">
-          {{-- ASK --}}
+          {{-- HELP --}}
           <a href="{{ route('help') }}" title="Help" class="p-3 transition-colors rounded-full duration-200 hover:hover:scale-110 {{ request()->routeIs('help') 
               ? 'bg-[#0E213D] text-[#D5E2F5]' 
               : 'text-[#717C8F] hover:bg-[#0E213D] hover:text-[#D5E2F5]' }}">
