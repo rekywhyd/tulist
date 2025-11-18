@@ -1,3 +1,4 @@
+{{-- layout untuk home, view, schedule, notifications, setting, dan help --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PageController extends Controller
+{
+    /**
+     * Menampilkan halaman bantuan.
+     */
+    public function help()
+    {
+        // Pastikan file ini ada: resources/views/pages/help.blade.php
+        return view('help');
+    }
+
+    /**
+     * Menampilkan halaman notifikasi.
+     */
+    public function notifications()
+    {
+        // Pastikan file ini ada: resources/views/pages/notifications.blade.php
+        return view('notifications');
+    }
+
+    /**
+     * Menampilkan halaman 'About'.
+     */
+    public function about()
+    {
+        // Ini akan mencari file: resources/views/about.blade.php
+        return view('about');
+    }
+
+    /**
+     * Menampilkan halaman 'Contact Us'.
+     */
+    public function contact()
+    {
+        // Ini akan mencari file: resources/views/contact.blade.php
+        return view('contact');
+    }
+}
