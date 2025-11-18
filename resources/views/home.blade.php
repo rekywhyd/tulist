@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-full items-center mr-8 py-6 border-white shadow-md bg-white/50 rounded-[40px]">
+    <div class="min-h-full items-center mr-8 py-6 ml-20 border-white shadow-md bg-white/50 rounded-[40px]">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">

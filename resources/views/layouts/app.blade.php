@@ -26,7 +26,7 @@
                         <img class="w-[110px]" src="{{ Vite::asset('resources/images/logo-favicon.png') }}" alt="Logo">
                     </a>
                     
-                    <div class="flex flex-col"> 
+                    <div class="flex flex-col pt-4"> 
                         <div class="text-3xl font-bold text-gray-900">Hi, {{ Auth::user()->name }}!</div>
                         <p class="text-xs text-gray-500">Let's take a look at your activity today</p>
                     </div>
