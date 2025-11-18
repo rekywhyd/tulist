@@ -1,4 +1,4 @@
-<aside class="z-10 flex flex-col items-center h-screen gap-32 mt-16 ml-3 w-fit">
+<aside class="fixed top-32 left-0 z-40 flex flex-col items-center h-[calc(100vh-8rem)] gap-32 ml-3 w-fit">
 
   <nav class="flex flex-col items-center flex-1 gap-32">
 

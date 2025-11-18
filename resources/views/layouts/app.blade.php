@@ -19,7 +19,7 @@
     <body class="antialiased bg-[#E8EEF9]">
 
         <div class="flex flex-col min-h-screen">
-            <header class="flex font-poppins items-center justify-between w-full pt-14 bg-[#E8EEF9]">
+            <header class="fixed top-0 left-0 right-0 z-50 flex font-poppins items-center justify-between w-full pt-14 bg-[#E8EEF9]">
 
                 <div class="flex items-center gap-8">
                     <a href="{{ url('/home') }}">
@@ -47,13 +47,13 @@
             </header>
 
             {{-- AREA KONTEN UTAMA --}}
-            <div class="flex flex-1">
+            <div class="flex flex-1 pt-32">
 
                 {{-- SIDEBAR --}}
                 @include('layouts.sidebar')
                 
                 {{-- AREA KONTEN KANAN (YANG BISA SCROLL) --}}
-                <div class="flex flex-col flex-1">
+                <div class="flex flex-col flex-1 ml-64">
                     
                     @isset($header)
                         <header class="bg-black shadow"> {{-- Ini header hitam opsional Anda --}}
