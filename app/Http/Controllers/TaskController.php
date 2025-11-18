@@ -29,7 +29,7 @@ class TaskController extends Controller
         });
         $historyTasks = $tasks->where('completed', true);
 
-        return view('dashboard', compact('todayTasks', 'tomorrowTasks', 'upcomingTasks', 'historyTasks'));
+        return view('view', compact('todayTasks', 'tomorrowTasks', 'upcomingTasks', 'historyTasks'));
     }
 
     /**
@@ -73,7 +73,7 @@ class TaskController extends Controller
             }
         }
 
-        return redirect()->route('dashboard')->with('success', 'Task created successfully.');
+        return redirect()->route('view')->with('success', 'Task created successfully.');
     }
 
     /**

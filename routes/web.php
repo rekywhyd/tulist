@@ -2,13 +2,17 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [App\Http\Controllers\TaskController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/view', [App\Http\Controllers\TaskController::class, 'index'])->middleware(['auth', 'verified'])->name('view');
+
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
 Route::get('/home', function () {
     $user = Auth::user();
@@ -36,6 +40,9 @@ Route::get('/home', function () {
 })->middleware(['auth', 'verified'])->name('home');
 
 Route::get('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])->middleware(['auth', 'verified'])->name('schedule');
+
+Route::get('/help', [PageController::class, 'help'])->name('help')->middleware('auth');
+Route::get('/notifications', [PageController::class, 'notifications'])->name('notifications')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -130,7 +130,7 @@
         </div>
     </div>
 
-    {{-- Include existing modals from dashboard --}}
+    {{-- Include existing modals from view --}}
     <div id="add-task-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-80">
         <div class="relative p-5 mx-auto bg-white border shadow-xl top-2 rounded-xl w-80">
             <div class="mt-3">
@@ -535,7 +535,7 @@
         console.log('Initializing schedule page');
         loadTasks(null, 'all');
 
-        // Include existing JS from dashboard for modals and task interactions
+        // Include existing JS from view for modals and task interactions
         // Modal functionality
         const addTaskBtn = document.getElementById('add-task-btn');
         const addTaskModal = document.getElementById('add-task-modal');

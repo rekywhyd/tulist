@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="min-h-full items-center mr-8 py-6 border-white shadow-md bg-white/50 rounded-[40px]">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex">
                         <!-- Left Side: All My Task -->
                         <div class="w-1/2 pr-4">
-                            <h3 class="text-lg font-semibold mb-4">All My Task</h3>
+                            <h3 class="mb-4 text-lg font-semibold">All My Task</h3>
 
                             <!-- Today -->
                             <div class="mb-6">
-                                <button class="category-toggle font-medium text-gray-700 mb-2 flex items-center" data-category="today">
-                                    <span class="arrow mr-2">▼</span> Today ({{ $todayCount }})
+                                <button class="flex items-center mb-2 font-medium text-gray-700 category-toggle" data-category="today">
+                                    <span class="mr-2 arrow">▼</span> Today ({{ $todayCount }})
                                 </button>
                                 <div class="category-content" id="today-content">
                                     @foreach($todayTasks as $task)
@@ -20,24 +20,24 @@
                                                 <input type="checkbox" class="task-checkbox" data-id="{{ $task->id }}" {{ $task->completed ? 'checked' : '' }}>
                                                 <span class="{{ $task->completed ? 'line-through text-gray-500' : '' }} ml-2 flex-1">{{ $task->title }}</span>
                                                 @if($task->subtasks->count() > 0)
-                                                    <button class="subtask-toggle ml-2 text-gray-500" data-task="{{ $task->id }}">
+                                                    <button class="ml-2 text-gray-500 subtask-toggle" data-task="{{ $task->id }}">
                                                         <span class="subtask-arrow">▶</span>
                                                     </button>
                                                 @endif
                                                 <div class="relative ml-2">
-                                                    <button class="task-menu-btn text-gray-500 hover:text-gray-700" data-task="{{ $task->id }}">
+                                                    <button class="text-gray-500 task-menu-btn hover:text-gray-700" data-task="{{ $task->id }}">
                                                         <span class="text-lg">⋮</span>
                                                     </button>
-                        <div class="task-menu hidden absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10" data-task="{{ $task->id }}">
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 details-btn" data-task="{{ $task->id }}">Details</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rename-btn" data-task="{{ $task->id }}">Rename</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="{{ $task->id }}">Duplicate</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="{{ $task->id }}">Add Subtask</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-btn" data-task="{{ $task->id }}">Delete</button>
+                        <div class="absolute right-0 z-10 hidden w-48 mt-1 bg-white border border-gray-200 rounded-md shadow-lg task-menu" data-task="{{ $task->id }}">
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 details-btn" data-task="{{ $task->id }}">Details</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 rename-btn" data-task="{{ $task->id }}">Rename</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="{{ $task->id }}">Duplicate</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="{{ $task->id }}">Add Subtask</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-gray-100 delete-btn" data-task="{{ $task->id }}">Delete</button>
                         </div>
                     </div>
                 </div>
-                <div class="subtasks ml-6 hidden" id="subtasks-{{ $task->id }}">
+                <div class="hidden ml-6 subtasks" id="subtasks-{{ $task->id }}">
                     @foreach($task->subtasks as $subtask)
                         <div class="mb-1 subtask-item {{ $subtask->completed ? 'opacity-50' : '' }}">
                             <input type="checkbox" class="subtask-checkbox" data-id="{{ $subtask->id }}" {{ $subtask->completed ? 'checked' : '' }}>
@@ -52,8 +52,8 @@
 
                             <!-- Tomorrow -->
                             <div class="mb-6">
-                                <button class="category-toggle font-medium text-gray-700 mb-2 flex items-center" data-category="tomorrow">
-                                    <span class="arrow mr-2">▼</span> Tomorrow ({{ $tomorrowCount }})
+                                <button class="flex items-center mb-2 font-medium text-gray-700 category-toggle" data-category="tomorrow">
+                                    <span class="mr-2 arrow">▼</span> Tomorrow ({{ $tomorrowCount }})
                                 </button>
                                 <div class="category-content" id="tomorrow-content">
                                     @foreach($tomorrowTasks as $task)
@@ -62,24 +62,24 @@
                                                 <input type="checkbox" class="task-checkbox" data-id="{{ $task->id }}" {{ $task->completed ? 'checked' : '' }}>
                                                 <span class="{{ $task->completed ? 'line-through text-gray-500' : '' }} ml-2 flex-1">{{ $task->title }}</span>
                                                 @if($task->subtasks->count() > 0)
-                                                    <button class="subtask-toggle ml-2 text-gray-500" data-task="{{ $task->id }}">
+                                                    <button class="ml-2 text-gray-500 subtask-toggle" data-task="{{ $task->id }}">
                                                         <span class="subtask-arrow">▶</span>
                                                     </button>
                                                 @endif
                                                 <div class="relative ml-2">
-                                                    <button class="task-menu-btn text-gray-500 hover:text-gray-700" data-task="{{ $task->id }}">
+                                                    <button class="text-gray-500 task-menu-btn hover:text-gray-700" data-task="{{ $task->id }}">
                                                         <span class="text-lg">⋮</span>
                                                     </button>
-                        <div class="task-menu hidden absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10" data-task="{{ $task->id }}">
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 details-btn" data-task="{{ $task->id }}">Details</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rename-btn" data-task="{{ $task->id }}">Rename</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="{{ $task->id }}">Duplicate</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="{{ $task->id }}">Add Subtask</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-btn" data-task="{{ $task->id }}">Delete</button>
+                        <div class="absolute right-0 z-10 hidden w-48 mt-1 bg-white border border-gray-200 rounded-md shadow-lg task-menu" data-task="{{ $task->id }}">
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 details-btn" data-task="{{ $task->id }}">Details</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 rename-btn" data-task="{{ $task->id }}">Rename</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="{{ $task->id }}">Duplicate</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="{{ $task->id }}">Add Subtask</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-gray-100 delete-btn" data-task="{{ $task->id }}">Delete</button>
                         </div>
                     </div>
                 </div>
-                <div class="subtasks ml-6 hidden" id="subtasks-{{ $task->id }}">
+                <div class="hidden ml-6 subtasks" id="subtasks-{{ $task->id }}">
                     @foreach($task->subtasks as $subtask)
                         <div class="mb-1 subtask-item {{ $subtask->completed ? 'opacity-50' : '' }}">
                             <input type="checkbox" class="subtask-checkbox" data-id="{{ $subtask->id }}" {{ $subtask->completed ? 'checked' : '' }}>
@@ -94,8 +94,8 @@
 
                             <!-- Upcoming -->
                             <div class="mb-6">
-                                <button class="category-toggle font-medium text-gray-700 mb-2 flex items-center" data-category="upcoming">
-                                    <span class="arrow mr-2">▼</span> Upcoming ({{ $upcomingCount }})
+                                <button class="flex items-center mb-2 font-medium text-gray-700 category-toggle" data-category="upcoming">
+                                    <span class="mr-2 arrow">▼</span> Upcoming ({{ $upcomingCount }})
                                 </button>
                                 <div class="category-content" id="upcoming-content">
                                     @foreach($upcomingTasks as $task)
@@ -104,24 +104,24 @@
                                                 <input type="checkbox" class="task-checkbox" data-id="{{ $task->id }}" {{ $task->completed ? 'checked' : '' }}>
                                                 <span class="{{ $task->completed ? 'line-through text-gray-500' : '' }} ml-2 flex-1">{{ $task->title }}</span>
                                                 @if($task->subtasks->count() > 0)
-                                                    <button class="subtask-toggle ml-2 text-gray-500" data-task="{{ $task->id }}">
+                                                    <button class="ml-2 text-gray-500 subtask-toggle" data-task="{{ $task->id }}">
                                                         <span class="subtask-arrow">▶</span>
                                                     </button>
                                                 @endif
                                                 <div class="relative ml-2">
-                                                    <button class="task-menu-btn text-gray-500 hover:text-gray-700" data-task="{{ $task->id }}">
+                                                    <button class="text-gray-500 task-menu-btn hover:text-gray-700" data-task="{{ $task->id }}">
                                                         <span class="text-lg">⋮</span>
                                                     </button>
-                        <div class="task-menu hidden absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10" data-task="{{ $task->id }}">
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 details-btn" data-task="{{ $task->id }}">Details</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rename-btn" data-task="{{ $task->id }}">Rename</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="{{ $task->id }}">Duplicate</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="{{ $task->id }}">Add Subtask</button>
-                            <button class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-btn" data-task="{{ $task->id }}">Delete</button>
+                        <div class="absolute right-0 z-10 hidden w-48 mt-1 bg-white border border-gray-200 rounded-md shadow-lg task-menu" data-task="{{ $task->id }}">
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 details-btn" data-task="{{ $task->id }}">Details</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 rename-btn" data-task="{{ $task->id }}">Rename</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="{{ $task->id }}">Duplicate</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="{{ $task->id }}">Add Subtask</button>
+                            <button class="block w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-gray-100 delete-btn" data-task="{{ $task->id }}">Delete</button>
                         </div>
                     </div>
                 </div>
-                <div class="subtasks ml-6 hidden" id="subtasks-{{ $task->id }}">
+                <div class="hidden ml-6 subtasks" id="subtasks-{{ $task->id }}">
                     @foreach($task->subtasks as $subtask)
                         <div class="mb-1">
                             <input type="checkbox" class="subtask-checkbox" data-id="{{ $subtask->id }}" {{ $subtask->completed ? 'checked' : '' }}>
@@ -135,25 +135,25 @@
 </div>
 
                             <!-- Add Task Button -->
-                            <button id="add-task-btn" class="bg-blue-500 text-white px-4 py-2 rounded">+ Add Task or Reminder</button>
+                            <button id="add-task-btn" class="px-4 py-2 text-white bg-blue-500 rounded">+ Add Task or Reminder</button>
                         </div>
 
                         <!-- Right Side: History -->
                         <div class="w-1/2 pl-4">
-                            <h3 class="text-lg font-semibold mb-4">History</h3>
+                            <h3 class="mb-4 text-lg font-semibold">History</h3>
                             @foreach($historyTasks as $task)
                                 <div class="mb-2">
-                                    <span class="line-through text-gray-500">{{ $task->title }}</span>
+                                    <span class="text-gray-500 line-through">{{ $task->title }}</span>
                                 </div>
                             @endforeach
                         </div>
                     </div>
 
                     <!-- Add Task Modal -->
-                    <div id="add-task-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-                        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div id="add-task-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+                        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
                             <div class="mt-3">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Add New Task</h3>
+                                <h3 class="mb-4 text-lg font-medium text-gray-900">Add New Task</h3>
                                 <form action="{{ route('tasks.store') }}" method="POST">
                                     @csrf
                                     <div class="mb-4">
@@ -180,13 +180,13 @@
                                     <div class="mb-4">
                                         <label class="block text-gray-700">Subtasks</label>
                                         <div id="subtasks-container">
-                                            <input type="text" name="subtasks[]" class="w-full px-3 py-2 border rounded mb-2" placeholder="Subtask 1">
+                                            <input type="text" name="subtasks[]" class="w-full px-3 py-2 mb-2 border rounded" placeholder="Subtask 1">
                                         </div>
                                         <button type="button" id="add-subtask-btn" class="text-blue-500">+ Add Subtask</button>
                                     </div>
                                     <div class="flex justify-end">
-                                        <button type="button" id="close-modal" class="mr-3 px-4 py-2 bg-gray-300 rounded">Cancel</button>
-                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Add Task</button>
+                                        <button type="button" id="close-modal" class="px-4 py-2 mr-3 bg-gray-300 rounded">Cancel</button>
+                                        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded">Add Task</button>
                                     </div>
                                 </form>
                             </div>
@@ -194,23 +194,23 @@
                     </div>
 
                     <!-- Confirmation Modal -->
-                    <div id="confirm-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-                        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div id="confirm-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+                        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
                             <div class="mt-3 text-center">
                                 <h3 class="text-lg font-medium text-gray-900">Yakin untuk menyelesaikan tugas ini?</h3>
                                 <div class="flex justify-center mt-4">
-                                    <button id="confirm-no" class="mr-3 px-4 py-2 bg-gray-300 rounded">No</button>
-                                    <button id="confirm-yes" class="px-4 py-2 bg-blue-500 text-white rounded">Yes</button>
+                                    <button id="confirm-no" class="px-4 py-2 mr-3 bg-gray-300 rounded">No</button>
+                                    <button id="confirm-yes" class="px-4 py-2 text-white bg-blue-500 rounded">Yes</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Rename Modal -->
-                    <div id="rename-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-                        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div id="rename-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+                        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
                             <div class="mt-3">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Rename Task</h3>
+                                <h3 class="mb-4 text-lg font-medium text-gray-900">Rename Task</h3>
                                 <form id="rename-form">
                                     @csrf
                                     <input type="hidden" id="rename-task-id">
@@ -219,8 +219,8 @@
                                         <input type="text" id="rename-title" class="w-full px-3 py-2 border rounded" required>
                                     </div>
                                     <div class="flex justify-end">
-                                        <button type="button" id="close-rename-modal" class="mr-3 px-4 py-2 bg-gray-300 rounded">Cancel</button>
-                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Rename</button>
+                                        <button type="button" id="close-rename-modal" class="px-4 py-2 mr-3 bg-gray-300 rounded">Cancel</button>
+                                        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded">Rename</button>
                                     </div>
                                 </form>
                             </div>
@@ -228,10 +228,10 @@
                     </div>
 
                     <!-- Add Subtask Modal -->
-                    <div id="add-subtask-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-                        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div id="add-subtask-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+                        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
                             <div class="mt-3">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Add Subtask</h3>
+                                <h3 class="mb-4 text-lg font-medium text-gray-900">Add Subtask</h3>
                                 <form id="add-subtask-form">
                                     @csrf
                                     <input type="hidden" id="add-subtask-task-id">
@@ -240,8 +240,8 @@
                                         <input type="text" id="subtask-title" class="w-full px-3 py-2 border rounded" required>
                                     </div>
                                     <div class="flex justify-end">
-                                        <button type="button" id="close-add-subtask-modal" class="mr-3 px-4 py-2 bg-gray-300 rounded">Cancel</button>
-                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Add</button>
+                                        <button type="button" id="close-add-subtask-modal" class="px-4 py-2 mr-3 bg-gray-300 rounded">Cancel</button>
+                                        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded">Add</button>
                                     </div>
                                 </form>
                             </div>
@@ -249,45 +249,45 @@
                     </div>
 
                     <!-- Delete Confirmation Modal -->
-                    <div id="delete-confirm-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-                        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div id="delete-confirm-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+                        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
                             <div class="mt-3 text-center">
                                 <h3 class="text-lg font-medium text-gray-900">Are you sure you want to delete this task?</h3>
                                 <div class="flex justify-center mt-4">
-                                    <button id="delete-no" class="mr-3 px-4 py-2 bg-gray-300 rounded">No</button>
-                                    <button id="delete-yes" class="px-4 py-2 bg-red-500 text-white rounded">Yes</button>
+                                    <button id="delete-no" class="px-4 py-2 mr-3 bg-gray-300 rounded">No</button>
+                                    <button id="delete-yes" class="px-4 py-2 text-white bg-red-500 rounded">Yes</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Task Details Modal (Read-Only) -->
-                    <div id="task-details-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-                        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div id="task-details-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+                        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
                             <div class="mt-3">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Task Details</h3>
+                                <h3 class="mb-4 text-lg font-medium text-gray-900">Task Details</h3>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-semibold">Title</label>
+                                    <label class="block font-semibold text-gray-700">Title</label>
                                     <p id="details-title" class="text-gray-900"></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-semibold">Description</label>
+                                    <label class="block font-semibold text-gray-700">Description</label>
                                     <p id="details-description" class="text-gray-900"></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-semibold">Due Date</label>
+                                    <label class="block font-semibold text-gray-700">Due Date</label>
                                     <p id="details-due-date" class="text-gray-900"></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-semibold">Priority</label>
+                                    <label class="block font-semibold text-gray-700">Priority</label>
                                     <p id="details-priority" class="text-gray-900"></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-semibold">Status</label>
+                                    <label class="block font-semibold text-gray-700">Status</label>
                                     <p id="details-completed" class="text-gray-900"></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-semibold">Subtasks</label>
+                                    <label class="block font-semibold text-gray-700">Subtasks</label>
                                     <div id="details-subtasks" class="text-gray-900">
                                         <!-- Subtasks will be populated here -->
                                     </div>
