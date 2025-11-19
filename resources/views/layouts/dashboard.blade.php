@@ -31,7 +31,7 @@
                                         href="{{ url('/home') }}"
                                         class="px-9 py-2 text-white border bg-[#1616b0] hover:bg-[#5e5ec5] rounded-full transition-colors duration-200 ease-out"
                                     >
-                                        view
+                                        Home
                                     </a>
                                 @else
                                     <a
