@@ -73,7 +73,7 @@ class TaskController extends Controller
             }
         }
 
-        return redirect()->route('view')->with('success', 'Task created successfully.');
+        return response()->json(['success' => true, 'task' => $task->load('subtasks')]);
     }
 
     /**

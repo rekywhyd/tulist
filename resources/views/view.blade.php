@@ -3,9 +3,9 @@
         <h1 class="items-center mr-4 text-4xl font-bold text-center text-black font-poppins">View</h1>
 
         <div class="flex flex-row items-center justify-between mx-16 my-6 border-b-2">
-            
+
             <div class="flex">
-            
+
                 <div class="flex items-center gap-20 text-base font-medium font-poppins">
                     <button class="flex items-center py-2 pl-2 pr-8 space-x-10 text-black border-b-2 border-black">
                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M23 4C23 2.34315 21.6569 1 20 1H4C2.34315 1 1 2.34315 1 4V8C1 9.65685 2.34315 11 4 11H20C21.6569 11 23 9.65685 23 8V4ZM21 4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V8C3 8.55228 3.44772 9 4 9H20C20.5523 9 21 8.55228 21 8V4Z" fill="currentColor"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M23 16C23 14.3431 21.6569 13 20 13H4C2.34315 13 1 14.3431 1 16V20C1 21.6569 2.34315 23 4 23H20C21.6569 23 23 21.6569 23 20V16ZM21 16C21 15.4477 20.5523 15 20 15H4C3.44772 15 3 15.4477 3 16V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V16Z" fill="currentColor"></path> </g></svg>
@@ -19,10 +19,19 @@
 
                 </div>
             </div>
-                
+
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Search tasks..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <svg class="absolute right-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+
                 <button id="add-task-btn" class="px-6 py-2 text-sm font-medium font-poppins text-white bg-[#0E213D] shadow-md rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#0E213D] focus:ring-offset-2 transition-transform duration-200 hover:hover:scale-110">
                     + New Task
                 </button>
+            </div>
 
         </div>
 
@@ -714,6 +723,26 @@
         // Close details modal
         document.getElementById('close-details-modal').addEventListener('click', () => {
             document.getElementById('task-details-modal').classList.add('hidden');
+        });
+
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const taskDivs = document.querySelectorAll('.mb-2');
+
+            taskDivs.forEach(taskDiv => {
+                const taskTitle = taskDiv.querySelector('span.flex-1')?.textContent.toLowerCase() || '';
+                const subtaskTitles = Array.from(taskDiv.querySelectorAll('.subtask-item span')).map(span => span.textContent.toLowerCase());
+
+                const matchesTitle = taskTitle.includes(searchTerm);
+                const matchesSubtasks = subtaskTitles.some(title => title.includes(searchTerm));
+
+                if (matchesTitle || matchesSubtasks || searchTerm === '') {
+                    taskDiv.style.display = '';
+                } else {
+                    taskDiv.style.display = 'none';
+                }
+            });
         });
     </script>
 </x-app-layout>

@@ -519,7 +519,6 @@
 
     // Update task arrays when task status changes
     function updateTaskArrays(taskId, completed) {
-        // ... (Logika updateTaskArrays Anda yang sudah ada) ...
         console.log('updateTaskArrays called with taskId:', taskId, 'completed:', completed);
         // Find the task in allTasks and update it
         if (allTasks[taskId]) {
@@ -551,6 +550,49 @@
                 delete completedTasks[taskId];
             }
         }
+    }
+
+    // Function to add new task to UI
+    function addTaskToUI(task) {
+        // Add to allTasks
+        allTasks[task.id] = task;
+
+        // Determine category based on due_date
+        const dueDate = new Date(task.due_date);
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+        if (dueDate.toDateString() === today.toDateString()) {
+            todayTasks[task.id] = task;
+        } else if (dueDate.toDateString() === tomorrow.toDateString()) {
+            // Assuming tomorrowTasks is not defined, but for schedule, we have today, upcoming, completed
+            // For schedule, upcoming includes tomorrow and beyond
+            upcomingTasks[task.id] = task;
+        } else if (dueDate > today) {
+            upcomingTasks[task.id] = task;
+        }
+
+        // Reload tasks to reflect changes
+        loadTasks(selectedDate, currentFilter);
+    }
+
+    // Function to update category counts
+    function updateCategoryCount(category) {
+        const contentDiv = document.getElementById(`${category}-content`);
+        const taskCount = contentDiv ? contentDiv.children.length : 0;
+        const countSpan = document.querySelector(`[data-category="${category}"] .rounded-full`);
+        if (countSpan) {
+            countSpan.textContent = taskCount;
+        }
+    }
+
+    // Function to update all category counts
+    function updateAllCategoryCounts() {
+        updateCategoryCount('today');
+        updateCategoryCount('tomorrow');
+        updateCategoryCount('upcoming');
+        updateCategoryCount('completed');
     }
 
     function displayTasks(tasks, container, showSubtasks = false) {
@@ -734,6 +776,15 @@ document.getElementById('add-task-btn').addEventListener('click', () => {
         // Reset form saat ditutup
         document.querySelector('#add-task-modal form').reset();
         document.getElementById('subtasks-container').innerHTML = '';
+        // Reset Alpine.js priority selection
+        const prioritySelect = document.querySelector('#add-task-modal select[name="priority"]');
+        if (prioritySelect) {
+            prioritySelect.value = '';
+        }
+        const alpineData = document.querySelector('#add-task-modal [x-data]');
+        if (alpineData && alpineData._x_dataStack) {
+            alpineData._x_dataStack[0].selected = null;
+        }
     });
 
     // 2. Perbaikan Add Subtask (di dalam modal Add Task)
@@ -748,6 +799,44 @@ document.getElementById('add-task-btn').addEventListener('click', () => {
         subtaskInput.className = 'w-full px-3 py-2 border rounded-lg mb-2 text-white border-gray-600 bg-[#0C1F3B] focus:ring-blue-500 focus:border-blue-500';
         subtaskInput.placeholder = 'Subtask ' + (subtasksContainer.children.length + 1);
         subtasksContainer.appendChild(subtaskInput);
+    });
+
+    // Handle form submission for adding new task
+    document.querySelector('#add-task-modal form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Add the new task to the UI
+                addTaskToUI(data.task);
+                // Close the modal
+                addTaskModal.classList.add('hidden');
+                // Reset form
+                this.reset();
+                document.getElementById('subtasks-container').innerHTML = '';
+                // Reset Alpine.js priority selection
+                const prioritySelect = document.querySelector('#add-task-modal select[name="priority"]');
+                if (prioritySelect) {
+                    prioritySelect.value = '';
+                }
+                const alpineData = document.querySelector('#add-task-modal [x-data]');
+                if (alpineData && alpineData._x_dataStack) {
+                    alpineData._x_dataStack[0].selected = null;
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
 
     // Task checkbox functionality (menggunakan delegasi untuk elemen yang dimuat secara dinamis)
