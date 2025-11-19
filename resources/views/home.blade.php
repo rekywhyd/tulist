@@ -501,7 +501,7 @@
                                     d="M10,0 C15.5228475,0 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 C4.4771525,20 0,15.5228475 0,10 C0,4.4771525 4.4771525,0 10,0 Z M10,5.47455848 C9.62344222,5.47455848 9.31818182,5.77981887 9.31818182,6.15637666 L9.31818182,6.15637666 L9.318,9.279 L6.19496649,9.27959198 C5.85264123,9.27959198 5.56923944,9.5318733 5.52054097,9.86065607 L5.51314831,9.96141017 C5.51314831,10.3379679 5.81840871,10.6432283 6.19496649,10.6432283 L6.19496649,10.6432283 L9.318,10.643 L9.31818182,13.7664437 C9.31818182,14.1087689 9.57046314,14.3921707 9.89924591,14.4408692 L10,14.4482619 C10.3765578,14.4482619 10.6818182,14.1430015 10.6818182,13.7664437 L10.6818182,13.7664437 L10.681,10.643 L13.8050335,10.6432283 C14.1473588,10.6432283 14.4307606,10.390947 14.479459,10.0621643 L14.4868517,9.96141017 C14.4868517,9.58485238 14.1815913,9.27959198 13.8050335,9.27959198 L13.8050335,9.27959198 L10.681,9.279 L10.6818182,6.15637666 C10.6818182,5.8140514 10.4295369,5.5306496 10.1007541,5.48195113 Z">
                                 </path>
                             </g>
-                        </svg>New task or
+                        </svg>Add task or
                         reminder
                     </button>
                 </div>
@@ -773,105 +773,6 @@
     </div>
 
     <script>
-        // Calendar functionality
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-
-        function generateCalendar(month, year) {
-            const calendarGrid = document.getElementById('calendar-grid');
-            const currentMonthYear = document.getElementById('current-month-year');
-            calendarGrid.innerHTML = '';
-
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const startDate = new Date(firstDay);
-            startDate.setDate(firstDay.getDate() - firstDay.getDay());
-
-            const endDate = new Date(lastDay);
-            endDate.setDate(lastDay.getDate() + (6 - lastDay.getDay()));
-
-            currentMonthYear.textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-            for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
-                const dayDiv = document.createElement('div');
-                dayDiv.className = `text-center py-2 text-sm cursor-pointer hover:bg-blue-100 rounded ${date.getMonth() === month ? 'text-[#132C51]' : 'text-gray-400'}`;
-                dayDiv.textContent = date.getDate();
-                dayDiv.dataset.date = date.toISOString().split('T')[0];
-                dayDiv.addEventListener('click', () => showTasksForDate(dayDiv.dataset.date));
-                calendarGrid.appendChild(dayDiv);
-            }
-        }
-
-        function showTasksForDate(date) {
-            fetch(`/tasks?date=${date}`)
-                .then(response => response.json())
-                .then(tasks => {
-                    const modal = document.getElementById('calendar-task-modal');
-                    const modalTitle = document.getElementById('modal-date-title');
-                    const taskList = document.getElementById('modal-task-list');
-
-                    modalTitle.textContent = `Tasks for ${new Date(date).toLocaleDateString()}`;
-                    taskList.innerHTML = '';
-
-                    if (tasks.length === 0) {
-                        taskList.innerHTML = '<p class="text-white">No tasks for this date.</p>';
-                    } else {
-                        tasks.forEach(task => {
-                            const taskDiv = document.createElement('div');
-                            taskDiv.className = 'bg-[#0C1F3B] p-3 rounded-lg';
-                            taskDiv.innerHTML = `
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h4 class="text-white font-semibold">${task.title}</h4>
-                                        <p class="text-gray-300 text-sm">${task.description || 'No description'}</p>
-                                        <p class="text-gray-400 text-xs">Priority: ${task.priority}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <span class="text-xs text-gray-400">${task.completed ? 'Completed' : 'Pending'}</span>
-                                    </div>
-                                </div>
-                                ${task.subtasks && task.subtasks.length > 0 ? `
-                                    <div class="mt-2">
-                                        <h5 class="text-white text-sm font-semibold">Subtasks:</h5>
-                                        <ul class="text-gray-300 text-sm">
-                                            ${task.subtasks.map(subtask => `<li class="${subtask.completed ? 'line-through' : ''}">${subtask.title}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                ` : ''}
-                            `;
-                            taskList.appendChild(taskDiv);
-                        });
-                    }
-
-                    modal.classList.remove('hidden');
-                });
-        }
-
-        document.getElementById('prev-month-home').addEventListener('click', () => {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            generateCalendar(currentMonth, currentYear);
-        });
-
-        document.getElementById('next-month-home').addEventListener('click', () => {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            generateCalendar(currentMonth, currentYear);
-        });
-
-        document.getElementById('close-calendar-modal').addEventListener('click', () => {
-            document.getElementById('calendar-task-modal').classList.add('hidden');
-        });
-
-        // Initialize calendar
-        generateCalendar(currentMonth, currentYear);
-
         // Modal functionality
         const addTaskBtn = document.getElementById('add-task-btn');
         const addTaskModal = document.getElementById('add-task-modal');
