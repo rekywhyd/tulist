@@ -12,9 +12,14 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+
+        if ($request->has('date')) {
+            $tasks = $user->tasks()->with('subtasks')->where('due_date', $request->date)->get();
+            return response()->json($tasks);
+        }
 
         $tasks = $user->tasks()->with('subtasks')->get();
 

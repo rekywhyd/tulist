@@ -773,6 +773,105 @@
     </div>
 
     <script>
+        // Calendar functionality
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        function generateCalendar(month, year) {
+            const calendarGrid = document.getElementById('calendar-grid');
+            const currentMonthYear = document.getElementById('current-month-year');
+            calendarGrid.innerHTML = '';
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(firstDay.getDate() - firstDay.getDay());
+
+            const endDate = new Date(lastDay);
+            endDate.setDate(lastDay.getDate() + (6 - lastDay.getDay()));
+
+            currentMonthYear.textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+            for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = `text-center py-2 text-sm cursor-pointer hover:bg-blue-100 rounded ${date.getMonth() === month ? 'text-[#132C51]' : 'text-gray-400'}`;
+                dayDiv.textContent = date.getDate();
+                dayDiv.dataset.date = date.toISOString().split('T')[0];
+                dayDiv.addEventListener('click', () => showTasksForDate(dayDiv.dataset.date));
+                calendarGrid.appendChild(dayDiv);
+            }
+        }
+
+        function showTasksForDate(date) {
+            fetch(`/tasks?date=${date}`)
+                .then(response => response.json())
+                .then(tasks => {
+                    const modal = document.getElementById('calendar-task-modal');
+                    const modalTitle = document.getElementById('modal-date-title');
+                    const taskList = document.getElementById('modal-task-list');
+
+                    modalTitle.textContent = `Tasks for ${new Date(date).toLocaleDateString()}`;
+                    taskList.innerHTML = '';
+
+                    if (tasks.length === 0) {
+                        taskList.innerHTML = '<p class="text-white">No tasks for this date.</p>';
+                    } else {
+                        tasks.forEach(task => {
+                            const taskDiv = document.createElement('div');
+                            taskDiv.className = 'bg-[#0C1F3B] p-3 rounded-lg';
+                            taskDiv.innerHTML = `
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-white font-semibold">${task.title}</h4>
+                                        <p class="text-gray-300 text-sm">${task.description || 'No description'}</p>
+                                        <p class="text-gray-400 text-xs">Priority: ${task.priority}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-xs text-gray-400">${task.completed ? 'Completed' : 'Pending'}</span>
+                                    </div>
+                                </div>
+                                ${task.subtasks && task.subtasks.length > 0 ? `
+                                    <div class="mt-2">
+                                        <h5 class="text-white text-sm font-semibold">Subtasks:</h5>
+                                        <ul class="text-gray-300 text-sm">
+                                            ${task.subtasks.map(subtask => `<li class="${subtask.completed ? 'line-through' : ''}">${subtask.title}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                ` : ''}
+                            `;
+                            taskList.appendChild(taskDiv);
+                        });
+                    }
+
+                    modal.classList.remove('hidden');
+                });
+        }
+
+        document.getElementById('prev-month-home').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('next-month-home').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('close-calendar-modal').addEventListener('click', () => {
+            document.getElementById('calendar-task-modal').classList.add('hidden');
+        });
+
+        // Initialize calendar
+        generateCalendar(currentMonth, currentYear);
+
         // Modal functionality
         const addTaskBtn = document.getElementById('add-task-btn');
         const addTaskModal = document.getElementById('add-task-modal');
