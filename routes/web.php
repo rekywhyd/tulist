@@ -40,6 +40,8 @@ Route::get('/home', function () {
 })->middleware(['auth', 'verified'])->name('home');
 
 Route::get('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])->middleware(['auth', 'verified'])->name('schedule');
+Route::post('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])->middleware(['auth', 'verified'])->name('schedule');
+
 
 Route::get('/help', [PageController::class, 'help'])->name('help')->middleware('auth');
 Route::get('/notifications', [PageController::class, 'notifications'])->name('notifications')->middleware('auth');

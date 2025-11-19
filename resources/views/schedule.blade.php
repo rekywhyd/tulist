@@ -7,25 +7,32 @@
             <div class="p-6 mt-8 mb-8 bg-white shadow-xl rounded-xl font-poppins">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
-                        <h1 class="text-2xl font-bold text-[#1C427A]">{{ strtoupper(\Carbon\Carbon::create($year, $month)->format('F Y')) }}</h1>
+                        <h1 class="text-2xl font-bold text-[#1C427A]">
+                            {{ strtoupper(\Carbon\Carbon::create($year, $month)->format('F Y')) }}</h1>
                         <div class="flex space-x-2">
-                            <button id="prev-month" class="p-2 transition-transform duration-200 bg-gray-100 rounded-xl hover:hover:scale-110 hover:bg-gray-200">
+                            <button id="prev-month"
+                                class="p-2 transition-transform duration-200 bg-gray-100 rounded-xl hover:hover:scale-110 hover:bg-gray-200">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7"></path>
                                 </svg>
                             </button>
-                            <button id="next-month" class="p-2 transition-transform duration-200 bg-gray-100 rounded-xl hover:hover:scale-110 hover:bg-gray-200">
+                            <button id="next-month"
+                                class="p-2 transition-transform duration-200 bg-gray-100 rounded-xl hover:hover:scale-110 hover:bg-gray-200">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7"></path>
                                 </svg>
                             </button>
                         </div>
                     </div>
                     <div class="flex items-center space-x-3 text-sm">
-                        <button id="toggle-view" class="px-4 py-2 text-white transition-transform duration-200 bg-blue-500 hover:hover:scale-110 rounded-3xl hover:bg-blue-600">
+                        <button id="toggle-view"
+                            class="px-4 py-2 text-white transition-transform duration-200 bg-blue-800 hover:hover:scale-110 rounded-3xl">
                             <span id="view-text">Calendar View</span>
                         </button>
-                        <button id="quick-add-task" class="px-4 py-2 text-white transition-transform duration-200 bg-green-500 hover:hover:scale-110 rounded-3xl hover:bg-green-600">
+                        <button id="add-task-btn"
+                            class="px-4 py-2 text-white transition-transform duration-200 bg-[#0E213D] hover:hover:scale-110 rounded-3xl">
                             + Add Task
                         </button>
                     </div>
@@ -37,7 +44,7 @@
                 <!-- Calendar Grid View -->
                 <div id="calendar-view" class="w-[60%] p-6 bg-white shadow-xl rounded-xl">
                     <div class="grid grid-cols-7 gap-2 mb-4">
-                        @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
+                        @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
                             <div class="py-2 font-semibold text-center text-[#1C427A]">{{ $day }}</div>
                         @endforeach
                     </div>
@@ -63,22 +70,23 @@
                                 $totalTasks = $incompleteTasksOnDate->count();
                             @endphp
                             <div class="min-h-[100px] border rounded-lg p-2 {{ $isCurrentMonth ? 'bg-white' : 'bg-gray-50' }} {{ $isToday ? 'ring-2 ring-blue-500' : '' }} cursor-pointer hover:bg-gray-50 transition-colors date-cell"
-                                 data-date="{{ $dateKey }}">
-                                <div class="text-sm font-medium {{ $isCurrentMonth ? 'text-gray-900' : 'text-gray-400' }}">
+                                data-date="{{ $dateKey }}">
+                                <div
+                                    class="text-sm font-medium {{ $isCurrentMonth ? 'text-gray-900' : 'text-gray-400' }}">
                                     {{ $date->day }}
                                 </div>
-                                @if($totalTasks > 0)
+                                @if ($totalTasks > 0)
                                     <div class="mt-1 space-y-1">
-                                        @if($urgentCount > 0)
+                                        @if ($urgentCount > 0)
                                             <div class="inline-block w-2 h-2 bg-red-500 rounded-full"></div>
                                         @endif
-                                        @if($highCount > 0)
+                                        @if ($highCount > 0)
                                             <div class="inline-block w-2 h-2 bg-yellow-500 rounded-full"></div>
                                         @endif
-                                        @if($normalCount > 0)
+                                        @if ($normalCount > 0)
                                             <div class="inline-block w-2 h-2 bg-blue-500 rounded-full"></div>
                                         @endif
-                                        @if($lowCount > 0)
+                                        @if ($lowCount > 0)
                                             <div class="inline-block w-2 h-2 bg-green-500 rounded-full"></div>
                                         @endif
                                         <div class="mt-1 text-xs text-gray-500">{{ $totalTasks }}</div>
@@ -89,15 +97,49 @@
                     </div>
                 </div>
 
+                <!-- List View (Hidden by default) -->
+                <div id="list-view" class="hidden w-[60%] p-6 bg-white shadow-xl rounded-xl">
+                    <h2 class="mb-4 text-2xl font-bold text-[#1C427A]">All Tasks</h2>
+                    <div class="space-y-3">
+                        @foreach ($allTasks as $task)
+                            <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 mr-3 rounded-full task-checkbox accent-blue-500"
+                                    data-id="{{ $task->id }}" {{ $task->completed ? 'checked' : '' }}>
+                                <div class="flex-1">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="w-3 h-3 rounded-full mr-2 {{ $task->priority == 'Urgent' ? 'bg-red-500' : ($task->priority == 'High' ? 'bg-yellow-500' : ($task->priority == 'Normal' ? 'bg-blue-500' : 'bg-green-500')) }}">
+                                        </div>
+                                        <span
+                                            class="{{ $task->completed ? 'line-through text-gray-500' : '' }}">{{ $task->title }}</span>
+                                    </div>
+                                    @if ($task->due_date)
+                                        <div class="text-sm text-gray-500">{{ $task->due_date->format('M d, Y') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
                 <!-- Task List Panel -->
                 <div class="w-[37%] p-6 bg-white shadow-xl rounded-xl">
                     <div class="mb-4">
                         <h2 class="mb-4 text-2xl font-bold text-[#1C427A]">Tasks</h2>
                         <div class="flex mb-4 space-x-2">
-                            <button class="px-3 py-1 text-sm font-medium text-blue-800 transition-transform duration-200 bg-blue-100 rounded-full hover:hover:scale-110 task-filter" data-filter="all">All Tasks</button>
-                            <button class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter" data-filter="today">Today</button>
-                            <button class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter" data-filter="upcoming">Upcoming</button>
-                            <button class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter" data-filter="completed">Completed</button>
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-blue-800 transition-transform duration-200 bg-blue-100 rounded-full hover:hover:scale-110 task-filter"
+                                data-filter="all">All Tasks</button>
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter"
+                                data-filter="today">Today</button>
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter"
+                                data-filter="upcoming">Upcoming</button>
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-gray-800 transition-transform duration-200 bg-gray-100 rounded-full hover:hover:scale-110 task-filter"
+                                data-filter="completed">Completed</button>
                         </div>
                     </div>
 
@@ -106,575 +148,714 @@
                     </div>
                 </div>
             </div>
-
-            <!-- List View (Hidden by default) -->
-            <div id="list-view" class="hidden p-6 mt-6 bg-white shadow-xl rounded-3xl">
-                <h2 class="mb-4 text-xl font-bold text-gray-800">All Tasks</h2>
-                <div class="space-y-3">
-                    @foreach($allTasks as $task)
-                        <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
-                            <input type="checkbox" class="w-5 h-5 mr-3 rounded-full task-checkbox accent-blue-500" data-id="{{ $task->id }}" {{ $task->completed ? 'checked' : '' }}>
-                            <div class="flex-1">
-                                <div class="flex items-center">
-                                    <div class="w-3 h-3 rounded-full mr-2 {{ $task->priority == 'Urgent' ? 'bg-red-500' : ($task->priority == 'High' ? 'bg-yellow-500' : ($task->priority == 'Normal' ? 'bg-blue-500' : 'bg-green-500')) }}"></div>
-                                    <span class="{{ $task->completed ? 'line-through text-gray-500' : '' }}">{{ $task->title }}</span>
-                                </div>
-                                @if($task->due_date)
-                                    <div class="text-sm text-gray-500">{{ $task->due_date->format('M d, Y') }}</div>
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
         </div>
     </div>
 
     {{-- Include existing modals from view --}}
-    <div id="add-task-modal" class="fixed inset-0 z-20 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-80">
-        <div class="relative p-5 mx-auto bg-white border shadow-xl top-2 rounded-xl w-80">
+    <div id="add-task-modal"
+        class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 font-poppins bg-opacity-80">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 bg-[#132C51] shadow-xl rounded-xl w-[600px]">
             <div class="mt-3">
-                <h3 class="mb-4 text-xl font-medium text-black">Add New Task</h3>
+                <h3 class="mb-8 text-2xl font-semibold text-white">New Task</h3>
                 <form action="{{ route('tasks.store') }}" method="POST">
                     @csrf
-                    <div class="mb-2">
-                        <label class="block text-gray-800">Title</label>
-                        <input type="text" name="title" class="w-full px-3 py-2 border rounded-lg" required>
+                    <div class="mb-5">
+                        <input placeholder="Title Name" type="text" name="title"
+                            class="w-full px-3 py-2 border text-white border-gray-600 bg-[#0C1F3B] rounded-lg" required>
                     </div>
-                    <div class="mb-2">
-                        <label class="block text-gray-800">Description</label>
-                        <textarea name="description" class="w-full px-3 py-2 border rounded-lg"></textarea>
+                    <div class="mb-4">
+                        <textarea placeholder="Add Description" name="description"
+                            class="w-full bg-[#0C1F3B] px-3 text-white py-2 border-gray-600 border rounded-lg"></textarea>
                     </div>
-                    <div class="mb-2">
-                        <label class="block text-gray-800">Due Date</label>
-                        <input type="date" name="due_date" class="w-full px-3 py-2 border rounded-lg" required value="{{ date('Y-m-d') }}">
-                    </div>
-                    <div class="mb-2">
-                        <label class="block text-gray-800">Priority</label>
-                        <select name="priority" class="w-full px-3 py-2 border rounded-lg" required>
-                            <option value="Urgent">Urgent</option>
-                            <option value="High">High</option>
-                            <option value="Normal">Normal</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </div>
-                    <div class="mb-2">
-                        <label class="block text-gray-700">Subtasks (Optional)</label>
-                        <div id="subtasks-container">
-                            <!-- No default subtask input -->
+
+                    {{-- 2 in 1 --}}
+                    <div class="flex flex-wrap justify-center gap-2 mb-5">
+
+                        {{-- DATE --}}
+                        <input type="date" name="due_date"
+                            class="w-[49%] text-white bg-[#0C1F3B] border-gray-600 px-3 py-2 border rounded-lg [color-scheme:dark]"
+                            required value="{{ date('Y-m-d') }}">
+
+                        {{-- PRIORITY --}}
+                        <div x-data="{ open: false, selected: null }" class="relative w-[49%]">
+
+                            <button @click="open = !open" type="button"
+                                class="flex items-center w-full gap-2 px-3 py-2 text-left bg-[#0C1F3B] border border-gray-300 rounded-lg"
+                                :class="{
+                                    'bg-red-50 border-red-300 text-red-700': selected === 'Urgent',
+                                    'bg-yellow-50 border-yellow-300 text-yellow-700': selected === 'High',
+                                    'bg-blue-50 border-blue-300 text-blue-700': selected === 'Normal',
+                                    'bg-green-50 border-green-300 text-green-700': selected === 'Low',
+                                    'text-white border-gray-600': selected === null /* Warna teks default saat null */
+                                }">
+
+                                <svg class="w-5 h-5"
+                                    :class="{
+                                        'text-red-500': selected === 'Urgent',
+                                        'text-yellow-500': selected === 'High',
+                                        'text-blue-500': selected === 'Normal',
+                                        'text-green-500': selected === 'Low',
+                                        'text-gray-400': selected === null
+                                    }"
+                                    fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                            fill="currentColor"></path>
+                                    </g>
+                                </svg>
+
+                                <span x-text="selected || 'Priority'" class="flex-1"></span>
+
+
+                            </button>
+
+                            <div x-show="open" @click.outside="open = false" x-transition
+                                class="absolute z-10 w-full p-1 mt-1 bg-[#EAF0FA] rounded-xl shadow-xl">
+
+                                <div @click="selected = 'Urgent'; open = false"
+                                    class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                    <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                fill="currentColor"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="font-semibold text-black">Urgent</span>
+                                </div>
+
+                                <div @click="selected = 'High'; open = false"
+                                    class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                    <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                fill="currentColor"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="font-semibold text-black">High</span>
+                                </div>
+
+                                <div @click="selected = 'Normal'; open = false"
+                                    class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                    <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                fill="currentColor"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="font-semibold text-black">Normal</span>
+                                </div>
+
+                                <div @click="selected = 'Low'; open = false"
+                                    class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                fill="currentColor"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="font-semibold text-gray-800">Low</span>
+                                </div>
+
+                                <div @click="selected = null; open = false"
+                                    class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                fill="currentColor"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="font-semibold text-black">Clear</span>
+                                </div>
+                            </div>
+
+                            <select name="priority" x-model="selected" class="hidden">
+                                <option value="">Priority</option>
+                                <option value="Urgent">Urgent</option>
+                                <option value="High">High</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Low">Low</option>
+                            </select>
                         </div>
-                        <button type="button" id="add-subtask-btn" class="text-[#1C427A]">+ Add Subtask</button>
                     </div>
-                    <div class="flex justify-end">
-                        <button type="button" id="close-modal" class="px-4 py-2 mr-3 bg-gray-200 rounded">Cancel</button>
-                        <button type="submit" class="px-4 py-2 text-white bg-[#0E213D] rounded">Add Task</button>
+
+
+                    {{-- Add Task --}}
+                    <div class="mb-5">
+                        <div id="subtasks-container"></div>
+                        <button type="button" id="add-subtask-btn"
+                            class="text-white transition-transform duration-200 border border-gray-600 rounded-lg bg-[#0C1F3B] w-full hover:hover:scale-105 py-1 px-3">+
+                            Add Subtask</button>
+                    </div>
+                    <div class="flex justify-center gap-6 mt-8 font-medium">
+                        <button type="button" id="close-modal"
+                            class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 rounded-3xl hover:hover:scale-95">Cancel</button>
+                        <button type="submit"
+                            class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Save</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="confirm-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
-        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+    <div id="confirm-modal"
+        class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50 font-poppins">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 mx-auto bg-[#132C51] rounded-xl shadow-xl w-[500px]">
             <div class="mt-3 text-center">
-                <h3 class="text-lg font-medium text-gray-900">Yakin untuk menyelesaikan tugas ini?</h3>
-                <div class="flex justify-center mt-4">
-                    <button id="confirm-no" class="px-4 py-2 mr-3 bg-gray-300 rounded">No</button>
-                    <button id="confirm-yes" class="px-4 py-2 text-white bg-blue-500 rounded">Yes</button>
+                <h3 class="text-lg font-semibold text-white">Are you sure you want to complete this task?</h3>
+                <div class="flex justify-center gap-6 mt-6 font-medium">
+                    <button id="confirm-no"
+                        class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 hover:hover:scale-95 rounded-3xl">No</button>
+                    <button id="confirm-yes"
+                        class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Yes</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="rename-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
-        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+    <div id="rename-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50 font-poppins">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 mx-auto rounded-xl shadow-xl w-96 bg-[#132C51]">
             <div class="mt-3">
-                <h3 class="mb-4 text-lg font-medium text-gray-900">Rename Task</h3>
+                <h3 class="mb-4 text-lg font-semibold text-white">Rename Task</h3>
                 <form id="rename-form">
                     @csrf
                     <input type="hidden" id="rename-task-id">
                     <div class="mb-4">
-                        <label class="block text-gray-700">New Title</label>
-                        <input type="text" id="rename-title" class="w-full px-3 py-2 border rounded" required>
+                        <input type="text" id="rename-title" class="w-full px-3 py-2 text-white border border-gray-600 rounded-xl mb-2 bg-[#0C1F3B]" required>
                     </div>
-                    <div class="flex justify-end">
-                        <button type="button" id="close-rename-modal" class="px-4 py-2 mr-3 bg-gray-300 rounded">Cancel</button>
-                        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded">Rename</button>
+                    <div class="flex justify-center gap-6 mt-6 font-medium">
+                        <button type="button" id="close-rename-modal" class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 hover:hover:scale-95 rounded-3xl">Cancel</button>
+                        <button type="submit" class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Rename</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="add-subtask-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
-        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+    <div id="add-subtask-modal"
+        class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50 font-poppins">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 mx-auto bg-[#132C51] rounded-xl shadow-xl w-[400px]">
             <div class="mt-3">
-                <h3 class="mb-4 text-lg font-medium text-gray-900">Add Subtask</h3>
+                <h3 class="mb-4 text-lg font-semibold text-white">Add Subtask</h3>
                 <form id="add-subtask-form">
                     @csrf
                     <input type="hidden" id="add-subtask-task-id">
                     <div class="mb-4">
-                        <label class="block text-gray-700">Subtask Title</label>
-                        <input type="text" id="subtask-title" class="w-full px-3 py-2 border rounded" required>
+                        <input type="text" id="subtask-title"
+                            class="w-full px-3 py-2 text-white border border-gray-600 rounded-xl mb-2 bg-[#0C1F3B]"
+                            required>
                     </div>
-                    <div class="flex justify-end">
-                        <button type="button" id="close-add-subtask-modal" class="px-4 py-2 mr-3 bg-gray-300 rounded">Cancel</button>
-                        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded">Add</button>
+                    <div class="flex justify-center gap-6 mt-4 font-medium">
+                        <button type="button" id="close-add-subtask-modal"
+                            class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 hover:hover:scale-95 rounded-3xl">Cancel</button>
+                        <button type="submit"
+                            class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Add</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="delete-confirm-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
-        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+    <div id="delete-confirm-modal"
+        class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+        <div
+            class="absolute p-5 mx-auto -translate-x-1/2 -translate-y-1/2 bg-[#132C51] shadow-xl top-1/2 left-1/2 rounded-xl w-[500px]">
             <div class="mt-3 text-center">
-                <h3 class="text-lg font-medium text-gray-900">Are you sure you want to delete this task?</h3>
-                <div class="flex justify-center mt-4">
-                    <button id="delete-no" class="px-4 py-2 mr-3 bg-gray-300 rounded">No</button>
-                    <button id="delete-yes" class="px-4 py-2 text-white bg-red-500 rounded">Yes</button>
+                <h3 class="mb-4 text-lg font-semibold text-white">Are you sure you want to delete this task?</h3>
+                <div class="flex justify-center gap-6 mt-6 font-medium">
+                    <button id="delete-no"
+                        class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 hover:hover:scale-95 rounded-3xl">No</button>
+                    <button id="delete-yes"
+                        class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Yes</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="task-details-modal" class="fixed inset-0 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
-        <div class="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+    <div id="task-details-modal"
+        class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+        <div
+            class="absolute p-5 mx-auto -translate-x-1/2 -translate-y-1/2 bg-[#132C51] shadow-xl top-1/2 left-1/2 rounded-xl w-96">
             <div class="mt-3">
-                <h3 class="mb-4 text-lg font-medium text-gray-900">Task Details</h3>
+                <h3 class="mb-4 text-lg font-semibold text-white">Task Details</h3>
                 <div class="mb-4">
-                    <label class="block font-semibold text-gray-700">Title</label>
-                    <p id="details-title" class="text-gray-900"></p>
+                    <label class="block font-semibold text-gray-100">Title</label>
+                    <p id="details-title" class="text-gray-200"></p>
                 </div>
                 <div class="mb-4">
-                    <label class="block font-semibold text-gray-700">Description</label>
-                    <p id="details-description" class="text-gray-900"></p>
+                    <label class="block font-semibold text-gray-100">Description</label>
+                    <p id="details-description" class="text-gray-200"></p>
                 </div>
                 <div class="mb-4">
-                    <label class="block font-semibold text-gray-700">Due Date</label>
-                    <p id="details-due-date" class="text-gray-900"></p>
+                    <label class="block font-semibold text-gray-100">Due Date</label>
+                    <p id="details-due-date" class="text-gray-200"></p>
                 </div>
                 <div class="mb-4">
-                    <label class="block font-semibold text-gray-700">Priority</label>
-                    <p id="details-priority" class="text-gray-900"></p>
+    <label class="block font-semibold text-gray-100">Priority</label>
+    <p id="details-priority" class="font-semibold text-gray-200"></p> 
+</div>
+                <div class="mb-4">
+                    <label class="block font-semibold text-gray-100">Status</label>
+                    <p id="details-completed" class="text-gray-200"></p>
                 </div>
                 <div class="mb-4">
-                    <label class="block font-semibold text-gray-700">Status</label>
-                    <p id="details-completed" class="text-gray-900"></p>
+                    <label class="block font-semibold text-gray-100">Subtasks</label>
+                    <div id="details-subtasks" class="text-gray-200">
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label class="block font-semibold text-gray-700">Subtasks</label>
-                    <div id="details-subtasks" class="text-gray-900">
-                        </div>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" id="close-details-modal" class="px-4 py-2 bg-gray-300 rounded">Close</button>
+                <div class="flex justify-center mt-6 font-medium">
+                    <button type="button" id="close-details-modal"
+                        class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 hover:hover:scale-110 rounded-3xl">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentMonth = {{ $month }};
-        let currentYear = {{ $year }};
-        let selectedDate = null;
-        let currentFilter = 'all';
+    let currentMonth = {{ $month }};
+    let currentYear = {{ $year }};
+    let selectedDate = null;
+    let currentFilter = 'all';
 
-        // Priority colors
-        const priorityColors = {
-            'Urgent': '#DC2626',
-            'High': '#F59E0B',
-            'Normal': '#3B82F6',
-            'Low': '#10B981'
-        };
+    // Priority colors
+    const priorityColors = {
+        'Urgent': '#DC2626',
+        'High': '#F59E0B',
+        'Normal': '#3B82F6',
+        'Low': '#10B981'
+    };
 
-        // Global task objects (keyed by task ID for better mapping)
-        let allTasks = @json($allTasks->keyBy('id'));
-        let todayTasks = @json($todayTasks->keyBy('id'));
-        let upcomingTasks = @json($upcomingTasks->keyBy('id'));
-        let completedTasks = @json($completedTasks->keyBy('id'));
+    // Global task objects (keyed by task ID for better mapping)
+    let allTasks = @json($allTasks->keyBy('id'));
+    let todayTasks = @json($todayTasks->keyBy('id'));
+    let upcomingTasks = @json($upcomingTasks->keyBy('id'));
+    let completedTasks = @json($completedTasks->keyBy('id'));
 
-        // Debugging logs
-        console.log('All Tasks:', allTasks);
-        console.log('Today Tasks:', todayTasks);
-        console.log('Upcoming Tasks:', upcomingTasks);
-        console.log('Completed Tasks:', completedTasks);
+    // Debugging logs
+    console.log('All Tasks:', allTasks);
+    console.log('Today Tasks:', todayTasks);
+    console.log('Upcoming Tasks:', upcomingTasks);
+    console.log('Completed Tasks:', completedTasks);
 
-        // Load tasks for selected date or filter
-        function loadTasks(date = null, filter = 'all') {
-            console.log('loadTasks called with date:', date, 'filter:', filter);
-            const taskList = document.getElementById('task-list');
-            let tasks = [];
-            let showSubtasks = false;
+    // Load tasks for selected date or filter
+    function loadTasks(date = null, filter = 'all') {
+        console.log('loadTasks called with date:', date, 'filter:', filter);
+        const taskList = document.getElementById('task-list');
+        let tasks = [];
+        let showSubtasks = false;
 
-            if (date) {
-                // Load tasks for specific date with error handling
-                fetch(`/tasks?date=${date}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Fetched tasks for date', date, ':', data);
-                        displayTasks(data, taskList, false);
-                    })
-                    .catch(error => {
-                        console.error('Error loading tasks for date', date, ':', error);
-                        taskList.innerHTML = '<div class="p-3 text-red-500">Error loading tasks. Please try again.</div>';
-                    });
-            } else {
-                // Load tasks based on filter
-                switch(filter) {
-                    case 'today':
-                        tasks = Object.values(todayTasks);
-                        showSubtasks = true;
-                        break;
-                    case 'upcoming':
-                        tasks = Object.values(upcomingTasks);
-                        showSubtasks = true;
-                        break;
-                    case 'completed':
-                        tasks = Object.values(completedTasks);
-                        showSubtasks = false;
-                        break;
-                    default:
-                        // All Tasks
-                        tasks = Object.values(allTasks);
-                        showSubtasks = false;
-                }
-                console.log('Displaying tasks for filter', filter, ':', tasks);
-                displayTasks(tasks, taskList, showSubtasks);
+        if (date) {
+            // Load tasks for specific date with error handling
+            fetch(`/tasks?date=${date}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Fetched tasks for date', date, ':', data);
+                    displayTasks(data, taskList, true); // Menampilkan subtask untuk tampilan tanggal spesifik
+                })
+                .catch(error => {
+                    console.error('Error loading tasks for date', date, ':', error);
+                    taskList.innerHTML =
+                        '<div class="p-3 text-[#132C51] text-center">Tidak ada tugas pada tanggal ini.</div>';
+                });
+        } else {
+            // Load tasks based on filter
+            switch (filter) {
+                case 'today':
+                    tasks = Object.values(todayTasks);
+                    showSubtasks = true;
+                    break;
+                case 'upcoming':
+                    tasks = Object.values(upcomingTasks);
+                    showSubtasks = true;
+                    break;
+                case 'completed':
+                    tasks = Object.values(completedTasks);
+                    showSubtasks = false;
+                    break;
+                default:
+                    // All Tasks
+                    tasks = Object.values(allTasks);
+                    showSubtasks = false;
             }
+            console.log('Displaying tasks for filter', filter, ':', tasks);
+            displayTasks(tasks, taskList, showSubtasks);
         }
+    }
 
-        // Update task arrays when task status changes
-        function updateTaskArrays(taskId, completed) {
-            console.log('updateTaskArrays called with taskId:', taskId, 'completed:', completed);
-            // Find the task in allTasks and update it
-            if (allTasks[taskId]) {
-                allTasks[taskId].completed = completed;
+    // Update task arrays when task status changes
+    function updateTaskArrays(taskId, completed) {
+        // ... (Logika updateTaskArrays Anda yang sudah ada) ...
+        console.log('updateTaskArrays called with taskId:', taskId, 'completed:', completed);
+        // Find the task in allTasks and update it
+        if (allTasks[taskId]) {
+            allTasks[taskId].completed = completed;
 
-                // Update todayTasks
-                if (todayTasks[taskId]) {
-                    if (completed) {
-                        delete todayTasks[taskId];
-                    }
-                } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date).toDateString() === new Date().toDateString()) {
-                    todayTasks[taskId] = allTasks[taskId];
-                }
-
-                // Update upcomingTasks
-                if (upcomingTasks[taskId]) {
-                    if (completed) {
-                        delete upcomingTasks[taskId];
-                    }
-                } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date) > new Date()) {
-                    upcomingTasks[taskId] = allTasks[taskId];
-                }
-
-                // Update completedTasks
+            // Update todayTasks
+            if (todayTasks[taskId]) {
                 if (completed) {
-                    completedTasks[taskId] = allTasks[taskId];
-                } else {
-                    delete completedTasks[taskId];
+                    delete todayTasks[taskId];
                 }
+            } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date).toDateString() ===
+                new Date().toDateString()) {
+                todayTasks[taskId] = allTasks[taskId];
             }
-            console.log('Updated task arrays:', { allTasks, todayTasks, upcomingTasks, completedTasks });
+
+            // Update upcomingTasks
+            if (upcomingTasks[taskId]) {
+                if (completed) {
+                    delete upcomingTasks[taskId];
+                }
+            } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date) > new Date()) {
+                upcomingTasks[taskId] = allTasks[taskId];
+            }
+
+            // Update completedTasks
+            if (completed) {
+                completedTasks[taskId] = allTasks[taskId];
+            } else {
+                delete completedTasks[taskId];
+            }
+        }
+    }
+
+    function displayTasks(tasks, container, showSubtasks = false) {
+        console.log('displayTasks called with tasks:', tasks, 'showSubtasks:', showSubtasks);
+        container.innerHTML = '';
+
+        if (tasks.length === 0) {
+             container.innerHTML =
+                        '<div class="p-3 text-[#132C51] text-center">Tidak ada tugas dalam kategori ini.</div>';
+            return;
         }
 
-        function displayTasks(tasks, container, showSubtasks = false) {
-            console.log('displayTasks called with tasks:', tasks, 'showSubtasks:', showSubtasks);
-            container.innerHTML = '';
+        // Sort tasks (sesuai logika Anda)
+        const today = new Date().toDateString();
+        const priorityOrder = {
+            'Urgent': 1,
+            'High': 2,
+            'Normal': 3,
+            'Low': 4
+        };
+        tasks.sort((a, b) => {
+            const aDate = a.due_date ? new Date(a.due_date).toDateString() : null;
+            const bDate = b.due_date ? new Date(b.due_date).toDateString() : null;
+            const aIsToday = aDate === today;
+            const bIsToday = bDate === today;
 
-            // Sort tasks: by date (today's tasks first, then ascending), then by priority (Urgent > High > Normal > Low)
-            const today = new Date().toDateString();
-            const priorityOrder = { 'Urgent': 1, 'High': 2, 'Normal': 3, 'Low': 4 };
-            tasks.sort((a, b) => {
-                const aDate = a.due_date ? new Date(a.due_date).toDateString() : null;
-                const bDate = b.due_date ? new Date(b.due_date).toDateString() : null;
-                const aIsToday = aDate === today;
-                const bIsToday = bDate === today;
+            if (aIsToday && !bIsToday) return -1;
+            if (!aIsToday && bIsToday) return 1;
 
-                // Today's tasks first
-                if (aIsToday && !bIsToday) return -1;
-                if (!aIsToday && bIsToday) return 1;
+            if (aDate && bDate) {
+                const dateDiff = new Date(a.due_date) - new Date(b.due_date);
+                if (dateDiff !== 0) return dateDiff;
+            } else if (aDate) return -1;
+            else if (bDate) return 1;
 
-                // Then sort by date ascending
-                if (aDate && bDate) {
-                    const dateDiff = new Date(a.due_date) - new Date(b.due_date);
-                    if (dateDiff !== 0) return dateDiff;
-                } else if (aDate) return -1;
-                else if (bDate) return 1;
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+        });
 
-                // Same date or no date, sort by priority
-                return priorityOrder[a.priority] - priorityOrder[b.priority];
-            });
+        tasks.forEach(task => {
+            const taskDiv = document.createElement('div');
+            taskDiv.className =
+                'p-3 border rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md';
+            taskDiv.setAttribute('data-task-id', task.id);
 
-            tasks.forEach(task => {
-                const taskDiv = document.createElement('div');
-                taskDiv.className = 'p-3 border rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md';
-                taskDiv.setAttribute('data-task-id', task.id);
+            let subtasksHtml = '';
+            if (showSubtasks && task.subtasks && task.subtasks.length > 0) {
+                subtasksHtml =
+                    '<div class="mt-2 ml-5 subtasks-container"><ul class="space-y-1 text-sm text-gray-600">';
+                task.subtasks.forEach(subtask => {
+                    subtasksHtml += `<li class="subtask-item flex items-center ${subtask.completed ? 'opacity-50' : ''}">
+                        <input type="checkbox" class="w-5 h-5 mr-2 rounded-full subtask-checkbox accent-blue-500" data-id="${subtask.id}" ${subtask.completed ? 'checked' : ''}>
+                        <span class="${subtask.completed ? 'line-through text-gray-400' : ''}">${subtask.title}</span>
+                    </li>`;
+                });
+                subtasksHtml += '</ul></div>';
+            }
 
-                let subtasksHtml = '';
-                if (showSubtasks && task.subtasks && task.subtasks.length > 0) {
-                    subtasksHtml = '<div class="mt-2 ml-5 subtasks-container"><ul class="space-y-1 text-sm text-gray-600">';
-                    task.subtasks.forEach(subtask => {
-                        subtasksHtml += `<li class="subtask-item flex items-center ${subtask.completed ? 'opacity-50' : ''}">
-                            <input type="checkbox" class="w-5 h-5 mr-2 rounded-full subtask-checkbox accent-blue-500" data-id="${subtask.id}" ${subtask.completed ? 'checked' : ''}>
-                            <span class="${subtask.completed ? 'line-through text-gray-400' : ''}">${subtask.title}</span>
-                        </li>`;
-                    });
-                    subtasksHtml += '</ul></div>';
-                }
-
-                taskDiv.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center flex-1">
-                            <input type="checkbox" class="w-5 h-5 mr-3 rounded-full accent-blue-500 task-checkbox" data-id="${task.id}" ${task.completed ? 'checked' : ''}>
-                            <div class="flex-1">
-                                <div class="flex items-center">
-                                    <div class="w-3 h-3 mr-2 rounded-full" style="background-color: ${priorityColors[task.priority]}"></div>
-                                    <span class="${task.completed ? 'line-through text-[#132C51]' : ''} text-lg translate-y-[-2px]">${task.title}</span>
-                                </div>
-                                ${task.due_date ? `<div class="text-sm text-gray-500">${new Date(task.due_date).toLocaleDateString()}</div>` : ''}
+            taskDiv.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center flex-1">
+                        <input type="checkbox" class="w-5 h-5 mr-3 rounded-full accent-blue-500 task-checkbox" data-id="${task.id}" ${task.completed ? 'checked' : ''}>
+                        <div class="flex-1">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 mr-2 rounded-full" style="background-color: ${priorityColors[task.priority]}"></div>
+                                <span class="${task.completed ? 'line-through text-gray-500' : 'text-[#132C51]'} text-lg translate-y-[-2px]">${task.title}</span>
                             </div>
-                        </div>
-                        <div class="relative">
-                            <button class="p-1 rounded task-menu-btn hover:bg-gray-200" data-task="${task.id}">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                                </svg>
-                            </button>
-                            <div class="absolute right-0 z-10 hidden w-48 mt-1 bg-white border rounded-md shadow-lg task-menu" data-task="${task.id}">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rename-btn" data-task="${task.id}">Rename</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="${task.id}">Duplicate</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="${task.id}">Add Subtask</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 details-btn" data-task="${task.id}">Details</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 delete-btn" data-task="${task.id}">Delete</a>
-                            </div>
+                            ${task.due_date ? `<div class="text-sm text-gray-500">${new Date(task.due_date).toLocaleDateString()}</div>` : ''}
                         </div>
                     </div>
-                    ${subtasksHtml}
-                `;
-                container.appendChild(taskDiv);
-            });
+                    <div class="relative">
+                        <button class="p-1 rounded task-menu-btn hover:bg-gray-200" data-task="${task.id}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                            </svg>
+                        </button>
+                        <div class="absolute right-0 z-10 hidden w-48 mt-1 bg-white border rounded-md shadow-lg task-menu" data-task="${task.id}">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rename-btn" data-task="${task.id}">Rename</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="${task.id}">Duplicate</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="${task.id}">Add Subtask</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 details-btn" data-task="${task.id}">Details</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 delete-btn" data-task="${task.id}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                ${subtasksHtml}
+            `;
+            container.appendChild(taskDiv);
+        });
+    }
+
+    // Calendar navigation
+    document.getElementById('prev-month').addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 1) {
+            currentMonth = 12;
+            currentYear--;
         }
+        navigateToMonth(currentYear, currentMonth);
+    });
 
-        // Calendar navigation
-        document.getElementById('prev-month').addEventListener('click', () => {
-            currentMonth--;
-            if (currentMonth < 1) {
-                currentMonth = 12;
-                currentYear--;
-            }
-            navigateToMonth(currentYear, currentMonth);
-        });
-
-        document.getElementById('next-month').addEventListener('click', () => {
-            currentMonth++;
-            if (currentMonth > 12) {
-                currentMonth = 1;
-                currentYear++;
-            }
-            navigateToMonth(currentYear, currentMonth);
-        });
-
-        function navigateToMonth(year, month) {
-            window.location.href = `/schedule?year=${year}&month=${month}`;
+    document.getElementById('next-month').addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 12) {
+            currentMonth = 1;
+            currentYear++;
         }
+        navigateToMonth(currentYear, currentMonth);
+    });
 
-        // Date selection
-        document.querySelectorAll('.date-cell').forEach(cell => {
-            cell.addEventListener('click', () => {
-                selectedDate = cell.dataset.date;
-                document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('bg-blue-100'));
-                cell.classList.add('bg-blue-100');
-                loadTasks(selectedDate);
-            });
+    function navigateToMonth(year, month) {
+        window.location.href = `/schedule?year=${year}&month=${month}`;
+    }
+
+    // Date selection
+    document.querySelectorAll('.date-cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            selectedDate = cell.dataset.date;
+            document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('bg-blue-100'));
+            cell.classList.add('bg-blue-100');
+            loadTasks(selectedDate);
         });
+    });
 
-        // Task filters
-        document.querySelectorAll('.task-filter').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.task-filter').forEach(b => {
-                    b.classList.remove('bg-blue-100', 'text-blue-800');
-                    b.classList.add('bg-gray-100', 'text-gray-800');
-                });
-                button.classList.remove('bg-gray-100', 'text-gray-800');
-                button.classList.add('bg-blue-100', 'text-blue-800');
-                currentFilter = button.dataset.filter;
-                loadTasks(null, currentFilter);
+    // Task filters
+    document.querySelectorAll('.task-filter').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.task-filter').forEach(b => {
+                b.classList.remove('bg-blue-100', 'text-blue-800');
+                b.classList.add('bg-gray-100', 'text-gray-800');
             });
+            button.classList.remove('bg-gray-100', 'text-gray-800');
+            button.classList.add('bg-blue-100', 'text-blue-800');
+            currentFilter = button.dataset.filter;
+            // Menghapus pilihan tanggal saat filter diklik
+            selectedDate = null; 
+            document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('bg-blue-100'));
+            
+            loadTasks(null, currentFilter);
         });
+    });
 
-        // Toggle view
-        document.getElementById('toggle-view').addEventListener('click', () => {
-            const calendarView = document.getElementById('calendar-view');
-            const listView = document.getElementById('list-view');
-            const viewText = document.getElementById('view-text');
+    // Toggle view
+    document.getElementById('toggle-view').addEventListener('click', () => {
+        const calendarView = document.getElementById('calendar-view');
+        const listView = document.getElementById('list-view');
+        const viewText = document.getElementById('view-text');
 
-            if (calendarView.classList.contains('hidden')) {
-                calendarView.classList.remove('hidden');
-                listView.classList.add('hidden');
-                viewText.textContent = 'Calendar View';
+        if (calendarView.classList.contains('hidden')) {
+            calendarView.classList.remove('hidden');
+            listView.classList.add('hidden');
+            viewText.textContent = 'Calendar View';
+        } else {
+            calendarView.classList.add('hidden');
+            listView.classList.remove('hidden');
+            viewText.textContent = 'List View';
+        }
+    });
+
+    // Tombol Add Task (Quick add task)
+document.getElementById('add-task-btn').addEventListener('click', () => {
+    document.getElementById('add-task-modal').classList.remove('hidden');
+});
+
+    // Initialize
+    console.log('Initializing schedule page');
+    loadTasks(null, 'all');
+
+    // ------------------------------------------------
+    // LOGIKA MODAL DAN INTERAKSI TUGAS (DIPERBARUI)
+    // ------------------------------------------------
+
+    const addTaskModal = document.getElementById('add-task-modal');
+    const closeModal = document.getElementById('close-modal');
+    const confirmModal = document.getElementById('confirm-modal');
+    const confirmYes = document.getElementById('confirm-yes');
+    const confirmNo = document.getElementById('confirm-no');
+    
+    // 1. Perbaikan Tombol Cancel/Close Modal (Add Task)
+    closeModal.addEventListener('click', () => {
+        addTaskModal.classList.add('hidden');
+        // Reset form saat ditutup
+        document.querySelector('#add-task-modal form').reset();
+        document.getElementById('subtasks-container').innerHTML = '';
+    });
+
+    // 2. Perbaikan Add Subtask (di dalam modal Add Task)
+    const addSubtaskBtnModal = document.getElementById('add-subtask-btn');
+    const subtasksContainer = document.getElementById('subtasks-container');
+
+    addSubtaskBtnModal.addEventListener('click', () => {
+        const subtaskInput = document.createElement('input');
+        subtaskInput.type = 'text';
+        subtaskInput.name = 'subtasks[]';
+        // ✅ PERBAIKAN: Menambahkan kelas Tailwind untuk styling yang konsisten
+        subtaskInput.className = 'w-full px-3 py-2 border rounded-lg mb-2 text-white border-gray-600 bg-[#0C1F3B] focus:ring-blue-500 focus:border-blue-500';
+        subtaskInput.placeholder = 'Subtask ' + (subtasksContainer.children.length + 1);
+        subtasksContainer.appendChild(subtaskInput);
+    });
+
+    // Task checkbox functionality (menggunakan delegasi untuk elemen yang dimuat secara dinamis)
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('task-checkbox')) {
+            const checkbox = e.target;
+            if (checkbox.checked) {
+                confirmModal.classList.remove('hidden');
+                confirmModal.dataset.taskId = checkbox.dataset.id;
             } else {
-                calendarView.classList.add('hidden');
-                listView.classList.remove('hidden');
-                viewText.textContent = 'List View';
+                // Jika user mencentang lalu membatalkannya (meskipun logika server Anda mungkin hanya menangani 'completed: true')
+                // Anda bisa menambahkan logika server untuk uncheck di sini jika didukung.
+                // Saat ini, kita biarkan saja (confirmNo akan meresetnya).
             }
+        }
+    });
+
+    confirmYes.addEventListener('click', () => {
+        const taskId = confirmModal.dataset.taskId;
+        fetch(`/tasks/${taskId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                completed: true
+            })
+        }).then(() => {
+            updateTaskArrays(taskId, true);
+            // Muat ulang daftar tugas untuk mencerminkan perubahan
+            loadTasks(selectedDate, currentFilter);
+            confirmModal.classList.add('hidden');
         });
+    });
 
-        // Quick add task
-        document.getElementById('quick-add-task').addEventListener('click', () => {
-            document.getElementById('add-task-modal').classList.remove('hidden');
-        });
+    confirmNo.addEventListener('click', () => {
+        confirmModal.classList.add('hidden');
+        // Uncheck checkbox yang memicu modal
+        const checkbox = document.querySelector(`.task-checkbox[data-id="${confirmModal.dataset.taskId}"]`);
+        if (checkbox) {
+            checkbox.checked = false;
+        }
+    });
 
-        // Initialize
-        console.log('Initializing schedule page');
-        loadTasks(null, 'all');
-
-        // Include existing JS from view for modals and task interactions
-        // Modal functionality
-        const addTaskBtn = document.getElementById('add-task-btn');
-        const addTaskModal = document.getElementById('add-task-modal');
-        const closeModal = document.getElementById('close-modal');
-        const confirmModal = document.getElementById('confirm-modal');
-        const confirmYes = document.getElementById('confirm-yes');
-        const confirmNo = document.getElementById('confirm-no');
-
-        addTaskBtn.addEventListener('click', () => {
-            addTaskModal.classList.remove('hidden');
-        });
-
-        closeModal.addEventListener('click', () => {
-            addTaskModal.classList.add('hidden');
-        });
-
-        // Add subtask functionality (in modal)
-        const addSubtaskBtn = document.getElementById('add-subtask-btn');
-        const subtasksContainer = document.getElementById('subtasks-container');
-
-        addSubtaskBtn.addEventListener('click', () => {
-            const subtaskInput = document.createElement('input');
-            subtaskInput.type = 'text';
-            subtaskInput.name = 'subtasks[]';
-            subtaskInput.className = 'w-full px-3 py-2 border rounded mb-2';
-            subtaskInput.placeholder = 'Subtask ' + (subtasksContainer.children.length + 1);
-            subtasksContainer.appendChild(subtaskInput);
-        });
-
-        // Ensure at least one subtask input if user starts adding
-        // But since it's optional, no need to force it
-
-        // Subtask toggle functionality (in list)
-        document.querySelectorAll('.subtask-toggle').forEach(button => {
-            button.addEventListener('click', function() {
-                const taskId = this.dataset.task;
-                const subtasks = document.getElementById(`subtasks-${taskId}`);
-                const arrow = this.querySelector('.subtask-arrow');
-
-                if (subtasks.classList.contains('hidden')) {
-                    subtasks.classList.remove('hidden');
-                    arrow.textContent = '▼';
-                } else {
-                    subtasks.classList.add('hidden');
-                    arrow.textContent = '▶';
-                }
-            });
-        });
-
-        // Task checkbox functionality
-        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    confirmModal.classList.remove('hidden');
-                    confirmModal.dataset.taskId = this.dataset.id;
-                }
-            });
-        });
-
-        confirmYes.addEventListener('click', () => {
-            const taskId = confirmModal.dataset.taskId;
-            fetch(`/tasks/${taskId}`, {
+    // Subtask checkbox functionality
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('subtask-checkbox')) {
+            const subtaskId = e.target.dataset.id;
+            const isChecked = e.target.checked;
+            
+            fetch(`/subtasks/${subtaskId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ completed: true })
+                body: JSON.stringify({
+                    completed: isChecked
+                })
             }).then(() => {
-                // Update local arrays
-                updateTaskArrays(taskId, true);
-                // Reload tasks based on current filter
-                loadTasks(null, currentFilter);
-                confirmModal.classList.add('hidden');
+                const subtaskDiv = e.target.closest('.subtask-item');
+                const spanElement = e.target.nextElementSibling;
+                if (isChecked) {
+                    subtaskDiv.classList.add('opacity-50');
+                    spanElement.classList.add('line-through', 'text-gray-400');
+                    spanElement.classList.remove('text-[#132C51]');
+                } else {
+                    subtaskDiv.classList.remove('opacity-50');
+                    spanElement.classList.remove('line-through', 'text-gray-400');
+                    spanElement.classList.add('text-[#132C51]');
+                }
             });
-        });
+        }
+    });
 
-        confirmNo.addEventListener('click', () => {
-            confirmModal.classList.add('hidden');
-            document.querySelector(`.task-checkbox[data-id="${confirmModal.dataset.taskId}"]`).checked = false;
-        });
+    // 3. Perbaikan Task menu functionality (Titik Tiga)
+    document.addEventListener('click', function(e) {
+        const taskMenuBtn = e.target.closest('.task-menu-btn');
+        const taskMenu = e.target.closest('.task-menu');
 
-        // Subtask checkbox functionality
-        document.addEventListener('change', function(e) {
-            if (e.target.classList.contains('subtask-checkbox')) {
-                const subtaskId = e.target.dataset.id;
-                const isChecked = e.target.checked;
-
-                fetch(`/subtasks/${subtaskId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ completed: isChecked })
-                }).then(() => {
-                    // Update UI: fade subtask if checked
-                    const subtaskDiv = e.target.closest('.subtask-item');
-                    if (isChecked) {
-                        subtaskDiv.classList.add('opacity-50');
-                        e.target.nextElementSibling.classList.add('line-through', 'text-gray-500');
-                    } else {
-                        subtaskDiv.classList.remove('opacity-50');
-                        e.target.nextElementSibling.classList.remove('line-through', 'text-gray-500');
-                    }
-                });
+        // Langkah A: Tutup SEMUA menu terlebih dahulu (Reset)
+        document.querySelectorAll('.task-menu').forEach(m => {
+            if (m !== taskMenu) {
+                m.classList.add('hidden');
             }
         });
 
-        // Task menu functionality
-    document.addEventListener('click', function(e) {
-        const taskMenuBtn = e.target.closest('.task-menu-btn');
-        
-        // 1. Jika tombol titik tiga diklik
+        // Langkah B: Toggle menu yang diklik
         if (taskMenuBtn) {
             const taskId = taskMenuBtn.dataset.task;
             const menu = document.querySelector(`.task-menu[data-task="${taskId}"]`);
-            
-            // Cek apakah menu ini sedang tertutup atau terbuka SEBELUM kita mereset semuanya
-            const isHidden = menu.classList.contains('hidden');
-
-            // Langkah A: Tutup SEMUA menu yang ada di layar terlebih dahulu (Reset)
-            document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-
-            // Langkah B: Logika Toggle
-            // Jika tadi statusnya tersembunyi (hidden), maka TAMPILKAN.
-            // Jika tadi statusnya tampil, biarkan tetap tertutup (karena Langkah A sudah menutupnya).
-            if (isHidden) {
-                menu.classList.remove('hidden');
+            if (menu) {
+                menu.classList.toggle('hidden');
             }
         } 
-        // 2. Jika klik di sembarang tempat (bukan di tombol menu, bukan di dalam menu)
-        else if (!e.target.closest('.task-menu')) {
-            // Tutup semua menu
+        // Langkah C: Jika klik di luar menu dan bukan tombolnya, tutup menu.
+        else if (!taskMenu) {
             document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
         }
     });
 
-        // Rename button functionality
+    // Menyembunyikan menu setelah aksi dipilih (Tambahkan ini ke setiap event handler menu)
+    const hideMenus = () => {
+        document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
+    };
+
+    // Rename button functionality
         document.addEventListener('click', function(e) {
             const renameBtn = e.target.closest('.rename-btn');
             if (renameBtn) {
@@ -687,147 +868,105 @@
             }
         });
 
-        // Close rename modal
-        document.getElementById('close-rename-modal').addEventListener('click', () => {
-            document.getElementById('rename-modal').classList.add('hidden');
-        });
-
-        // Save rename
-        document.getElementById('rename-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const taskId = document.getElementById('rename-task-id').value;
-            const newTitle = document.getElementById('rename-title').value;
-            fetch(`/tasks/${taskId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ title: newTitle })
-            }).then(() => {
-                location.reload();
-            });
-        });
-
-        // Duplicate button functionality
-        document.addEventListener('click', function(e) {
-            const duplicateBtn = e.target.closest('.duplicate-btn');
-            if (duplicateBtn) {
-                const taskId = duplicateBtn.dataset.task;
-                fetch(`/tasks/${taskId}/duplicate`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }).then(() => {
-                    location.reload();
-                });
-                // Hide the task menu
-                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-            }
-        });
-
-        // Add subtask button functionality (from menu)
-        document.addEventListener('click', function(e) {
-            const addSubtaskBtn = e.target.closest('.add-subtask-btn');
-            if (addSubtaskBtn) {
-                const taskId = addSubtaskBtn.dataset.task;
-                document.getElementById('add-subtask-task-id').value = taskId;
-                document.getElementById('add-subtask-modal').classList.remove('hidden');
-                // Hide the task menu
-                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-            }
-        });
-
-        // Close add subtask modal
-        document.getElementById('close-add-subtask-modal').addEventListener('click', () => {
-            document.getElementById('add-subtask-modal').classList.add('hidden');
-        });
-
-        // Save add subtask
-        document.getElementById('add-subtask-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const taskId = document.getElementById('add-subtask-task-id').value;
-            const title = document.getElementById('subtask-title').value;
-            fetch('/subtasks', {
+    // Duplicate button functionality
+    document.addEventListener('click', function(e) {
+        const duplicateBtn = e.target.closest('.duplicate-btn');
+        if (duplicateBtn) {
+            hideMenus();
+            const taskId = duplicateBtn.dataset.task;
+            fetch(`/tasks/${taskId}/duplicate`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ task_id: taskId, title: title })
-            }).then(() => {
-                location.reload();
-            });
-        });
-
-        // Delete button functionality
-        document.addEventListener('click', function(e) {
-            const deleteBtn = e.target.closest('.delete-btn');
-            if (deleteBtn) {
-                const taskId = deleteBtn.dataset.task;
-                document.getElementById('delete-confirm-modal').classList.remove('hidden');
-                document.getElementById('delete-confirm-modal').dataset.taskId = taskId;
-                // Hide the task menu
-                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-            }
-        });
-
-        // Delete confirmation
-        document.getElementById('delete-yes').addEventListener('click', () => {
-            const taskId = document.getElementById('delete-confirm-modal').dataset.taskId;
-            fetch(`/tasks/${taskId}`, {
-                method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             }).then(() => {
                 location.reload();
             });
-        });
+        }
+    });
 
-        document.getElementById('delete-no').addEventListener('click', () => {
-            document.getElementById('delete-confirm-modal').classList.add('hidden');
-        });
+    // Add subtask button functionality (from menu)
+    document.addEventListener('click', function(e) {
+        const addSubtaskBtn = e.target.closest('.add-subtask-btn');
+        if (addSubtaskBtn) {
+            hideMenus();
+            const taskId = addSubtaskBtn.dataset.task;
+            document.getElementById('add-subtask-task-id').value = taskId;
+            // Clear previous subtask title
+            document.getElementById('subtask-title').value = '';
+            document.getElementById('add-subtask-modal').classList.remove('hidden');
+        }
+    });
 
-        // Details button functionality (Read-Only)
-        document.addEventListener('click', function(e) {
-            const detailsBtn = e.target.closest('.details-btn');
-            if (detailsBtn) {
-                const taskId = detailsBtn.dataset.task;
-                fetch(`/tasks/${taskId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('details-title').textContent = data.title || 'N/A';
-                        document.getElementById('details-description').textContent = data.description || 'N/A';
-                        document.getElementById('details-due-date').textContent = data.due_date || 'N/A';
-                        document.getElementById('details-priority').textContent = data.priority || 'N/A';
-                        document.getElementById('details-completed').textContent = data.completed ? 'Completed' : 'Not Completed';
+    // Delete button functionality
+    document.addEventListener('click', function(e) {
+        const deleteBtn = e.target.closest('.delete-btn');
+        if (deleteBtn) {
+            hideMenus();
+            const taskId = deleteBtn.dataset.task;
+            document.getElementById('delete-confirm-modal').classList.remove('hidden');
+            document.getElementById('delete-confirm-modal').dataset.taskId = taskId;
+        }
+    });
+    
+    // Details button functionality (Read-Only)
+    document.addEventListener('click', function(e) {
+        const detailsBtn = e.target.closest('.details-btn');
+        if (detailsBtn) {
+            hideMenus();
+            const taskId = detailsBtn.dataset.task;
+            fetch(`/tasks/${taskId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('details-title').textContent = data.title || 'N/A';
+                    document.getElementById('details-description').textContent = data.description || 'N/A';
+                    document.getElementById('details-due-date').textContent = data.due_date || 'N/A';
 
-                        // Populate subtasks
-                        const subtasksContainer = document.getElementById('details-subtasks');
-                        subtasksContainer.innerHTML = '';
-                        if (data.subtasks && data.subtasks.length > 0) {
-                            data.subtasks.forEach(subtask => {
-                                const subtaskDiv = document.createElement('div');
-                                subtaskDiv.className = 'mb-1';
-                                subtaskDiv.innerHTML = `<span class="${subtask.completed ? 'line-through text-gray-500' : ''}">${subtask.title}</span>`;
-                                subtasksContainer.appendChild(subtaskDiv);
-                            });
-                        } else {
-                            subtasksContainer.innerHTML = '<p>No subtasks</p>';
-                        }
+                    const priorityEl = document.getElementById('details-priority');
+                    const priority = data.priority || 'N/A';
+                    
+                    // 1. Atur teksnya
+                    priorityEl.textContent = priority;
+                    
+                    // 2. Logika penentuan kelas warna
+                    function getPriorityClass(priority) {
+                        if (priority === 'Urgent') return 'text-red-500';
+                        if (priority === 'High') return 'text-yellow-500';
+                        if (priority === 'Normal') return 'text-blue-500';
+                        if (priority === 'Low') return 'text-green-500';
+                        return 'text-gray-200'; // Warna default
+                    }
+                    
+                    // 3. Terapkan kelas warna (mempertahankan font-semibold)
+                    priorityEl.className = 'font-semibold ' + getPriorityClass(priority);
 
-                        document.getElementById('task-details-modal').classList.remove('hidden');
-                        // Hide the task menu
-                        document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-                    });
-            }
-        });
+                    document.getElementById('details-completed').textContent = data.completed ?
+                        'Completed' : 'Not Completed';
 
-        // Close details modal
-        document.getElementById('close-details-modal').addEventListener('click', () => {
-            document.getElementById('task-details-modal').classList.add('hidden');
-        });
-    </script>
+                    // Populate subtasks
+                    const subtasksContainer = document.getElementById('details-subtasks');
+                    subtasksContainer.innerHTML = '';
+                    if (data.subtasks && data.subtasks.length > 0) {
+                        data.subtasks.forEach(subtask => {
+                            const subtaskDiv = document.createElement('div');
+                            subtaskDiv.className = 'mb-1';
+                            subtaskDiv.innerHTML =
+                                `<span class="${subtask.completed ? 'line-through text-gray-500' : ''}">${subtask.title}</span>`;
+                            subtasksContainer.appendChild(subtaskDiv);
+                        });
+                    } else {
+                        subtasksContainer.innerHTML = '<p>No subtasks</p>';
+                    }
+
+                    document.getElementById('task-details-modal').classList.remove('hidden');
+                });
+        }
+    });
+
+    // Close details modal
+    document.getElementById('close-details-modal').addEventListener('click', () => {
+        document.getElementById('task-details-modal').classList.add('hidden');
+    });
+
+</script>
 </x-app-layout>
