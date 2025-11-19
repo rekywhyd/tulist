@@ -805,17 +805,26 @@
         // ---------------------------------------------------------
         // BAGIAN YANG DIPERBAIKI (CATEGORY TOGGLE)
         // Menghapus semua referensi 'arrow' agar tidak error
+        // Ditambahkan persistensi state menggunakan localStorage
         // ---------------------------------------------------------
         // Category toggle functionality
         document.querySelectorAll('.category-toggle').forEach(button => {
             const category = button.dataset.category;
             const content = document.getElementById(`${category}-content`);
+            const storageKey = 'category_' + category + '_open';
 
-            // 1. SETTING AWAL (SAAT REFRESH)
-            // Memastikan konten tersembunyi (hidden)
-            content.classList.add('hidden');
-            // Memastikan tombol terlihat jelas 100% (menghapus opacity-60 jika ada)
-            button.classList.remove('opacity-60');
+            // 1. SETTING AWAL (SAAT REFRESH / LOAD PAGE)
+            // Cek localStorage apakah kategori ini harus terbuka
+            const isOpen = localStorage.getItem(storageKey) === 'true';
+            if (isOpen) {
+                // Jika terbuka, tampilkan konten dan tambahkan opacity
+                content.classList.remove('hidden');
+                button.classList.add('opacity-60');
+            } else {
+                // Jika tertutup, sembunyikan konten dan pastikan opacity normal
+                content.classList.add('hidden');
+                button.classList.remove('opacity-60');
+            }
 
             // 2. EVENT KLIK
             button.addEventListener('click', function() {
@@ -826,11 +835,15 @@
                     // "setelah di klik dan memunculkan text barulah opacity nya 60%"
                     content.classList.remove('hidden');
                     button.classList.add('opacity-60');
+                    // Simpan state ke localStorage
+                    localStorage.setItem(storageKey, 'true');
                 } else {
                     // SAAT DITUTUP (Hide Content)
                     // Kembali ke kondisi awal (Opacity 100%)
                     content.classList.add('hidden');
                     button.classList.remove('opacity-60');
+                    // Simpan state ke localStorage
+                    localStorage.setItem(storageKey, 'false');
                 }
             });
         });
