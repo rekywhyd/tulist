@@ -44,6 +44,7 @@ Route::post('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'
 
 
 Route::get('/help', [PageController::class, 'help'])->name('help')->middleware('auth');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy')->middleware('auth');
 Route::get('/notifications', [PageController::class, 'notifications'])->name('notifications')->middleware('auth');
 
 Route::middleware('auth')->group(function () {

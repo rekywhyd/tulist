@@ -15,6 +15,12 @@ class PageController extends Controller
         return view('help');
     }
 
+    public function privacy()
+    {
+        // Pastikan file ini ada: resources/views/pages/privacy.blade.php
+        return view('privacy');
+    }
+
     /**
      * Menampilkan halaman notifikasi.
      */
