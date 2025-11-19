@@ -33,7 +33,7 @@
                         </button>
                         <button id="add-task-btn"
                             class="px-4 py-2 text-white transition-transform duration-200 bg-[#0E213D] hover:hover:scale-110 rounded-3xl">
-                            + Add Task
+                            + New Task
                         </button>
                     </div>
                 </div>

@@ -61,7 +61,7 @@
 
         <!-- Tombol Login -->
         <div class="flex justify-center mt-4 mb-5 transition-transform duration-200 font-poppins hover:hover:scale-105">
-            <x-primary-button class="flex  justify-center px-[100px] py-[16px] text-xs font-medium text-white bg-[#163769] border border-transparent shadow-sm rounded-2xl hover:bg-[#132C51] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700">
+            <x-primary-button class="flex justify-center px-[100px] py-[16px] text-xs font-medium text-white bg-[#163769] border border-transparent shadow-sm rounded-2xl hover:bg-[#132C51] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700">
                 {{ __('Login') }}
             </x-primary-button>
         </div>

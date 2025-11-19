@@ -19,19 +19,11 @@
 
                 </div>
             </div>
-        
-            <div class="flex items-center gap-6 text-sm font-medium font-poppins">
                 
-                <button id="add-task-btn" class="px-6 py-2  text-white bg-[#0E213D] shadow-md rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#0E213D] focus:ring-offset-2 transition-transform duration-200 hover:hover:scale-110">
-                    New List
+                <button id="add-task-btn" class="px-6 py-2 text-sm font-medium font-poppins text-white bg-[#0E213D] shadow-md rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#0E213D] focus:ring-offset-2 transition-transform duration-200 hover:hover:scale-110">
+                    + New Task
                 </button>
 
-                <button class="p-2 py-1 text-black transition-transform duration-200 bg-white border rounded-3xl hover:hover:scale-110">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                    </svg>
-                </button>
-            </div>
         </div>
 
         <div class="flex flex-wrap justify-center gap-8 py-4 font-poppins">
