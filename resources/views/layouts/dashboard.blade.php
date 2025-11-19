@@ -63,7 +63,7 @@
 
         <footer>
             <div class="container max-w-6xl p-6 mx-auto mt-12 text-center text-gray-400 font-poppins">
-                <p>@2025 credit</p>
+                <p>IF Untan @2025 credit</p>
             </div>
         </footer>
 
