@@ -41,4 +41,28 @@ class PageController extends Controller
         // Ini akan mencari file: resources/views/contact.blade.php
         return view('contact');
     }
+
+    /**
+     * Menampilkan halaman 'Home'.
+     */
+    public function home()
+    {
+        return view('home');
+    }
+
+    /**
+     * Menampilkan halaman 'Schedule'.
+     */
+    public function schedule()
+    {
+        return view('schedule');
+    }
+
+    /**
+     * Menampilkan halaman 'View'.
+     */
+    public function view()
+    {
+        return view('view');
+    }
 }
