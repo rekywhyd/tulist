@@ -28,8 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Set flag to show alert on home page
+        $request->session()->put('show_alert', true);
+
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('view', absolute: false));
+            return redirect()->intended(route('home', absolute: false));
         } else {
             return redirect(route('verification.notice', absolute: false));
         }

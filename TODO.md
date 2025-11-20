@@ -1,0 +1,2 @@
+- [ ] Update AuthenticatedSessionController.php to redirect to 'home' after login
+- [ ] Update GoogleController.php to redirect to 'home' after Google login

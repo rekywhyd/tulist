@@ -77,7 +77,7 @@
         {{-- KOLOM 2 --}}
         <div class="flex flex-col gap-2 border border-white w-fit bg-white/30 backdrop-blur-3xl rounded-3xl">
             {{-- NOTIF --}}
-            <a href="" title="Notifications"
+            <button id="notifications-btn" title="Notifications"
                 class="p-3 transition-colors rounded-full duration-200 hover:hover:scale-110 {{ request()->routeIs('notifications')
                     ? 'bg-[#0E213D] text-[#D5E2F5]'
                     : 'text-[#717C8F] hover:bg-[#0E213D] hover:text-[#D5E2F5]' }}">
@@ -90,7 +90,7 @@
                         </path>
                     </g>
                 </svg>
-            </a>
+            </button>
 
             {{-- SETTING --}}
             <a href="{{ route('profile.edit') }}"
@@ -162,4 +162,72 @@
             </form>
         </div>
     </nav>
+
+    {{-- Notifications Popup --}}
+    <div id="notifications-popup" class="absolute left-full ml-4 top-32 bg-white shadow-lg rounded-lg p-4 hidden w-80 max-h-96 overflow-y-auto">
+        <h3 class="text-lg font-bold mb-2">Notifications</h3>
+        <div id="notifications-list" class="space-y-2">
+            <!-- Notifications will be populated here -->
+        </div>
+    </div>
 </aside>
+
+<script>
+    document.getElementById('notifications-btn').addEventListener('click', function() {
+        const popup = document.getElementById('notifications-popup');
+        const list = document.getElementById('notifications-list');
+        popup.classList.toggle('hidden');
+
+        // Populate notifications
+        const userId = {{ Auth::id() }};
+        const notifications = JSON.parse(localStorage.getItem('notifications_' + userId) || '[]');
+        list.innerHTML = '';
+        if (notifications.length === 0) {
+            list.innerHTML = '<p class="text-gray-500">No notifications</p>';
+        } else {
+            // Sort notifications: newest first
+            notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+            notifications.forEach(notification => {
+                const item = document.createElement('div');
+                item.className = 'p-2 bg-gray-100 rounded';
+                item.innerHTML = `<p>${notification.message}</p><small class="text-gray-500">${new Date(notification.date).toLocaleString()}</small>`;
+                list.appendChild(item);
+            });
+        }
+
+        // Also fetch from server and merge
+        fetch('/notifications')
+            .then(response => response.json())
+            .then(serverNotifications => {
+                // Merge with localStorage notifications
+                const allNotifications = [...notifications, ...serverNotifications.map(n => ({
+                    message: n.message,
+                    date: n.created_at
+                }))];
+                // Remove duplicates and sort
+                const uniqueNotifications = allNotifications.filter((n, index, self) => self.findIndex(t => t.message === n.message && t.date === n.date) === index);
+                uniqueNotifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+                list.innerHTML = '';
+                if (uniqueNotifications.length === 0) {
+                    list.innerHTML = '<p class="text-gray-500">No notifications</p>';
+                } else {
+                    uniqueNotifications.forEach(notification => {
+                        const item = document.createElement('div');
+                        item.className = 'p-2 bg-gray-100 rounded';
+                        item.innerHTML = `<p>${notification.message}</p><small class="text-gray-500">${new Date(notification.date).toLocaleString()}</small>`;
+                        list.appendChild(item);
+                    });
+                }
+            })
+            .catch(console.error);
+    });
+
+    // Close popup when clicking outside
+    document.addEventListener('click', function(event) {
+        const popup = document.getElementById('notifications-popup');
+        const btn = document.getElementById('notifications-btn');
+        if (!popup.contains(event.target) && !btn.contains(event.target)) {
+            popup.classList.add('hidden');
+        }
+    });
+</script>

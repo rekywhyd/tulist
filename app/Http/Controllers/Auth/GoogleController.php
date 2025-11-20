@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
@@ -18,30 +19,26 @@ class GoogleController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            $user = Socialite::driver('google')->user();
 
-            $user = User::where('google_id', $googleUser->getId())->first();
+            $findUser = User::where('google_id', $user->id)->first();
 
-            if (!$user) {
-                $user = User::where('email', $googleUser->getEmail())->first();
+            if ($findUser) {
+                Auth::login($findUser);
+            } else {
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'google_id' => $user->id,
+                    'password' => Hash::make('123456dummy'),
+                ]);
 
-                if (!$user) {
-                    $user = User::create([
-                        'name' => $googleUser->getName(),
-                        'email' => $googleUser->getEmail(),
-                        'google_id' => $googleUser->getId(),
-                        'password' => bcrypt('password'), // Dummy password
-                    ]);
-                } else {
-                    $user->update(['google_id' => $googleUser->getId()]);
-                }
+                Auth::login($newUser);
             }
 
-            Auth::login($user);
-
-            return redirect()->intended('/view');
+            return redirect()->route('home');
         } catch (\Exception $e) {
-            return redirect('/login')->withErrors(['google' => 'Unable to login with Google.']);
+            return redirect('/login')->with('error', 'Something went wrong with Google login');
         }
     }
 }

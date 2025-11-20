@@ -1185,13 +1185,6 @@
             });
         });
 
-        // Cancel delete
-        document.getElementById('delete-no').addEventListener('click', () => {
-            document.getElementById('delete-confirm-modal').classList.add('hidden');
-        });
-<<<<<<< HEAD
-    });
-
     // Cancel delete
     document.getElementById('delete-no').addEventListener('click', () => {
         document.getElementById('delete-confirm-modal').classList.add('hidden');
@@ -1212,7 +1205,4 @@
     });
 
 </script>
-=======
-    </script>
->>>>>>> 5cf22b4bf7118cf63f806cb6ee173f3aa3fba40b
 </x-app-layout>

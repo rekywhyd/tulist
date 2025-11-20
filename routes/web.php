@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,7 +39,12 @@ Route::get('/home', function () {
     $tomorrowCount = $tomorrowTasks->count();
     $upcomingCount = $upcomingTasks->count();
 
-    return view('home', compact('todayTasks', 'tomorrowTasks', 'upcomingTasks', 'historyTasks', 'todayCount', 'tomorrowCount', 'upcomingCount'));
+    // Set session alert if there are tasks due today
+    if ($todayCount > 0) {
+        session(['show_alert' => true]);
+    }
+
+    return view('home', compact('todayTasks', 'tomorrowTasks', 'upcomingTasks', 'historyTasks', 'todayCount', 'tomorrowCount', 'upcomingCount', 'user'));
 })
     ->middleware(['auth', 'verified'])
     ->name('home');
@@ -66,6 +72,13 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('subtasks/{id}', [TaskController::class, 'updateSubtask'])->name('subtasks.update');
     Route::post('tasks/{id}/duplicate', [TaskController::class, 'duplicate'])->name('tasks.duplicate');
     Route::post('subtasks', [TaskController::class, 'storeSubtask'])->name('subtasks.store');
+
+    Route::resource('notifications', NotificationController::class);
+
+    Route::post('/clear-alert', function () {
+        session()->forget('show_alert');
+        return response()->json(['success' => true]);
+    })->name('clear.alert');
 });
 
 Route::get('/auth/google', [App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle'])->name('google.login');

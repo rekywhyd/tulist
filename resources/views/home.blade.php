@@ -1182,6 +1182,28 @@
         document.getElementById('close-details-modal').addEventListener('click', () => {
             document.getElementById('task-details-modal').classList.add('hidden');
         });
+
+        // Notification alert for tasks due today - only on login
+        @if(session('show_alert') && $todayCount > 0)
+            if (confirm("You have {{ $todayCount }} task(s) due today! Click OK to acknowledge.")) {
+                // Store notification in localStorage (user-specific)
+                const userId = {{ $user->id }};
+                let notifications = JSON.parse(localStorage.getItem('notifications_' + userId) || '[]');
+                notifications.unshift({
+                    message: "You have {{ $todayCount }} task(s) due today!",
+                    date: new Date().toISOString()
+                });
+                localStorage.setItem('notifications_' + userId, JSON.stringify(notifications));
+            }
+            // Clear the session flag via AJAX
+            fetch('/clear-alert', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                }
+            }).catch(console.error);
+        @endif
     </script>
 
 </x-app-layout>
