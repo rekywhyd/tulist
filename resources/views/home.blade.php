@@ -183,7 +183,7 @@
                         </button>
                         <div class="category-content" id="tomorrow-content">
                             <div class="space-y-4 text-lg text-[#132C51]">
-@foreach ($tomorrowTasks as $task)
+                                @foreach ($tomorrowTasks as $task)
                                     <div class="mb-2"
                                         data-original-due-date="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
 
@@ -547,94 +547,150 @@
 
                                 {{-- PRIORITY DROPDOWN (ALPINE.JS COMPONENT) --}}
                                 <div x-data="{ open: false, selected: null }" class="relative w-[49%]">
-            
-                        <button @click="open = !open" type="button" 
-                            class="flex items-center w-full gap-2 px-3 py-2 text-left bg-[#0C1F3B] border border-gray-300 rounded-lg"
-                            :class="{
-                                'bg-red-50 border-red-300 text-red-700': selected === 'Urgent',
-                                'bg-yellow-50 border-yellow-300 text-yellow-700': selected === 'High',
-                                'bg-blue-50 border-blue-300 text-blue-700': selected === 'Normal',
-                                'bg-green-50 border-green-300 text-green-700': selected === 'Low',
-                                'text-white border-gray-600': selected === null  /* Warna teks default saat null */
-                                }">
-                            
-                            <svg class="w-5 h-5" 
-                                :class="{
-                                    'text-red-500': selected === 'Urgent',
-                                    'text-yellow-500': selected === 'High',
-                                    'text-blue-500': selected === 'Normal',
-                                    'text-green-500': selected === 'Low',
-                                    'text-gray-400': selected === null
-                                }"
-                                fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z" fill="currentColor"></path> </g>
-                            </svg>
-                            
-                            <span x-text="selected || 'Priority'" class="flex-1"></span>
 
-                            
-                        </button>
+                                    <button @click="open = !open" type="button"
+                                        class="flex items-center w-full gap-2 px-3 py-2 text-left bg-[#0C1F3B] border border-gray-300 rounded-lg"
+                                        :class="{
+                                            'bg-red-50 border-red-300 text-red-700': selected === 'Urgent',
+                                            'bg-yellow-50 border-yellow-300 text-yellow-700': selected === 'High',
+                                            'bg-blue-50 border-blue-300 text-blue-700': selected === 'Normal',
+                                            'bg-green-50 border-green-300 text-green-700': selected === 'Low',
+                                            'text-white border-gray-600': selected ===
+                                                null
+                                        }">
 
-                        <div x-show="open" 
-                            @click.outside="open = false" 
-                            x-transition
-                            class="absolute z-10 w-full p-1 mt-1 bg-[#EAF0FA] rounded-xl shadow-xl">
-                            
-                            <div @click="selected = 'Urgent'; open = false" class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
-                                <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z" fill="currentColor"></path> </g>
-                            </svg>
-                                <span class="font-semibold text-black">Urgent</span>
+                                        <svg class="w-5 h-5"
+                                            :class="{
+                                                'text-red-500': selected === 'Urgent',
+                                                'text-yellow-500': selected === 'High',
+                                                'text-blue-500': selected === 'Normal',
+                                                'text-green-500': selected === 'Low',
+                                                'text-gray-400': selected === null
+                                            }"
+                                            fill="currentColor" viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                    d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                    fill="currentColor"></path>
+                                            </g>
+                                        </svg>
+
+                                        <span x-text="selected || 'Priority'" class="flex-1"></span>
+
+
+                                    </button>
+
+                                    <div x-show="open" @click.outside="open = false" x-transition
+                                        class="absolute z-10 w-full p-1 mt-1 bg-[#EAF0FA] rounded-xl shadow-xl">
+
+                                        <div @click="selected = 'Urgent'; open = false"
+                                            class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                            <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg>
+                                            <span class="font-semibold text-black">Urgent</span>
+                                        </div>
+
+                                        <div @click="selected = 'High'; open = false"
+                                            class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                            <svg class="w-5 h-5 text-yellow-500" fill="currentColor"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg>
+                                            <span class="font-semibold text-black">High</span>
+                                        </div>
+
+                                        <div @click="selected = 'Normal'; open = false"
+                                            class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                            <svg class="w-5 h-5 text-blue-600" fill="currentColor"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg>
+                                            <span class="font-semibold text-black">Normal</span>
+                                        </div>
+
+                                        <div @click="selected = 'Low'; open = false"
+                                            class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg>
+                                            <span class="font-semibold text-gray-800">Low</span>
+                                        </div>
+
+                                        <div @click="selected = null; open = false"
+                                            class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
+                                            <svg class="w-5 h-5 text-gray-400" fill="currentColor"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z"
+                                                        fill="currentColor"></path>
+                                                </g>
+                                            </svg>
+                                            <span class="font-semibold text-black">Clear</span>
+                                        </div>
+                                    </div>
+
+                                    <select name="priority" x-model="selected" class="hidden">
+                                        <option value="">Priority</option>
+                                        <option value="Urgent">Urgent</option>
+                                        <option value="High">High</option>
+                                        <option value="Normal">Normal</option>
+                                        <option value="Low">Low</option>
+                                    </select>
+                                </div>
                             </div>
-
-                            <div @click="selected = 'High'; open = false" class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
-                                <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z" fill="currentColor"></path> </g>
-                            </svg>
-                                <span class="font-semibold text-black">High</span>
-                            </div>
-
-                            <div @click="selected = 'Normal'; open = false" class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
-                                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z" fill="currentColor"></path> </g>
-                            </svg>
-                                <span class="font-semibold text-black">Normal</span>
-                            </div>
-
-                            <div @click="selected = 'Low'; open = false" class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
-                                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z" fill="currentColor"></path> </g>
-                            </svg>
-                                <span class="font-semibold text-gray-800">Low</span>
-                            </div>
-
-                            <div @click="selected = null; open = false" class="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-100">
-                                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19.42 4.44994C19.3203 4.38116 19.2053 4.3379 19.085 4.32395C18.9647 4.31 18.8428 4.32579 18.73 4.36994C17.5425 4.8846 16.2857 5.22155 15 5.36994C14.1879 5.15273 13.4127 4.81569 12.7 4.36994C11.7802 3.80143 10.763 3.40813 9.7 3.20994C8.41 3.08994 5.34 4.09994 4.7 4.30994C4.55144 4.36012 4.42234 4.4556 4.33086 4.58295C4.23938 4.71031 4.19012 4.86314 4.19 5.01994V19.9999C4.19 20.1989 4.26902 20.3896 4.40967 20.5303C4.55032 20.6709 4.74109 20.7499 4.94 20.7499C5.13891 20.7499 5.32968 20.6709 5.47033 20.5303C5.61098 20.3896 5.69 20.1989 5.69 19.9999V14.1399C6.93659 13.6982 8.23315 13.4127 9.55 13.2899C10.3967 13.4978 11.2062 13.8351 11.95 14.2899C12.8201 14.8218 13.7734 15.2038 14.77 15.4199H15C16.4474 15.2326 17.8633 14.8526 19.21 14.2899C19.3506 14.2342 19.4713 14.1379 19.5568 14.0132C19.6423 13.8885 19.6887 13.7411 19.69 13.5899V5.06994C19.6975 4.95258 19.6769 4.83512 19.63 4.7273C19.583 4.61947 19.511 4.5244 19.42 4.44994Z" fill="currentColor"></path> </g>
-                            </svg>
-                                <span class="font-semibold text-black">Clear</span>
-                            </div>
-                        </div>
-                        
-                        <select name="priority" x-model="selected" class="hidden">
-                            <option value="">Priority</option>
-                            <option value="Urgent">Urgent</option>
-                            <option value="High">High</option>
-                            <option value="Normal">Normal</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </div>
-                </div>
 
                             {{-- Add Subtasks Input Area (Dynamic JS/Alpine) --}}
                             <div class="mb-5">
-                        <div id="subtasks-container"></div>
-                        <button type="button" id="add-subtask-btn" class="text-white transition-transform duration-200 border border-gray-600 rounded-lg bg-[#0C1F3B] w-full hover:hover:scale-105 py-1 px-3">+ Add Subtask</button>
-                    </div>
-                    <div class="flex justify-center gap-6 mt-8 font-medium">
-                        <button type="button" id="close-modal" class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 rounded-3xl hover:hover:scale-95">Cancel</button>
-                        <button type="submit" class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Save</button>
-                    </div>
+                                <div id="subtasks-container"></div>
+                                <button type="button" id="add-subtask-btn"
+                                    class="text-white transition-transform duration-200 border border-gray-600 rounded-lg bg-[#0C1F3B] w-full hover:hover:scale-105 py-1 px-3">+
+                                    Add Subtask</button>
+                            </div>
+                            <div class="flex justify-center gap-6 mt-8 font-medium">
+                                <button type="button" id="close-modal"
+                                    class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 rounded-3xl hover:hover:scale-95">Cancel</button>
+                                <button type="submit"
+                                    class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Save</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -743,15 +799,15 @@
                         </div>
                         <div class="mb-4">
                             <label class="block font-semibold text-gray-100">Priority</label>
-                    <p id="details-priority" class="font-semibold"
-                    :class="{
-                        'text-red-500': data.priority === 'Urgent',
-                        'text-yellow-500': data.priority === 'High',
-                        'text-blue-500': data.priority === 'Normal',
-                        'text-green-500': data.priority === 'Low',
-                        'text-gray-200': !['Urgent', 'High', 'Normal', 'Low'].includes(data.priority)
-                    }">
-                    </p>
+                            <p id="details-priority" class="font-semibold"
+                                :class="{
+                                    'text-red-500': data.priority === 'Urgent',
+                                    'text-yellow-500': data.priority === 'High',
+                                    'text-blue-500': data.priority === 'Normal',
+                                    'text-green-500': data.priority === 'Low',
+                                    'text-gray-200': !['Urgent', 'High', 'Normal', 'Low'].includes(data.priority)
+                                }">
+                            </p>
                         </div>
                         <div class="mb-4">
                             <label class="block font-semibold text-gray-100">Status</label>
@@ -797,16 +853,12 @@
             const subtaskInput = document.createElement('input');
             subtaskInput.type = 'text';
             subtaskInput.name = 'subtasks[]';
-            subtaskInput.className = 'w-full px-3 py-2 text-white border border-gray-600 rounded-xl mb-2 bg-[#0C1F3B]';
+            subtaskInput.className =
+                'w-full px-3 py-2 text-white border border-gray-600 rounded-xl mb-2 bg-[#0C1F3B]';
             subtaskInput.placeholder = 'Subtask ' + (subtasksContainer.children.length + 1);
             subtasksContainer.appendChild(subtaskInput);
         });
 
-        // ---------------------------------------------------------
-        // BAGIAN YANG DIPERBAIKI (CATEGORY TOGGLE)
-        // Menghapus semua referensi 'arrow' agar tidak error
-        // Ditambahkan persistensi state menggunakan localStorage
-        // ---------------------------------------------------------
         // Category toggle functionality
         document.querySelectorAll('.category-toggle').forEach(button => {
             const category = button.dataset.category;
@@ -847,7 +899,6 @@
                 }
             });
         });
-        // ---------------------------------------------------------
 
         // Subtask toggle functionality
         document.querySelectorAll('.subtask-toggle').forEach(button => {
@@ -918,7 +969,6 @@
                         completed: isChecked
                     })
                 }).then(() => {
-                    // Update UI: fade subtask if checked
                     const subtaskDiv = e.target.closest('.subtask-item');
                     if (isChecked) {
                         subtaskDiv.classList.add('opacity-50');
@@ -961,20 +1011,18 @@
         });
 
         // Rename button functionality
-        // Rename button functionality
-document.addEventListener('click', function(e) {
-    const renameBtn = e.target.closest('.rename-btn');
-    if (renameBtn) {
-        const taskId = renameBtn.dataset.task;
-        document.getElementById('rename-task-id').value = taskId;
-        
-        // ✅ SOLUSI: Tambahkan .trim() saat mengambil judul untuk mengisi modal
-        document.getElementById('rename-title').value = document.querySelector(
-            `.task-checkbox[data-id="${taskId}"]`).nextElementSibling.textContent.trim();
-            
-        document.getElementById('rename-modal').classList.remove('hidden');
-    }
-});
+        document.addEventListener('click', function(e) {
+            const renameBtn = e.target.closest('.rename-btn');
+            if (renameBtn) {
+                const taskId = renameBtn.dataset.task;
+                document.getElementById('rename-task-id').value = taskId;
+
+                document.getElementById('rename-title').value = document.querySelector(
+                    `.task-checkbox[data-id="${taskId}"]`).nextElementSibling.textContent.trim();
+
+                document.getElementById('rename-modal').classList.remove('hidden');
+            }
+        });
 
         // Close rename modal
         document.getElementById('close-rename-modal').addEventListener('click', () => {
@@ -1089,23 +1137,24 @@ document.addEventListener('click', function(e) {
                         document.getElementById('details-title').textContent = data.title || 'N/A';
                         document.getElementById('details-description').textContent = data.description || 'N/A';
                         document.getElementById('details-due-date').textContent = data.due_date || 'N/A';
-                       
+
                         const priorityEl = document.getElementById('details-priority');
                         const priority = data.priority || 'N/A';
                         // 1. Atur teksnya
                         priorityEl.textContent = priority;
                         // 2. Buat fungsi untuk menentukan kelas warna
                         function getPriorityClass(priority) {
-                        if (priority === 'Urgent') return 'text-red-500';
-                        if (priority === 'High') return 'text-yellow-500';
-                        if (priority === 'Normal') return 'text-blue-500';
-                        if (priority === 'Low') return 'text-green-500';
-                        return 'text-gray-200'; // Warna default
+                            if (priority === 'Urgent') return 'text-red-500';
+                            if (priority === 'High') return 'text-yellow-500';
+                            if (priority === 'Normal') return 'text-blue-500';
+                            if (priority === 'Low') return 'text-green-500';
+                            return 'text-gray-200'; // Warna default
                         }
                         // 3. Terapkan kelas warna (pastikan untuk menyertakan 'font-semibold' lagi)
                         priorityEl.className = 'font-semibold ' + getPriorityClass(priority);
 
-                        document.getElementById('details-completed').textContent = data.completed ? 'Completed' : 'Not Completed';
+                        document.getElementById('details-completed').textContent = data.completed ?
+                            'Completed' : 'Not Completed';
 
                         // Populate subtasks
                         const subtasksContainer = document.getElementById('details-subtasks');
@@ -1114,7 +1163,8 @@ document.addEventListener('click', function(e) {
                             data.subtasks.forEach(subtask => {
                                 const subtaskDiv = document.createElement('div');
                                 subtaskDiv.className = 'mb-1';
-                                subtaskDiv.innerHTML = `<span class="${subtask.completed ? 'line-through text-gray-500' : ''}">${subtask.title}</span>`;
+                                subtaskDiv.innerHTML =
+                                    `<span class="${subtask.completed ? 'line-through text-gray-500' : ''}">${subtask.title}</span>`;
                                 subtasksContainer.appendChild(subtaskDiv);
                             });
                         } else {

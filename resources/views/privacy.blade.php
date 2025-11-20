@@ -1,4 +1,4 @@
-@extends('layouts.setting') {{-- Mengacu pada file resources/views/layouts/setting.blade.php --}}
+@extends('layouts.setting')
 
 @section('content')
     <div class="flex flex-col justify-center h-full p-6 font-poppins">

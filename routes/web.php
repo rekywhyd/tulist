@@ -9,7 +9,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/view', [App\Http\Controllers\TaskController::class, 'index'])->middleware(['auth', 'verified'])->name('view');
+Route::get('/view', [App\Http\Controllers\TaskController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('view');
 
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
@@ -19,16 +21,16 @@ Route::get('/home', function () {
 
     $tasks = $user->tasks()->with('subtasks')->get();
 
-    $todayTasks = $tasks->filter(function($task) {
+    $todayTasks = $tasks->filter(function ($task) {
         return $task->due_date->isToday() && !$task->completed;
     });
-    $tomorrowTasks = $tasks->filter(function($task) {
+    $tomorrowTasks = $tasks->filter(function ($task) {
         return $task->due_date->isTomorrow() && !$task->completed;
     });
-    $upcomingTasks = $tasks->filter(function($task) {
+    $upcomingTasks = $tasks->filter(function ($task) {
         return $task->due_date->gt(now()->addDay()) && !$task->completed;
     });
-    $historyTasks = $tasks->filter(function($task) {
+    $historyTasks = $tasks->filter(function ($task) {
         return $task->completed;
     });
 
@@ -36,15 +38,24 @@ Route::get('/home', function () {
     $tomorrowCount = $tomorrowTasks->count();
     $upcomingCount = $upcomingTasks->count();
 
-    return view('home', compact('todayTasks', 'tomorrowTasks', 'upcomingTasks', 'historyTasks', 'todayCount', 'tomorrowCount', 'upcomingCount')); // Mengarahkan ke home.blade.php
-})->middleware(['auth', 'verified'])->name('home');
+    return view('home', compact('todayTasks', 'tomorrowTasks', 'upcomingTasks', 'historyTasks', 'todayCount', 'tomorrowCount', 'upcomingCount'));
+})
+    ->middleware(['auth', 'verified'])
+    ->name('home');
 
-Route::get('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])->middleware(['auth', 'verified'])->name('schedule');
-Route::post('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])->middleware(['auth', 'verified'])->name('schedule');
+Route::get('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])
+    ->middleware(['auth', 'verified'])
+    ->name('schedule');
+Route::post('/schedule', [App\Http\Controllers\TaskController::class, 'schedule'])
+    ->middleware(['auth', 'verified'])
+    ->name('schedule');
 
-
-Route::get('/help', [PageController::class, 'help'])->name('help')->middleware('auth');
-Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy')->middleware('auth');
+Route::get('/help', [PageController::class, 'help'])
+    ->name('help')
+    ->middleware('auth');
+Route::get('/privacy', [PageController::class, 'privacy'])
+    ->name('privacy')
+    ->middleware('auth');
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -60,4 +71,4 @@ Route::middleware('auth', 'verified')->group(function () {
 Route::get('/auth/google', [App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [App\Http\Controllers\Auth\GoogleController::class, 'handleGoogleCallback']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

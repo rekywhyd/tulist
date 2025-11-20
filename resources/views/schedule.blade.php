@@ -342,19 +342,25 @@
         </div>
     </div>
 
-    <div id="rename-modal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50 font-poppins">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 mx-auto rounded-xl shadow-xl w-96 bg-[#132C51]">
+    <div id="rename-modal"
+        class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50 font-poppins">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 mx-auto rounded-xl shadow-xl w-96 bg-[#132C51]">
             <div class="mt-3">
                 <h3 class="mb-4 text-lg font-semibold text-white">Rename Task</h3>
                 <form id="rename-form">
                     @csrf
                     <input type="hidden" id="rename-task-id">
                     <div class="mb-4">
-                        <input type="text" id="rename-title" class="w-full px-3 py-2 text-white border border-gray-600 rounded-xl mb-2 bg-[#0C1F3B]" required>
+                        <input type="text" id="rename-title"
+                            class="w-full px-3 py-2 text-white border border-gray-600 rounded-xl mb-2 bg-[#0C1F3B]"
+                            required>
                     </div>
                     <div class="flex justify-center gap-6 mt-6 font-medium">
-                        <button type="button" id="close-rename-modal" class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 hover:hover:scale-95 rounded-3xl">Cancel</button>
-                        <button type="submit" class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Rename</button>
+                        <button type="button" id="close-rename-modal"
+                            class="px-5 py-1 text-white transition-transform duration-200 bg-gray-500 hover:hover:scale-95 rounded-3xl">Cancel</button>
+                        <button type="submit"
+                            class="transition-transform duration-200 hover:hover:scale-110 px-5 py-1 text-white bg-[#1C427A] rounded-3xl">Rename</button>
                     </div>
                 </form>
             </div>
@@ -421,9 +427,9 @@
                     <p id="details-due-date" class="text-gray-200"></p>
                 </div>
                 <div class="mb-4">
-    <label class="block font-semibold text-gray-100">Priority</label>
-    <p id="details-priority" class="font-semibold text-gray-200"></p> 
-</div>
+                    <label class="block font-semibold text-gray-100">Priority</label>
+                    <p id="details-priority" class="font-semibold text-gray-200"></p>
+                </div>
                 <div class="mb-4">
                     <label class="block font-semibold text-gray-100">Status</label>
                     <p id="details-completed" class="text-gray-200"></p>
@@ -442,215 +448,213 @@
     </div>
 
     <script>
-    let currentMonth = {{ $month }};
-    let currentYear = {{ $year }};
-    let selectedDate = null;
-    let currentFilter = 'all';
+        let currentMonth = {{ $month }};
+        let currentYear = {{ $year }};
+        let selectedDate = null;
+        let currentFilter = 'all';
 
-    // Priority colors
-    const priorityColors = {
-        'Urgent': '#DC2626',
-        'High': '#F59E0B',
-        'Normal': '#3B82F6',
-        'Low': '#10B981'
-    };
-
-    // Global task objects (keyed by task ID for better mapping)
-    let allTasks = @json($allTasks->keyBy('id'));
-    let todayTasks = @json($todayTasks->keyBy('id'));
-    let upcomingTasks = @json($upcomingTasks->keyBy('id'));
-    let completedTasks = @json($completedTasks->keyBy('id'));
-
-    // Debugging logs
-    console.log('All Tasks:', allTasks);
-    console.log('Today Tasks:', todayTasks);
-    console.log('Upcoming Tasks:', upcomingTasks);
-    console.log('Completed Tasks:', completedTasks);
-
-    // Load tasks for selected date or filter
-    function loadTasks(date = null, filter = 'all') {
-        console.log('loadTasks called with date:', date, 'filter:', filter);
-        const taskList = document.getElementById('task-list');
-        let tasks = [];
-        let showSubtasks = false;
-
-        if (date) {
-            // Load tasks for specific date with error handling
-            fetch(`/tasks?date=${date}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Fetched tasks for date', date, ':', data);
-                    displayTasks(data, taskList, true); // Menampilkan subtask untuk tampilan tanggal spesifik
-                })
-                .catch(error => {
-                    console.error('Error loading tasks for date', date, ':', error);
-                    taskList.innerHTML =
-                        '<div class="p-3 text-[#132C51] text-center">Tidak ada tugas pada tanggal ini.</div>';
-                });
-        } else {
-            // Load tasks based on filter
-            switch (filter) {
-                case 'today':
-                    tasks = Object.values(todayTasks);
-                    showSubtasks = true;
-                    break;
-                case 'upcoming':
-                    tasks = Object.values(upcomingTasks);
-                    showSubtasks = true;
-                    break;
-                case 'completed':
-                    tasks = Object.values(completedTasks);
-                    showSubtasks = false;
-                    break;
-                default:
-                    // All Tasks
-                    tasks = Object.values(allTasks);
-                    showSubtasks = false;
-            }
-            console.log('Displaying tasks for filter', filter, ':', tasks);
-            displayTasks(tasks, taskList, showSubtasks);
-        }
-    }
-
-    // Update task arrays when task status changes
-    function updateTaskArrays(taskId, completed) {
-        console.log('updateTaskArrays called with taskId:', taskId, 'completed:', completed);
-        // Find the task in allTasks and update it
-        if (allTasks[taskId]) {
-            allTasks[taskId].completed = completed;
-
-            // Update todayTasks
-            if (todayTasks[taskId]) {
-                if (completed) {
-                    delete todayTasks[taskId];
-                }
-            } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date).toDateString() ===
-                new Date().toDateString()) {
-                todayTasks[taskId] = allTasks[taskId];
-            }
-
-            // Update upcomingTasks
-            if (upcomingTasks[taskId]) {
-                if (completed) {
-                    delete upcomingTasks[taskId];
-                }
-            } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date) > new Date()) {
-                upcomingTasks[taskId] = allTasks[taskId];
-            }
-
-            // Update completedTasks
-            if (completed) {
-                completedTasks[taskId] = allTasks[taskId];
-            } else {
-                delete completedTasks[taskId];
-            }
-        }
-    }
-
-    // Function to add new task to UI
-    function addTaskToUI(task) {
-        // Add to allTasks
-        allTasks[task.id] = task;
-
-        // Determine category based on due_date
-        const dueDate = new Date(task.due_date);
-        const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1);
-
-        if (dueDate.toDateString() === today.toDateString()) {
-            todayTasks[task.id] = task;
-        } else if (dueDate.toDateString() === tomorrow.toDateString()) {
-            // Assuming tomorrowTasks is not defined, but for schedule, we have today, upcoming, completed
-            // For schedule, upcoming includes tomorrow and beyond
-            upcomingTasks[task.id] = task;
-        } else if (dueDate > today) {
-            upcomingTasks[task.id] = task;
-        }
-
-        // Reload tasks to reflect changes
-        loadTasks(selectedDate, currentFilter);
-    }
-
-    // Function to update category counts
-    function updateCategoryCount(category) {
-        const contentDiv = document.getElementById(`${category}-content`);
-        const taskCount = contentDiv ? contentDiv.children.length : 0;
-        const countSpan = document.querySelector(`[data-category="${category}"] .rounded-full`);
-        if (countSpan) {
-            countSpan.textContent = taskCount;
-        }
-    }
-
-    // Function to update all category counts
-    function updateAllCategoryCounts() {
-        updateCategoryCount('today');
-        updateCategoryCount('tomorrow');
-        updateCategoryCount('upcoming');
-        updateCategoryCount('completed');
-    }
-
-    function displayTasks(tasks, container, showSubtasks = false) {
-        console.log('displayTasks called with tasks:', tasks, 'showSubtasks:', showSubtasks);
-        container.innerHTML = '';
-
-        if (tasks.length === 0) {
-             container.innerHTML =
-                        '<div class="p-3 text-[#132C51] text-center">Tidak ada tugas dalam kategori ini.</div>';
-            return;
-        }
-
-        // Sort tasks (sesuai logika Anda)
-        const today = new Date().toDateString();
-        const priorityOrder = {
-            'Urgent': 1,
-            'High': 2,
-            'Normal': 3,
-            'Low': 4
+        // Priority colors
+        const priorityColors = {
+            'Urgent': '#DC2626',
+            'High': '#F59E0B',
+            'Normal': '#3B82F6',
+            'Low': '#10B981'
         };
-        tasks.sort((a, b) => {
-            const aDate = a.due_date ? new Date(a.due_date).toDateString() : null;
-            const bDate = b.due_date ? new Date(b.due_date).toDateString() : null;
-            const aIsToday = aDate === today;
-            const bIsToday = bDate === today;
 
-            if (aIsToday && !bIsToday) return -1;
-            if (!aIsToday && bIsToday) return 1;
+        // Global task objects (keyed by task ID for better mapping)
+        let allTasks = @json($allTasks->keyBy('id'));
+        let todayTasks = @json($todayTasks->keyBy('id'));
+        let upcomingTasks = @json($upcomingTasks->keyBy('id'));
+        let completedTasks = @json($completedTasks->keyBy('id'));
 
-            if (aDate && bDate) {
-                const dateDiff = new Date(a.due_date) - new Date(b.due_date);
-                if (dateDiff !== 0) return dateDiff;
-            } else if (aDate) return -1;
-            else if (bDate) return 1;
+        // Debugging logs
+        console.log('All Tasks:', allTasks);
+        console.log('Today Tasks:', todayTasks);
+        console.log('Upcoming Tasks:', upcomingTasks);
+        console.log('Completed Tasks:', completedTasks);
 
-            return priorityOrder[a.priority] - priorityOrder[b.priority];
-        });
+        // Load tasks for selected date or filter
+        function loadTasks(date = null, filter = 'all') {
+            console.log('loadTasks called with date:', date, 'filter:', filter);
+            const taskList = document.getElementById('task-list');
+            let tasks = [];
+            let showSubtasks = false;
 
-        tasks.forEach(task => {
-            const taskDiv = document.createElement('div');
-            taskDiv.className =
-                'p-3 border rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md';
-            taskDiv.setAttribute('data-task-id', task.id);
+            if (date) {
+                // Load tasks for specific date with error handling
+                fetch(`/tasks?date=${date}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Fetched tasks for date', date, ':', data);
+                        displayTasks(data, taskList, true);
+                    })
+                    .catch(error => {
+                        console.error('Error loading tasks for date', date, ':', error);
+                        taskList.innerHTML =
+                            '<div class="p-3 text-[#132C51] text-center">Tidak ada tugas pada tanggal ini.</div>';
+                    });
+            } else {
+                // Load tasks based on filter
+                switch (filter) {
+                    case 'today':
+                        tasks = Object.values(todayTasks);
+                        showSubtasks = true;
+                        break;
+                    case 'upcoming':
+                        tasks = Object.values(upcomingTasks);
+                        showSubtasks = true;
+                        break;
+                    case 'completed':
+                        tasks = Object.values(completedTasks);
+                        showSubtasks = false;
+                        break;
+                    default:
+                        // All Tasks
+                        tasks = Object.values(allTasks);
+                        showSubtasks = false;
+                }
+                console.log('Displaying tasks for filter', filter, ':', tasks);
+                displayTasks(tasks, taskList, showSubtasks);
+            }
+        }
 
-            let subtasksHtml = '';
-            if (showSubtasks && task.subtasks && task.subtasks.length > 0) {
-                subtasksHtml =
-                    '<div class="mt-2 ml-5 subtasks-container"><ul class="space-y-1 text-sm text-gray-600">';
-                task.subtasks.forEach(subtask => {
-                    subtasksHtml += `<li class="subtask-item flex items-center ${subtask.completed ? 'opacity-50' : ''}">
+        // Update task arrays when task status changes
+        function updateTaskArrays(taskId, completed) {
+            console.log('updateTaskArrays called with taskId:', taskId, 'completed:', completed);
+            // Find the task in allTasks and update it
+            if (allTasks[taskId]) {
+                allTasks[taskId].completed = completed;
+
+                // Update todayTasks
+                if (todayTasks[taskId]) {
+                    if (completed) {
+                        delete todayTasks[taskId];
+                    }
+                } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date).toDateString() ===
+                    new Date().toDateString()) {
+                    todayTasks[taskId] = allTasks[taskId];
+                }
+
+                // Update upcomingTasks
+                if (upcomingTasks[taskId]) {
+                    if (completed) {
+                        delete upcomingTasks[taskId];
+                    }
+                } else if (!completed && allTasks[taskId].due_date && new Date(allTasks[taskId].due_date) > new Date()) {
+                    upcomingTasks[taskId] = allTasks[taskId];
+                }
+
+                // Update completedTasks
+                if (completed) {
+                    completedTasks[taskId] = allTasks[taskId];
+                } else {
+                    delete completedTasks[taskId];
+                }
+            }
+        }
+
+        // Function to add new task to UI
+        function addTaskToUI(task) {
+            // Add to allTasks
+            allTasks[task.id] = task;
+
+            // Determine category based on due_date
+            const dueDate = new Date(task.due_date);
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+
+            if (dueDate.toDateString() === today.toDateString()) {
+                todayTasks[task.id] = task;
+            } else if (dueDate.toDateString() === tomorrow.toDateString()) {
+                upcomingTasks[task.id] = task;
+            } else if (dueDate > today) {
+                upcomingTasks[task.id] = task;
+            }
+
+            // Reload tasks to reflect changes
+            loadTasks(selectedDate, currentFilter);
+        }
+
+        // Function to update category counts
+        function updateCategoryCount(category) {
+            const contentDiv = document.getElementById(`${category}-content`);
+            const taskCount = contentDiv ? contentDiv.children.length : 0;
+            const countSpan = document.querySelector(`[data-category="${category}"] .rounded-full`);
+            if (countSpan) {
+                countSpan.textContent = taskCount;
+            }
+        }
+
+        // Function to update all category counts
+        function updateAllCategoryCounts() {
+            updateCategoryCount('today');
+            updateCategoryCount('tomorrow');
+            updateCategoryCount('upcoming');
+            updateCategoryCount('completed');
+        }
+
+        function displayTasks(tasks, container, showSubtasks = false) {
+            console.log('displayTasks called with tasks:', tasks, 'showSubtasks:', showSubtasks);
+            container.innerHTML = '';
+
+            if (tasks.length === 0) {
+                container.innerHTML =
+                    '<div class="p-3 text-[#132C51] text-center">Tidak ada tugas dalam kategori ini.</div>';
+                return;
+            }
+
+            // Sort tasks (sesuai logika Anda)
+            const today = new Date().toDateString();
+            const priorityOrder = {
+                'Urgent': 1,
+                'High': 2,
+                'Normal': 3,
+                'Low': 4
+            };
+            tasks.sort((a, b) => {
+                const aDate = a.due_date ? new Date(a.due_date).toDateString() : null;
+                const bDate = b.due_date ? new Date(b.due_date).toDateString() : null;
+                const aIsToday = aDate === today;
+                const bIsToday = bDate === today;
+
+                if (aIsToday && !bIsToday) return -1;
+                if (!aIsToday && bIsToday) return 1;
+
+                if (aDate && bDate) {
+                    const dateDiff = new Date(a.due_date) - new Date(b.due_date);
+                    if (dateDiff !== 0) return dateDiff;
+                } else if (aDate) return -1;
+                else if (bDate) return 1;
+
+                return priorityOrder[a.priority] - priorityOrder[b.priority];
+            });
+
+            tasks.forEach(task => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className =
+                    'p-3 border rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md';
+                taskDiv.setAttribute('data-task-id', task.id);
+
+                let subtasksHtml = '';
+                if (showSubtasks && task.subtasks && task.subtasks.length > 0) {
+                    subtasksHtml =
+                        '<div class="mt-2 ml-5 subtasks-container"><ul class="space-y-1 text-sm text-gray-600">';
+                    task.subtasks.forEach(subtask => {
+                        subtasksHtml += `<li class="subtask-item flex items-center ${subtask.completed ? 'opacity-50' : ''}">
                         <input type="checkbox" class="w-5 h-5 mr-2 rounded-full subtask-checkbox accent-blue-500" data-id="${subtask.id}" ${subtask.completed ? 'checked' : ''}>
                         <span class="${subtask.completed ? 'line-through text-gray-400' : ''}">${subtask.title}</span>
                     </li>`;
-                });
-                subtasksHtml += '</ul></div>';
-            }
+                    });
+                    subtasksHtml += '</ul></div>';
+                }
 
-            taskDiv.innerHTML = `
+                taskDiv.innerHTML = `
                 <div class="flex items-center justify-between">
                     <div class="flex items-center flex-1">
                         <input type="checkbox" class="w-5 h-5 mr-3 rounded-full accent-blue-500 task-checkbox" data-id="${task.id}" ${task.completed ? 'checked' : ''}>
@@ -715,470 +719,477 @@
                 </div>
                 ${subtasksHtml}
             `;
-            container.appendChild(taskDiv);
-        });
-    }
-
-    // Calendar navigation
-    document.getElementById('prev-month').addEventListener('click', () => {
-        currentMonth--;
-        if (currentMonth < 1) {
-            currentMonth = 12;
-            currentYear--;
-        }
-        navigateToMonth(currentYear, currentMonth);
-    });
-
-    document.getElementById('next-month').addEventListener('click', () => {
-        currentMonth++;
-        if (currentMonth > 12) {
-            currentMonth = 1;
-            currentYear++;
-        }
-        navigateToMonth(currentYear, currentMonth);
-    });
-
-    function navigateToMonth(year, month) {
-        window.location.href = `/schedule?year=${year}&month=${month}`;
-    }
-
-    // Date selection
-    document.querySelectorAll('.date-cell').forEach(cell => {
-        cell.addEventListener('click', () => {
-            selectedDate = cell.dataset.date;
-            document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('bg-blue-100'));
-            cell.classList.add('bg-blue-100');
-            loadTasks(selectedDate);
-        });
-    });
-
-    // Task filters
-    document.querySelectorAll('.task-filter').forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelectorAll('.task-filter').forEach(b => {
-                b.classList.remove('bg-blue-100', 'text-blue-800');
-                b.classList.add('bg-gray-100', 'text-gray-800');
+                container.appendChild(taskDiv);
             });
-            button.classList.remove('bg-gray-100', 'text-gray-800');
-            button.classList.add('bg-blue-100', 'text-blue-800');
-            currentFilter = button.dataset.filter;
-            // Menghapus pilihan tanggal saat filter diklik
-            selectedDate = null; 
-            document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('bg-blue-100'));
-            
-            loadTasks(null, currentFilter);
-        });
-    });
-
-    // Toggle view
-    document.getElementById('toggle-view').addEventListener('click', () => {
-        const calendarView = document.getElementById('calendar-view');
-        const listView = document.getElementById('list-view');
-        const viewText = document.getElementById('view-text');
-
-        if (calendarView.classList.contains('hidden')) {
-            calendarView.classList.remove('hidden');
-            listView.classList.add('hidden');
-            viewText.textContent = 'Calendar View';
-        } else {
-            calendarView.classList.add('hidden');
-            listView.classList.remove('hidden');
-            viewText.textContent = 'List View';
         }
-    });
 
-    // Tombol Add Task (Quick add task)
-document.getElementById('add-task-btn').addEventListener('click', () => {
-    document.getElementById('add-task-modal').classList.remove('hidden');
-});
-
-    // Initialize
-    console.log('Initializing schedule page');
-    loadTasks(null, 'all');
-
-    // ------------------------------------------------
-    // LOGIKA MODAL DAN INTERAKSI TUGAS (DIPERBARUI)
-    // ------------------------------------------------
-
-    const addTaskModal = document.getElementById('add-task-modal');
-    const closeModal = document.getElementById('close-modal');
-    const confirmModal = document.getElementById('confirm-modal');
-    const confirmYes = document.getElementById('confirm-yes');
-    const confirmNo = document.getElementById('confirm-no');
-    
-    // 1. Perbaikan Tombol Cancel/Close Modal (Add Task)
-    closeModal.addEventListener('click', () => {
-        addTaskModal.classList.add('hidden');
-        // Reset form saat ditutup
-        document.querySelector('#add-task-modal form').reset();
-        document.getElementById('subtasks-container').innerHTML = '';
-        // Reset Alpine.js priority selection
-        const prioritySelect = document.querySelector('#add-task-modal select[name="priority"]');
-        if (prioritySelect) {
-            prioritySelect.value = '';
-        }
-        const alpineData = document.querySelector('#add-task-modal [x-data]');
-        if (alpineData && alpineData._x_dataStack) {
-            alpineData._x_dataStack[0].selected = null;
-        }
-    });
-
-    // 2. Perbaikan Add Subtask (di dalam modal Add Task)
-    const addSubtaskBtnModal = document.getElementById('add-subtask-btn');
-    const subtasksContainer = document.getElementById('subtasks-container');
-
-    addSubtaskBtnModal.addEventListener('click', () => {
-        const subtaskInput = document.createElement('input');
-        subtaskInput.type = 'text';
-        subtaskInput.name = 'subtasks[]';
-        // ✅ PERBAIKAN: Menambahkan kelas Tailwind untuk styling yang konsisten
-        subtaskInput.className = 'w-full px-3 py-2 border rounded-lg mb-2 text-white border-gray-600 bg-[#0C1F3B] focus:ring-blue-500 focus:border-blue-500';
-        subtaskInput.placeholder = 'Subtask ' + (subtasksContainer.children.length + 1);
-        subtasksContainer.appendChild(subtaskInput);
-    });
-
-    // Handle form submission for adding new task
-    document.querySelector('#add-task-modal form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        // Calendar navigation
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 1) {
+                currentMonth = 12;
+                currentYear--;
             }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Add the new task to the UI
-                addTaskToUI(data.task);
-                // Close the modal
-                addTaskModal.classList.add('hidden');
-                // Reset form
-                this.reset();
-                document.getElementById('subtasks-container').innerHTML = '';
-                // Reset Alpine.js priority selection
-                const prioritySelect = document.querySelector('#add-task-modal select[name="priority"]');
-                if (prioritySelect) {
-                    prioritySelect.value = '';
-                }
-                const alpineData = document.querySelector('#add-task-modal [x-data]');
-                if (alpineData && alpineData._x_dataStack) {
-                    alpineData._x_dataStack[0].selected = null;
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+            navigateToMonth(currentYear, currentMonth);
         });
-    });
 
-    // Task checkbox functionality (menggunakan delegasi untuk elemen yang dimuat secara dinamis)
-    document.addEventListener('change', function(e) {
-        if (e.target.classList.contains('task-checkbox')) {
-            const checkbox = e.target;
-            if (checkbox.checked) {
-                confirmModal.classList.remove('hidden');
-                confirmModal.dataset.taskId = checkbox.dataset.id;
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 12) {
+                currentMonth = 1;
+                currentYear++;
+            }
+            navigateToMonth(currentYear, currentMonth);
+        });
+
+        function navigateToMonth(year, month) {
+            window.location.href = `/schedule?year=${year}&month=${month}`;
+        }
+
+        // Date selection
+        document.querySelectorAll('.date-cell').forEach(cell => {
+            cell.addEventListener('click', () => {
+                selectedDate = cell.dataset.date;
+                document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('bg-blue-100'));
+                cell.classList.add('bg-blue-100');
+                loadTasks(selectedDate);
+            });
+        });
+
+        // Task filters
+        document.querySelectorAll('.task-filter').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.task-filter').forEach(b => {
+                    b.classList.remove('bg-blue-100', 'text-blue-800');
+                    b.classList.add('bg-gray-100', 'text-gray-800');
+                });
+                button.classList.remove('bg-gray-100', 'text-gray-800');
+                button.classList.add('bg-blue-100', 'text-blue-800');
+                currentFilter = button.dataset.filter;
+                // Menghapus pilihan tanggal saat filter diklik
+                selectedDate = null;
+                document.querySelectorAll('.date-cell').forEach(c => c.classList.remove('bg-blue-100'));
+
+                loadTasks(null, currentFilter);
+            });
+        });
+
+        // Toggle view
+        document.getElementById('toggle-view').addEventListener('click', () => {
+            const calendarView = document.getElementById('calendar-view');
+            const listView = document.getElementById('list-view');
+            const viewText = document.getElementById('view-text');
+
+            if (calendarView.classList.contains('hidden')) {
+                calendarView.classList.remove('hidden');
+                listView.classList.add('hidden');
+                viewText.textContent = 'Calendar View';
             } else {
-                // Jika user mencentang lalu membatalkannya (meskipun logika server Anda mungkin hanya menangani 'completed: true')
-                // Anda bisa menambahkan logika server untuk uncheck di sini jika didukung.
-                // Saat ini, kita biarkan saja (confirmNo akan meresetnya).
+                calendarView.classList.add('hidden');
+                listView.classList.remove('hidden');
+                viewText.textContent = 'List View';
             }
-        }
-    });
-
-    confirmYes.addEventListener('click', () => {
-        const taskId = confirmModal.dataset.taskId;
-        fetch(`/tasks/${taskId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                completed: true
-            })
-        }).then(() => {
-            updateTaskArrays(taskId, true);
-            // Switch to completed filter and update UI
-            currentFilter = 'completed';
-            document.querySelectorAll('.task-filter').forEach(b => {
-                b.classList.remove('bg-blue-100', 'text-blue-800');
-                b.classList.add('bg-gray-100', 'text-gray-800');
-            });
-            document.querySelector('.task-filter[data-filter="completed"]').classList.remove('bg-gray-100', 'text-gray-800');
-            document.querySelector('.task-filter[data-filter="completed"]').classList.add('bg-blue-100', 'text-blue-800');
-            // Muat ulang daftar tugas untuk mencerminkan perubahan
-            loadTasks(selectedDate, currentFilter);
-            confirmModal.classList.add('hidden');
         });
-    });
 
-    confirmNo.addEventListener('click', () => {
-        confirmModal.classList.add('hidden');
-        // Uncheck checkbox yang memicu modal
-        const checkbox = document.querySelector(`.task-checkbox[data-id="${confirmModal.dataset.taskId}"]`);
-        if (checkbox) {
-            checkbox.checked = false;
-        }
-    });
+        // Tombol Add Task (Quick add task)
+        document.getElementById('add-task-btn').addEventListener('click', () => {
+            document.getElementById('add-task-modal').classList.remove('hidden');
+        });
 
-    // Subtask checkbox functionality
-    document.addEventListener('change', function(e) {
-        if (e.target.classList.contains('subtask-checkbox')) {
-            const subtaskId = e.target.dataset.id;
-            const isChecked = e.target.checked;
-            
-            fetch(`/subtasks/${subtaskId}`, {
+        // Initialize
+        console.log('Initializing schedule page');
+        loadTasks(null, 'all');
+
+        const addTaskModal = document.getElementById('add-task-modal');
+        const closeModal = document.getElementById('close-modal');
+        const confirmModal = document.getElementById('confirm-modal');
+        const confirmYes = document.getElementById('confirm-yes');
+        const confirmNo = document.getElementById('confirm-no');
+
+        // 1. Perbaikan Tombol Cancel/Close Modal (Add Task)
+        closeModal.addEventListener('click', () => {
+            addTaskModal.classList.add('hidden');
+            // Reset form saat ditutup
+            document.querySelector('#add-task-modal form').reset();
+            document.getElementById('subtasks-container').innerHTML = '';
+            // Reset Alpine.js priority selection
+            const prioritySelect = document.querySelector('#add-task-modal select[name="priority"]');
+            if (prioritySelect) {
+                prioritySelect.value = '';
+            }
+            const alpineData = document.querySelector('#add-task-modal [x-data]');
+            if (alpineData && alpineData._x_dataStack) {
+                alpineData._x_dataStack[0].selected = null;
+            }
+        });
+
+        // 2. Perbaikan Add Subtask (di dalam modal Add Task)
+        const addSubtaskBtnModal = document.getElementById('add-subtask-btn');
+        const subtasksContainer = document.getElementById('subtasks-container');
+
+        addSubtaskBtnModal.addEventListener('click', () => {
+            const subtaskInput = document.createElement('input');
+            subtaskInput.type = 'text';
+            subtaskInput.name = 'subtasks[]';
+            subtaskInput.className =
+                'w-full px-3 py-2 border rounded-lg mb-2 text-white border-gray-600 bg-[#0C1F3B] focus:ring-blue-500 focus:border-blue-500';
+            subtaskInput.placeholder = 'Subtask ' + (subtasksContainer.children.length + 1);
+            subtasksContainer.appendChild(subtaskInput);
+        });
+
+        // Handle form submission for adding new task
+        document.querySelector('#add-task-modal form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Add the new task to the UI
+                        addTaskToUI(data.task);
+                        // Close the modal
+                        addTaskModal.classList.add('hidden');
+                        // Reset form
+                        this.reset();
+                        document.getElementById('subtasks-container').innerHTML = '';
+                        // Reset Alpine.js priority selection
+                        const prioritySelect = document.querySelector(
+                            '#add-task-modal select[name="priority"]');
+                        if (prioritySelect) {
+                            prioritySelect.value = '';
+                        }
+                        const alpineData = document.querySelector('#add-task-modal [x-data]');
+                        if (alpineData && alpineData._x_dataStack) {
+                            alpineData._x_dataStack[0].selected = null;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        // Task checkbox functionality (menggunakan delegasi untuk elemen yang dimuat secara dinamis)
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('task-checkbox')) {
+                const checkbox = e.target;
+                if (checkbox.checked) {
+                    confirmModal.classList.remove('hidden');
+                    confirmModal.dataset.taskId = checkbox.dataset.id;
+                } else {
+                    // Jika user mencentang lalu membatalkannya (meskipun logika server mungkin hanya menangani 'completed: true')
+                    // bisa dengan menambahkan logika server untuk uncheck di sini jika didukung.
+                    // Saat ini, biarkan saja (confirmNo akan meresetnya).
+                }
+            }
+        });
+
+        confirmYes.addEventListener('click', () => {
+            const taskId = confirmModal.dataset.taskId;
+            fetch(`/tasks/${taskId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify({
-                    completed: isChecked
+                    completed: true
                 })
             }).then(() => {
-                const subtaskDiv = e.target.closest('.subtask-item');
-                const spanElement = e.target.nextElementSibling;
-                if (isChecked) {
-                    subtaskDiv.classList.add('opacity-50');
-                    spanElement.classList.add('line-through', 'text-gray-400');
-                    spanElement.classList.remove('text-[#132C51]');
-                } else {
-                    subtaskDiv.classList.remove('opacity-50');
-                    spanElement.classList.remove('line-through', 'text-gray-400');
-                    spanElement.classList.add('text-[#132C51]');
-                }
+                updateTaskArrays(taskId, true);
+                // Switch to completed filter and update UI
+                currentFilter = 'completed';
+                document.querySelectorAll('.task-filter').forEach(b => {
+                    b.classList.remove('bg-blue-100', 'text-blue-800');
+                    b.classList.add('bg-gray-100', 'text-gray-800');
+                });
+                document.querySelector('.task-filter[data-filter="completed"]').classList.remove(
+                    'bg-gray-100', 'text-gray-800');
+                document.querySelector('.task-filter[data-filter="completed"]').classList.add('bg-blue-100',
+                    'text-blue-800');
+                // Muat ulang daftar tugas untuk mencerminkan perubahan
+                loadTasks(selectedDate, currentFilter);
+                confirmModal.classList.add('hidden');
             });
-        }
-    });
+        });
 
-    // 3. Perbaikan Task menu functionality (Titik Tiga)
-    document.addEventListener('click', function(e) {
-        const taskMenuBtn = e.target.closest('.task-menu-btn');
-        const taskMenu = e.target.closest('.task-menu');
-
-        // Langkah A: Tutup SEMUA menu terlebih dahulu (Reset)
-        document.querySelectorAll('.task-menu').forEach(m => {
-            if (m !== taskMenu) {
-                m.classList.add('hidden');
+        confirmNo.addEventListener('click', () => {
+            confirmModal.classList.add('hidden');
+            // Uncheck checkbox yang memicu modal
+            const checkbox = document.querySelector(`.task-checkbox[data-id="${confirmModal.dataset.taskId}"]`);
+            if (checkbox) {
+                checkbox.checked = false;
             }
         });
 
-        // Langkah B: Toggle menu yang diklik
-        if (taskMenuBtn) {
-            const taskId = taskMenuBtn.dataset.task;
-            const menu = document.querySelector(`.task-menu[data-task="${taskId}"]`);
-            if (menu) {
-                menu.classList.toggle('hidden');
+        // Subtask checkbox functionality
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('subtask-checkbox')) {
+                const subtaskId = e.target.dataset.id;
+                const isChecked = e.target.checked;
+
+                fetch(`/subtasks/${subtaskId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        completed: isChecked
+                    })
+                }).then(() => {
+                    const subtaskDiv = e.target.closest('.subtask-item');
+                    const spanElement = e.target.nextElementSibling;
+                    if (isChecked) {
+                        subtaskDiv.classList.add('opacity-50');
+                        spanElement.classList.add('line-through', 'text-gray-400');
+                        spanElement.classList.remove('text-[#132C51]');
+                    } else {
+                        subtaskDiv.classList.remove('opacity-50');
+                        spanElement.classList.remove('line-through', 'text-gray-400');
+                        spanElement.classList.add('text-[#132C51]');
+                    }
+                });
             }
-        } 
-        // Langkah C: Jika klik di luar menu dan bukan tombolnya, tutup menu.
-        else if (!taskMenu) {
+        });
+
+        // 3. Perbaikan Task menu functionality (Titik Tiga)
+        document.addEventListener('click', function(e) {
+            const taskMenuBtn = e.target.closest('.task-menu-btn');
+            const taskMenu = e.target.closest('.task-menu');
+
+            // Langkah A: Tutup SEMUA menu terlebih dahulu (Reset)
+            document.querySelectorAll('.task-menu').forEach(m => {
+                if (m !== taskMenu) {
+                    m.classList.add('hidden');
+                }
+            });
+
+            // Langkah B: Toggle menu yang diklik
+            if (taskMenuBtn) {
+                const taskId = taskMenuBtn.dataset.task;
+                const menu = document.querySelector(`.task-menu[data-task="${taskId}"]`);
+                if (menu) {
+                    menu.classList.toggle('hidden');
+                }
+            }
+            // Langkah C: Jika klik di luar menu dan bukan tombolnya, tutup menu.
+            else if (!taskMenu) {
+                document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
+            }
+        });
+
+        // Menyembunyikan menu setelah aksi dipilih (Tambahkan ini ke setiap event handler menu)
+        const hideMenus = () => {
             document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-        }
-    });
+        };
 
-    // Menyembunyikan menu setelah aksi dipilih (Tambahkan ini ke setiap event handler menu)
-    const hideMenus = () => {
-        document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
-    };
-
-    // Rename button functionality
+        // Rename button functionality
         document.addEventListener('click', function(e) {
             const renameBtn = e.target.closest('.rename-btn');
             if (renameBtn) {
                 const taskId = renameBtn.dataset.task;
                 document.getElementById('rename-task-id').value = taskId;
-                document.getElementById('rename-title').value = document.querySelector(`.task-checkbox[data-id="${taskId}"]`).nextElementSibling.textContent;
+                document.getElementById('rename-title').value = document.querySelector(
+                    `.task-checkbox[data-id="${taskId}"]`).nextElementSibling.textContent;
                 document.getElementById('rename-modal').classList.remove('hidden');
                 // Hide the task menu
                 document.querySelectorAll('.task-menu').forEach(m => m.classList.add('hidden'));
             }
         });
 
-    // Duplicate button functionality
-    document.addEventListener('click', function(e) {
-        const duplicateBtn = e.target.closest('.duplicate-btn');
-        if (duplicateBtn) {
-            hideMenus();
-            const taskId = duplicateBtn.dataset.task;
-            fetch(`/tasks/${taskId}/duplicate`, {
+        // Duplicate button functionality
+        document.addEventListener('click', function(e) {
+            const duplicateBtn = e.target.closest('.duplicate-btn');
+            if (duplicateBtn) {
+                hideMenus();
+                const taskId = duplicateBtn.dataset.task;
+                fetch(`/tasks/${taskId}/duplicate`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        });
+
+        // Add subtask button functionality (from menu)
+        document.addEventListener('click', function(e) {
+            const addSubtaskBtn = e.target.closest('.add-subtask-btn');
+            if (addSubtaskBtn) {
+                hideMenus();
+                const taskId = addSubtaskBtn.dataset.task;
+                document.getElementById('add-subtask-task-id').value = taskId;
+                // Clear previous subtask title
+                document.getElementById('subtask-title').value = '';
+                document.getElementById('add-subtask-modal').classList.remove('hidden');
+            }
+        });
+
+        // Delete button functionality
+        document.addEventListener('click', function(e) {
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                hideMenus();
+                const taskId = deleteBtn.dataset.task;
+                document.getElementById('delete-confirm-modal').classList.remove('hidden');
+                document.getElementById('delete-confirm-modal').dataset.taskId = taskId;
+            }
+        });
+
+        // Details button functionality (Read-Only)
+        document.addEventListener('click', function(e) {
+            const detailsBtn = e.target.closest('.details-btn');
+            if (detailsBtn) {
+                hideMenus();
+                const taskId = detailsBtn.dataset.task;
+                fetch(`/tasks/${taskId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('details-title').textContent = data.title || 'N/A';
+                        document.getElementById('details-description').textContent = data.description || 'N/A';
+                        document.getElementById('details-due-date').textContent = data.due_date || 'N/A';
+
+                        const priorityEl = document.getElementById('details-priority');
+                        const priority = data.priority || 'N/A';
+
+                        // 1. Atur teksnya
+                        priorityEl.textContent = priority;
+
+                        // 2. Logika penentuan kelas warna
+                        function getPriorityClass(priority) {
+                            if (priority === 'Urgent') return 'text-red-500';
+                            if (priority === 'High') return 'text-yellow-500';
+                            if (priority === 'Normal') return 'text-blue-500';
+                            if (priority === 'Low') return 'text-green-500';
+                            return 'text-gray-200'; // Warna default
+                        }
+
+                        // 3. Terapkan kelas warna (mempertahankan font-semibold)
+                        priorityEl.className = 'font-semibold ' + getPriorityClass(priority);
+
+                        document.getElementById('details-completed').textContent = data.completed ?
+                            'Completed' : 'Not Completed';
+
+                        // Populate subtasks
+                        const subtasksContainer = document.getElementById('details-subtasks');
+                        subtasksContainer.innerHTML = '';
+                        if (data.subtasks && data.subtasks.length > 0) {
+                            data.subtasks.forEach(subtask => {
+                                const subtaskDiv = document.createElement('div');
+                                subtaskDiv.className = 'mb-1';
+                                subtaskDiv.innerHTML =
+                                    `<span class="${subtask.completed ? 'line-through text-gray-500' : ''}">${subtask.title}</span>`;
+                                subtasksContainer.appendChild(subtaskDiv);
+                            });
+                        } else {
+                            subtasksContainer.innerHTML = '<p>No subtasks</p>';
+                        }
+
+                        document.getElementById('task-details-modal').classList.remove('hidden');
+                    });
+            }
+        });
+
+        // Close details modal
+        document.getElementById('close-details-modal').addEventListener('click', () => {
+            document.getElementById('task-details-modal').classList.add('hidden');
+        });
+
+        // Rename form submission
+        document.getElementById('rename-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const taskId = document.getElementById('rename-task-id').value;
+            const newTitle = document.getElementById('rename-title').value;
+            fetch(`/tasks/${taskId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    title: newTitle
+                })
+            }).then(() => {
+                // Update UI
+                const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+                if (taskDiv) {
+                    const span = taskDiv.querySelector('span');
+                    if (span) span.textContent = newTitle;
+                }
+                document.getElementById('rename-modal').classList.add('hidden');
+            });
+        });
+
+        // Close rename modal
+        document.getElementById('close-rename-modal').addEventListener('click', () => {
+            document.getElementById('rename-modal').classList.add('hidden');
+        });
+
+        // Add subtask form submission
+        document.getElementById('add-subtask-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const taskId = document.getElementById('add-subtask-task-id').value;
+            const subtaskTitle = document.getElementById('subtask-title').value;
+            fetch('/subtasks', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    task_id: taskId,
+                    title: subtaskTitle
+                })
+            }).then(() => {
+                // Reload tasks to show new subtask
+                loadTasks(selectedDate, currentFilter);
+                document.getElementById('add-subtask-modal').classList.add('hidden');
+            });
+        });
+
+        // Close add subtask modal
+        document.getElementById('close-add-subtask-modal').addEventListener('click', () => {
+            document.getElementById('add-subtask-modal').classList.add('hidden');
+        });
+
+        // Delete confirmation
+        document.getElementById('delete-yes').addEventListener('click', () => {
+            const taskId = document.getElementById('delete-confirm-modal').dataset.taskId;
+            fetch(`/tasks/${taskId}`, {
+                method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             }).then(() => {
-                location.reload();
+                // Remove from UI
+                const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+                if (taskDiv) {
+                    taskDiv.remove();
+                }
+                // Update arrays
+                delete allTasks[taskId];
+                delete todayTasks[taskId];
+                delete upcomingTasks[taskId];
+                delete completedTasks[taskId];
+                document.getElementById('delete-confirm-modal').classList.add('hidden');
             });
-        }
-    });
-
-    // Add subtask button functionality (from menu)
-    document.addEventListener('click', function(e) {
-        const addSubtaskBtn = e.target.closest('.add-subtask-btn');
-        if (addSubtaskBtn) {
-            hideMenus();
-            const taskId = addSubtaskBtn.dataset.task;
-            document.getElementById('add-subtask-task-id').value = taskId;
-            // Clear previous subtask title
-            document.getElementById('subtask-title').value = '';
-            document.getElementById('add-subtask-modal').classList.remove('hidden');
-        }
-    });
-
-    // Delete button functionality
-    document.addEventListener('click', function(e) {
-        const deleteBtn = e.target.closest('.delete-btn');
-        if (deleteBtn) {
-            hideMenus();
-            const taskId = deleteBtn.dataset.task;
-            document.getElementById('delete-confirm-modal').classList.remove('hidden');
-            document.getElementById('delete-confirm-modal').dataset.taskId = taskId;
-        }
-    });
-    
-    // Details button functionality (Read-Only)
-    document.addEventListener('click', function(e) {
-        const detailsBtn = e.target.closest('.details-btn');
-        if (detailsBtn) {
-            hideMenus();
-            const taskId = detailsBtn.dataset.task;
-            fetch(`/tasks/${taskId}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('details-title').textContent = data.title || 'N/A';
-                    document.getElementById('details-description').textContent = data.description || 'N/A';
-                    document.getElementById('details-due-date').textContent = data.due_date || 'N/A';
-
-                    const priorityEl = document.getElementById('details-priority');
-                    const priority = data.priority || 'N/A';
-                    
-                    // 1. Atur teksnya
-                    priorityEl.textContent = priority;
-                    
-                    // 2. Logika penentuan kelas warna
-                    function getPriorityClass(priority) {
-                        if (priority === 'Urgent') return 'text-red-500';
-                        if (priority === 'High') return 'text-yellow-500';
-                        if (priority === 'Normal') return 'text-blue-500';
-                        if (priority === 'Low') return 'text-green-500';
-                        return 'text-gray-200'; // Warna default
-                    }
-                    
-                    // 3. Terapkan kelas warna (mempertahankan font-semibold)
-                    priorityEl.className = 'font-semibold ' + getPriorityClass(priority);
-
-                    document.getElementById('details-completed').textContent = data.completed ?
-                        'Completed' : 'Not Completed';
-
-                    // Populate subtasks
-                    const subtasksContainer = document.getElementById('details-subtasks');
-                    subtasksContainer.innerHTML = '';
-                    if (data.subtasks && data.subtasks.length > 0) {
-                        data.subtasks.forEach(subtask => {
-                            const subtaskDiv = document.createElement('div');
-                            subtaskDiv.className = 'mb-1';
-                            subtaskDiv.innerHTML =
-                                `<span class="${subtask.completed ? 'line-through text-gray-500' : ''}">${subtask.title}</span>`;
-                            subtasksContainer.appendChild(subtaskDiv);
-                        });
-                    } else {
-                        subtasksContainer.innerHTML = '<p>No subtasks</p>';
-                    }
-
-                    document.getElementById('task-details-modal').classList.remove('hidden');
-                });
-        }
-    });
-
-    // Close details modal
-    document.getElementById('close-details-modal').addEventListener('click', () => {
-        document.getElementById('task-details-modal').classList.add('hidden');
-    });
-
-    // Rename form submission
-    document.getElementById('rename-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const taskId = document.getElementById('rename-task-id').value;
-        const newTitle = document.getElementById('rename-title').value;
-        fetch(`/tasks/${taskId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                title: newTitle
-            })
-        }).then(() => {
-            // Update UI
-            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
-            if (taskDiv) {
-                const span = taskDiv.querySelector('span');
-                if (span) span.textContent = newTitle;
-            }
-            document.getElementById('rename-modal').classList.add('hidden');
         });
-    });
 
-    // Close rename modal
-    document.getElementById('close-rename-modal').addEventListener('click', () => {
-        document.getElementById('rename-modal').classList.add('hidden');
-    });
-
-    // Add subtask form submission
-    document.getElementById('add-subtask-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const taskId = document.getElementById('add-subtask-task-id').value;
-        const subtaskTitle = document.getElementById('subtask-title').value;
-        fetch('/subtasks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                task_id: taskId,
-                title: subtaskTitle
-            })
-        }).then(() => {
-            // Reload tasks to show new subtask
-            loadTasks(selectedDate, currentFilter);
-            document.getElementById('add-subtask-modal').classList.add('hidden');
-        });
-    });
-
-    // Close add subtask modal
-    document.getElementById('close-add-subtask-modal').addEventListener('click', () => {
-        document.getElementById('add-subtask-modal').classList.add('hidden');
-    });
-
-    // Delete confirmation
-    document.getElementById('delete-yes').addEventListener('click', () => {
-        const taskId = document.getElementById('delete-confirm-modal').dataset.taskId;
-        fetch(`/tasks/${taskId}`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        }).then(() => {
-            // Remove from UI
-            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
-            if (taskDiv) {
-                taskDiv.remove();
-            }
-            // Update arrays
-            delete allTasks[taskId];
-            delete todayTasks[taskId];
-            delete upcomingTasks[taskId];
-            delete completedTasks[taskId];
+        // Cancel delete
+        document.getElementById('delete-no').addEventListener('click', () => {
             document.getElementById('delete-confirm-modal').classList.add('hidden');
         });
+<<<<<<< HEAD
     });
 
     // Cancel delete
@@ -1201,4 +1212,7 @@ document.getElementById('add-task-btn').addEventListener('click', () => {
     });
 
 </script>
+=======
+    </script>
+>>>>>>> 5cf22b4bf7118cf63f806cb6ee173f3aa3fba40b
 </x-app-layout>

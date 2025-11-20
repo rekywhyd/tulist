@@ -35,7 +35,7 @@
             aplikasi yang ringkas, mudah dipahami, serta mampu mendampingi pengguna dalam menjaga keteraturan dan
             produktivitas harian. Setiap keputusan yang kami ambil berlandaskan pada pengalaman pengguna dan prinsip desain
             yang baik.
-        </p>    
+        </p>
         <p class="mt-10 mb-32 text-3xl text-justify">
             Kami percaya bahwa sebuah karya, sekecil apa pun, dapat memberi dampak positif ketika dibuat dengan kesungguhan.
             Tulist adalah langkah pertama kami dalam perjalanan profesional ini—sebuah bukti bahwa kolaborasi, visi, dan

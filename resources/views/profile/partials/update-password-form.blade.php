@@ -10,24 +10,24 @@
         @method('put')
 
         <div class="flex items-start gap-x-6">
-    <div class="w-1/2">
-        <x-input-label class="block text-sm font-medium text-gray-600" for="update_password_current_password"
-            :value="__('Current Password')" />
-        <x-text-input id="update_password_current_password" name="current_password" type="password"
-            class="block py-2 mb-10 px-4 mt-1 text-black bg-[#F2F6FF] border border-gray-400 w-full rounded-lg"
-            autocomplete="current-password" />
-        <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
-    </div>
+            <div class="w-1/2">
+                <x-input-label class="block text-sm font-medium text-gray-600" for="update_password_current_password"
+                    :value="__('Current Password')" />
+                <x-text-input id="update_password_current_password" name="current_password" type="password"
+                    class="block py-2 mb-10 px-4 mt-1 text-black bg-[#F2F6FF] border border-gray-400 w-full rounded-lg"
+                    autocomplete="current-password" />
+                <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
+            </div>
 
-    <div class="w-1/2">
-        <x-input-label class="block text-sm font-medium text-gray-600" for="update_password_password"
-            :value="__('New Password')" />
-        <x-text-input id="update_password_password" name="password" type="password"
-            class="block py-2 mb-10 px-4 mt-1 text-black bg-[#F2F6FF] border border-gray-400 w-full rounded-lg"
-            autocomplete="new-password" />
-        <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
-    </div>
-</div>
+            <div class="w-1/2">
+                <x-input-label class="block text-sm font-medium text-gray-600" for="update_password_password"
+                    :value="__('New Password')" />
+                <x-text-input id="update_password_password" name="password" type="password"
+                    class="block py-2 mb-10 px-4 mt-1 text-black bg-[#F2F6FF] border border-gray-400 w-full rounded-lg"
+                    autocomplete="new-password" />
+                <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
+            </div>
+        </div>
 
         <div>
             <x-input-label class="block text-sm font-medium text-gray-600" for="update_password_password_confirmation"
