@@ -29,7 +29,6 @@
                 {{-- 1. TOP SECTION - BACK Button (Selalu di Atas) --}}
                 <a href="{{ route('home') }}"
                     class="flex items-center gap-4 p-6 text-4xl font-bold text-black transition-transform duration-200 hover:hover:scale-105 font-poppins">
-                    {{-- BACK Icon SVG --}}
                     <svg class="w-6 h-6" fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1"
                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         viewBox="0 0 472.615 472.615" xml:space="preserve">
@@ -70,7 +69,6 @@
                         <a href="{{ route('privacy') }}"
                             class="p-2 pl-16 transition-colors font-bold text-3xl block rounded-3xl duration-200 {{ request()->routeIs('privacy') ? 'bg-[#74A7FF] text-white' : 'text-black hover:bg-[#74A7FF] hover:text-white' }}">
                             Privacy</a>
-                        {{-- Contoh elemen aktif: Link Help --}}
                         <a href="{{ route('help') }}"
                             class="py-2 pl-16 transition-colors font-bold text-3xl block rounded-3xl duration-200 {{ request()->routeIs('help') ? 'bg-[#74A7FF] text-white' : 'text-black hover:bg-[#74A7FF] hover:text-white' }}">
                             Help</a>
@@ -86,7 +84,6 @@
                     <a href="{{ route('logout') }}" title="Log Out"
                         onclick="event.preventDefault(); this.closest('form').submit();"
                         class="pl-4 m-8 pr-6 py-2 inline-flex items-center gap-4 border border-white transition-colors text-3xl font-bold font-poppins bg-white/20 rounded-full backdrop-blur-3xl duration-200 hover:scale-105 {{ request()->routeIs('logout') ? 'bg-red-600 text-white' : 'text-black hover:bg-red-600 hover:text-white' }}">
-                        {{-- LOGOUT Icon SVG --}}
                         <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
