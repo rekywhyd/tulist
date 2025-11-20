@@ -22,15 +22,6 @@ class PageController extends Controller
     }
 
     /**
-     * Menampilkan halaman notifikasi.
-     */
-    public function notifications()
-    {
-        // Pastikan file ini ada: resources/views/pages/notifications.blade.php
-        return view('notifications');
-    }
-
-    /**
      * Menampilkan halaman 'About'.
      */
     public function about()
