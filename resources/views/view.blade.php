@@ -21,13 +21,6 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <div class="relative">
-                    <input type="text" id="search-input" placeholder="Search tasks..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <svg class="absolute right-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-
                 <button id="add-task-btn" class="px-6 py-2 text-sm font-medium font-poppins text-white bg-[#0E213D] shadow-md rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#0E213D] focus:ring-offset-2 transition-transform duration-200 hover:hover:scale-110">
                     + New Task
                 </button>

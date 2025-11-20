@@ -491,7 +491,7 @@
 
                     <!-- Add Task Button -->
                     <button id="add-task-btn"
-                        class="px-2 flex text-lg font-medium items-center gap-6 mt-16 py-2 text-[#2658A2]">
+                        class="px-2 flex text-lg transition duration-200 hover:hover:scale-105 font-medium items-center gap-6 mt-16 py-2 text-[#2658A2]">
                         <svg class="w-12 h-12" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
                             fill="#2658A2">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
