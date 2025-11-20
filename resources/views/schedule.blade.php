@@ -28,7 +28,7 @@
                     </div>
                     <div class="flex items-center space-x-3 text-sm">
                         <button id="toggle-view"
-                            class="px-4 py-2 text-white transition-transform duration-200 bg-blue-800 hover:hover:scale-110 rounded-3xl">
+                            class="px-4 py-2 text-white transition-transform duration-200 bg-[##5F6E84] hover:hover:scale-110 rounded-3xl">
                             <span id="view-text">Calendar View</span>
                         </button>
                         <button id="add-task-btn"
