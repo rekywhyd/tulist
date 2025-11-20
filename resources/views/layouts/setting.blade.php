@@ -65,7 +65,7 @@
                 <div class="mb-10 navigation-links-section font-poppins">
                     <nav class="space-y-4">
                         <a href="{{ route('profile.edit') }}"
-                            class="p-2 pl-16 transition-colors font-bold text-3xl block rounded-3xl duration-200 {{ request()->routeIs('profile') ? 'bg-[#74A7FF] text-white' : 'text-black hover:bg-[#74A7FF] hover:text-white' }}">
+                            class="p-2 pl-16 transition-colors font-bold text-3xl block rounded-3xl duration-200 {{ request()->routeIs('profile.edit') ? 'bg-[#74A7FF] text-white' : 'text-black hover:bg-[#74A7FF] hover:text-white' }}">
                             Profile</a>
                         <a href="{{ route('privacy') }}"
                             class="p-2 pl-16 transition-colors font-bold text-3xl block rounded-3xl duration-200 {{ request()->routeIs('privacy') ? 'bg-[#74A7FF] text-white' : 'text-black hover:bg-[#74A7FF] hover:text-white' }}">
