@@ -14,6 +14,23 @@
                     Kelola semua tugas kerja dengan lebih teratur. Catat, atur, dan
                     selesaikan jobdesk kantor tanpa keteteran.
                 </p>
+                @if (Route::has('login'))
+                    <div class="flex items-center mt-4 ml-24 text-lg">
+                        @auth
+                            {{-- Tautan Home (Jika sudah login) --}}
+                            <a href="{{ url('/home') }}"
+                                class="px-9 py-2 text-[#132C51] font-bold hover:scale-110 transition-all duration-200 rounded-full border border-opacity-40 border-[#acc5ea] bg-gradient-to-r from-[#EAF0FA] to-[#D3E4FF]">
+                                Started Now
+                            </a>
+                        @else
+                            {{-- Tautan Login (Jika belum login) --}}
+                            <a href="{{ route('login') }}"
+                                class="px-9 py-2 text-[#132C51] font-bold hover:scale-110 transition-all duration-200 rounded-full border border-opacity-40 border-[#acc5ea] bg-gradient-to-r from-[#EAF0FA] to-[#D3E4FF]">
+                                Started Now
+                            </a>
+                        @endauth
+                    </div>
+                @endif
             </div>
             <div class="w-[800px]">
                 <img src="{{ Vite::asset('resources/images/hero-section.png') }}" alt="Hero Section">
