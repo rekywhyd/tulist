@@ -61,7 +61,7 @@
                                                     </svg>
                                                 </button>
 
-                                                <div class="absolute right-0 z-10 hidden w-48 mt-1 shadow-xl rounded-xl bg-[#0C1F3B] task-menu"
+                                                <div class="absolute right-0 z-50 hidden w-48 mt-1 shadow-xl rounded-xl bg-[#0C1F3B] task-menu"
                                                     data-task="{{ $task->id }}">
 
                                                     <button
@@ -183,7 +183,7 @@
                         </button>
                         <div class="category-content" id="tomorrow-content">
                             <div class="space-y-4 text-lg text-[#132C51]">
-                                @foreach ($tomorrowTasks as $task)
+@foreach ($tomorrowTasks as $task)
                                     <div class="mb-2"
                                         data-original-due-date="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
 
@@ -221,7 +221,7 @@
                                                     </svg>
                                                 </button>
 
-                                                <div class="absolute right-0 z-10 hidden w-48 mt-1 shadow-xl rounded-xl bg-[#0C1F3B] task-menu"
+                                                <div class="absolute right-0 z-50 hidden w-48 mt-1 shadow-xl rounded-xl bg-[#0C1F3B] task-menu"
                                                     data-task="{{ $task->id }}">
 
                                                     <button
@@ -381,7 +381,7 @@
                                                     </svg>
                                                 </button>
 
-                                                <div class="absolute right-0 z-10 hidden w-48 mt-1 shadow-xl rounded-xl bg-[#0C1F3B] task-menu"
+                                                <div class="absolute right-0 z-50 hidden w-48 mt-1 shadow-xl rounded-xl bg-[#0C1F3B] task-menu"
                                                     data-task="{{ $task->id }}">
 
                                                     <button

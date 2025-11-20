@@ -668,12 +668,48 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                             </svg>
                         </button>
-                        <div class="absolute right-0 z-10 hidden w-48 mt-1 bg-white border rounded-md shadow-lg task-menu" data-task="${task.id}">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rename-btn" data-task="${task.id}">Rename</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 duplicate-btn" data-task="${task.id}">Duplicate</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 add-subtask-btn" data-task="${task.id}">Add Subtask</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 details-btn" data-task="${task.id}">Details</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 delete-btn" data-task="${task.id}">Delete</a>
+                        <div class="absolute right-0 z-50 hidden w-48 mt-1 shadow-xl rounded-xl bg-[#0C1F3B] task-menu" data-task="${task.id}">
+
+                            <button class="flex items-center w-full gap-2 px-4 py-2 text-sm font-medium text-left text-white rounded-t-xl hover:bg-gray-600 details-btn" data-task="${task.id}">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 9C2.44772 9 2 9.44772 2 10C2 10.5523 2.44772 11 3 11H21C21.5523 11 22 10.5523 22 10C22 9.44772 21.5523 9 21 9H3Z" fill="#FFFFFF"></path>
+                                    <path d="M3 13C2.44772 13 2 13.4477 2 14C2 14.5523 2.44772 15 3 15H15C15.5523 15 16 14.5523 16 14C16 13.4477 15.5523 13 15 13H3Z" fill="#FFFFFF"></path>
+                                </svg>
+                                Details
+                            </button>
+
+                            <button class="flex items-center w-full gap-3 px-3 py-2 text-sm font-medium text-left text-white hover:bg-gray-600 rename-btn" data-task="${task.id}">
+                                <svg class="w-6 h-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.75 2C11.3358 2 11 2.33579 11 2.75C11 3.16421 11.3358 3.5 11.75 3.5H13.25V24.5H11.75C11.3358 24.5 11 24.8358 11 25.25C11 25.6642 11.3358 26 11.75 26H16.25C16.6642 26 17 25.6642 17 25.25C17 24.8358 16.6642 24.5 16.25 24.5H14.75V3.5H16.25C16.6642 3.5 17 3.16421 17 2.75C17 2.33579 16.6642 2 16.25 2H11.75Z" fill="#FFFFFF"></path>
+                                    <path d="M6.25 6.01958H12.25V7.51958H6.25C5.2835 7.51958 4.5 8.30308 4.5 9.26958V18.7696C4.5 19.7361 5.2835 20.5196 6.25 20.5196H12.25V22.0196H6.25C4.45507 22.0196 3 20.5645 3 18.7696V9.26958C3 7.47465 4.45507 6.01958 6.25 6.01958Z" fill="#FFFFFF"></path>
+                                    <path d="M21.75 20.5196H15.75V22.0196H21.75C23.5449 22.0196 25 20.5645 25 18.7696V9.26958C25 7.47465 23.5449 6.01958 21.75 6.01958H15.75V7.51958H21.75C22.7165 7.51958 23.5 8.30308 23.5 9.26958V18.7696C23.5 19.7361 22.7165 20.5196 21.75 20.5196Z" fill="#FFFFFF"></path>
+                                </svg>
+                                Rename
+                            </button>
+
+                            <button class="flex items-center w-full gap-3 px-3 py-2 text-sm font-medium text-left text-white hover:bg-gray-600 duplicate-btn" data-task="${task.id}">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="matrix(-1, 0, 0, 1, 0, 0)">
+                                    <path d="M18 3H4C3.44772 3 3 3.44772 3 4V18C3 18.5523 2.55228 19 2 19C1.44772 19 1 18.5523 1 18V4C1 2.34315 2.34315 1 4 1H18C18.5523 1 19 1.44772 19 2C19 2.55228 18.5523 3 18 3Z" fill="#FFFFFF"></path>
+                                    <path d="M13 11C13 10.4477 13.4477 10 14 10C14.5523 10 15 10.4477 15 11V13H17C17.5523 13 18 13.4477 18 14C18 14.5523 17.5523 15 17 15H15V17C15 17.5523 14.5523 18 14 18C13.4477 18 13 17.5523 13 17V15H11C10.4477 15 10 14.5523 10 14C10 13.4477 10.4477 13 11 13H13V11Z" fill="#FFFFFF"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20 5C21.6569 5 23 6.34315 23 8V20C23 21.6569 21.6569 23 20 23H8C6.34315 23 5 21.6569 5 20V8C5 6.34315 6.34315 5 8 5H20ZM20 7C20.5523 7 21 7.44772 21 8V20C21 20.5523 20.5523 21 20 21H8C7.44772 21 7 20.5523 7 20V8C7 7.44772 7.44772 7 8 7H20Z" fill="#FFFFFF"></path>
+                                </svg>
+                                Duplicate
+                            </button>
+
+                            <button class="flex items-center w-full gap-3 px-3 py-2 text-sm font-medium text-left text-white hover:bg-gray-600 add-subtask-btn" data-task="${task.id}">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" stroke="#FFFFFF" stroke-width="1.5"></path>
+                                    <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"></path>
+                                </svg>
+                                Add Subtask
+                            </button>
+
+                            <button class="flex items-center w-full gap-3 px-3 py-2 text-sm font-medium text-left text-red-500 rounded-b-xl hover:bg-gray-600 delete-btn" data-task="${task.id}">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 5H18M9 5V5C10.5769 3.16026 13.4231 3.16026 15 5V5M9 20H15C16.1046 20 17 19.1046 17 18V9C17 8.44772 16.5523 8 16 8H8C7.44772 8 7 8.44772 7 9V18C7 19.1046 7.89543 20 9 20Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1055,6 +1091,91 @@ document.getElementById('add-task-btn').addEventListener('click', () => {
     // Close details modal
     document.getElementById('close-details-modal').addEventListener('click', () => {
         document.getElementById('task-details-modal').classList.add('hidden');
+    });
+
+    // Rename form submission
+    document.getElementById('rename-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const taskId = document.getElementById('rename-task-id').value;
+        const newTitle = document.getElementById('rename-title').value;
+        fetch(`/tasks/${taskId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                title: newTitle
+            })
+        }).then(() => {
+            // Update UI
+            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+            if (taskDiv) {
+                const span = taskDiv.querySelector('span');
+                if (span) span.textContent = newTitle;
+            }
+            document.getElementById('rename-modal').classList.add('hidden');
+        });
+    });
+
+    // Close rename modal
+    document.getElementById('close-rename-modal').addEventListener('click', () => {
+        document.getElementById('rename-modal').classList.add('hidden');
+    });
+
+    // Add subtask form submission
+    document.getElementById('add-subtask-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const taskId = document.getElementById('add-subtask-task-id').value;
+        const subtaskTitle = document.getElementById('subtask-title').value;
+        fetch('/subtasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                task_id: taskId,
+                title: subtaskTitle
+            })
+        }).then(() => {
+            // Reload tasks to show new subtask
+            loadTasks(selectedDate, currentFilter);
+            document.getElementById('add-subtask-modal').classList.add('hidden');
+        });
+    });
+
+    // Close add subtask modal
+    document.getElementById('close-add-subtask-modal').addEventListener('click', () => {
+        document.getElementById('add-subtask-modal').classList.add('hidden');
+    });
+
+    // Delete confirmation
+    document.getElementById('delete-yes').addEventListener('click', () => {
+        const taskId = document.getElementById('delete-confirm-modal').dataset.taskId;
+        fetch(`/tasks/${taskId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        }).then(() => {
+            // Remove from UI
+            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+            if (taskDiv) {
+                taskDiv.remove();
+            }
+            // Update arrays
+            delete allTasks[taskId];
+            delete todayTasks[taskId];
+            delete upcomingTasks[taskId];
+            delete completedTasks[taskId];
+            document.getElementById('delete-confirm-modal').classList.add('hidden');
+        });
+    });
+
+    // Cancel delete
+    document.getElementById('delete-no').addEventListener('click', () => {
+        document.getElementById('delete-confirm-modal').classList.add('hidden');
     });
 
 </script>
