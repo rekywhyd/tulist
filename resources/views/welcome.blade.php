@@ -39,7 +39,7 @@
         <!-- hero section -->
 
         <section class="pt-16 mt-6">
-            <h2 class="pl-16 font-serif text-5xl font-bold text-left text-gray-900">
+            <h2 class="pl-16 font-serif text-5xl font-bold text-left text-gray-900" data-aos="fade">
                 Features
             </h2>
 
@@ -47,7 +47,7 @@
 
                 <!-- feature 1 -->
                 <div
-                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16" data-aos="fade-left">
                     <div class="px-16 pb-12 ml-4">
                         <h3 class="mb-6 text-5xl font-bold">Organize Jobdesk</h3>
                         <p class="text-2xl text-white">Simpan dan kelola setiap tanggung jawab kantor secara sistematis agar
@@ -62,7 +62,7 @@
 
                 <!-- feature 2 -->
                 <div
-                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16" data-aos="fade-right">
                     <div class="order-last px-16 ml-4 mr-8 text-right pb-14">
                         <h3 class="mb-6 text-5xl font-bold">Smart Scheduling</h3>
                         <p class="text-2xl text-white">Atur jadwal harian dan meeting dengan efisien, sehingga setiap jam
@@ -77,7 +77,7 @@
 
                 <!-- feature 3 -->
                 <div
-                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16" data-aos="fade-left">
                     <div class="px-16 ml-4 pb-14">
                         <h3 class="mb-6 text-5xl font-bold">Deadline Tracking</h3>
                         <p class="text-2xl text-white">Dapatkan pengingat otomatis untuk setiap deadline, memastikan semua
@@ -92,7 +92,7 @@
 
                 <!-- feature 4 -->
                 <div
-                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16">
+                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16" data-aos="fade-right">
                     <div class="order-last px-16 ml-4 mr-8 text-right pb-14">
                         <h3 class="mb-6 text-5xl font-bold">Time Management</h3>
                         <p class="text-2xl text-white">Kelola waktu secara efektif untuk menyelesaikan pekerjaan lebih cepat
@@ -107,7 +107,7 @@
 
                 <!-- feature 5 -->
                 <div
-                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16 pt-8">
+                    class="flex items-center w-[1050px] justify-between py-2 text-[#D5E2F5] bg-[#132C51] rounded-3xl mb-16 pt-8" data-aos="fade-left">
                     <div class="pl-16 ml-0 pb-14">
                         <h3 class="mb-6 text-5xl font-bold ">Progress Overview</h3>
                         <p class="text-2xl text-white">Lihat perkembangan seluruh pekerjaan secara real-time sehingga Anda

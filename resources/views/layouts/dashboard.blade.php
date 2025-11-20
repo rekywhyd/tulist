@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tulist</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -64,6 +65,15 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inisialisasi AOS
+        AOS.init({
+            // Optional: Atur durasi dan efek global
+            duration: 1200,
+            once: true, // Animasi hanya berjalan sekali saat di-scroll ke
+        });
+    </script>
 </body>
 
 </html>
