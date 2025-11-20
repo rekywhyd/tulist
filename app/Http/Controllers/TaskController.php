@@ -78,7 +78,7 @@ class TaskController extends Controller
             }
         }
 
-        return response()->json(['success' => true, 'task' => $task->load('subtasks')]);
+        return redirect()->route('home');
     }
 
     /**
