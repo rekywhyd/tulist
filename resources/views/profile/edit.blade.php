@@ -4,7 +4,7 @@
     {{-- Edit Button (Used to toggle Edit mode) --}}
     <div class="flex justify-end">
         <button id="edit-profile-btn"
-                        class="mt-32 mr-6 font-bold items-center gap-2 px-2 text-xl text-black flex bg-[#F2F6FF] rounded-full transition-transform duration-200 hover:hover:scale-110">
+                        class="mt-32 mr-6 font-bold items-center gap-2 px-3 border border-gray-300 text-xl text-black flex bg-[#F2F6FF] rounded-full transition-transform duration-200 hover:hover:scale-110">
                         Edit
                         {{-- SVG (Pencil) --}}
                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,14 +36,14 @@
                 {{-- Name --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Name</label>
-                    <div class="py-2 px-24 mt-1 mb-12 text-black bg-[#F2F6FF] border border-gray-400 text-center w-fit rounded-lg">{{ Auth::user()->name }}
+                    <div class="py-2 px-4 mt-1 mb-10 text-black bg-[#F2F6FF] border border-gray-400 w-full rounded-lg">{{ Auth::user()->name }}
                     </div>
                 </div>
 
                 {{-- Email Address --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-600">Email Address</label>
-                    <div class="py-2 px-24 mt-1 mb-24 text-black bg-[#F2F6FF] border border-gray-400 text-center w-fit rounded-lg">{{ Auth::user()->email }}
+                    <div class="py-2 px-4 mt-1 mb-16 text-black bg-[#F2F6FF] border border-gray-400 w-full rounded-lg">{{ Auth::user()->email }}
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@
         <div id="password-edit-mode" class="hidden space-y-8">
 
             {{-- Update Password Form --}}
-            <div class="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
+            <div class="">
                 <div class="max-w-xl">
                     @include('profile.partials.update-password-form')
                 </div>
@@ -78,10 +78,10 @@
 
             
         </div>
-
+        <div class="pb-10"></div>
         {{-- E. Delete Account Section (Always visible) --}}
         <div id="delete-account-section" class="flex justify-end">
-            <div class="max-w-xl mt-10 transition-transform duration-200 hover:hover:scale-95">
+            <div class="max-w-xl">
                 @include('profile.partials.delete-user-form')
             </div>
         </div>
