@@ -1186,5 +1186,19 @@ document.getElementById('add-task-btn').addEventListener('click', () => {
         document.getElementById('delete-confirm-modal').classList.add('hidden');
     });
 
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const taskDivs = document.querySelectorAll('#task-list > div[data-task-id]');
+        taskDivs.forEach(taskDiv => {
+            const taskTitle = taskDiv.querySelector('span.translate-y-\\[\\-2px\\]')?.textContent.toLowerCase() || '';
+            if (taskTitle.includes(searchTerm)) {
+                taskDiv.style.display = '';
+            } else {
+                taskDiv.style.display = 'none';
+            }
+        });
+    });
+
 </script>
 </x-app-layout>
