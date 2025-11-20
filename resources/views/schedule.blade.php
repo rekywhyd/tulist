@@ -903,6 +903,14 @@ document.getElementById('add-task-btn').addEventListener('click', () => {
             })
         }).then(() => {
             updateTaskArrays(taskId, true);
+            // Switch to completed filter and update UI
+            currentFilter = 'completed';
+            document.querySelectorAll('.task-filter').forEach(b => {
+                b.classList.remove('bg-blue-100', 'text-blue-800');
+                b.classList.add('bg-gray-100', 'text-gray-800');
+            });
+            document.querySelector('.task-filter[data-filter="completed"]').classList.remove('bg-gray-100', 'text-gray-800');
+            document.querySelector('.task-filter[data-filter="completed"]').classList.add('bg-blue-100', 'text-blue-800');
             // Muat ulang daftar tugas untuk mencerminkan perubahan
             loadTasks(selectedDate, currentFilter);
             confirmModal.classList.add('hidden');
